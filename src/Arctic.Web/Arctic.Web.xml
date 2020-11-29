@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Arctic.Web</name>
+    </assembly>
+    <members>
+        <member name="T:Arctic.Web.Books.BookListArgs">
+            <summary>
+            图书列表查询参数
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.Title">
+            <summary>
+            标题，支持模糊查找
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.Sort">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.Current">
+            <summary>
+            基于 1 的当前页面。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.PageSize">
+            <summary>
+            每页大小
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Books.BookListItem">
+            <summary>
+            图书列表页的数据项。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListItem.BookId">
+            <summary>
+            图书 Id。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListItem.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListItem.Price">
+            <summary>
+            价格
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Get(Arctic.Web.Books.BookListArgs)">
+            <summary>
+            查询图书列表
+            </summary>
+            <param name="args">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.Controllers.ExportSchemaController">
+            <summary>
+            向数据库导出表结构的工具。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.Controllers.ExportSchemaController.Create">
+            <summary>
+            根据已注册到容器的 nh 映射信息向数据库导出表结构。此方法不是动态迁移表结构，而是删除旧表并创建新表，仅用于开发环境。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Controllers.HelloController">
+            <summary>
+            SimpleEventBus 示例。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.Controllers.HelloController.FireHelloEventAsync(System.String)">
+            <summary>
+            引发 Hello 事件，默认配置使用 <see cref="T:Arctic.EventBus.HelloEventHandler"/> 将事件参数写入日志。
+            </summary>
+            <returns>将参数原样返回。</returns>
+        </member>
+        <member name="M:Arctic.Web.Controllers.HelloController.GetNextValAsync(System.String)">
+            <summary>
+            获取序列值
+            </summary>
+            <param name="seqName">序列名</param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.DbLikeAttribute">
+            <summary>
+            用于修饰 <see cref="T:Arctic.Web.IListArgs`1"/> 的字符串类型属性，表示这个属性使用数据库的 LIKE 操作符进行查询。
+            此标记的作用是告知 <see cref="M:Arctic.Web.ListArgsExtensions.NormalizeStringProperties``1(Arctic.Web.IListArgs{``0})"/> 方法
+            将字符串中的 <c>*</c> 替换成 <c>%</c>，将 <c>?</c> 替换成 <c>_</c>。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.IListArgs`1">
+            <summary>
+            定义列表页参数。
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Arctic.Web.IListArgs`1.Sort">
+            <summary>
+            获取或设置排序信息。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.IListArgs`1.Current">
+            <summary>
+            获取或设置基于 1 的分页索引。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.IListArgs`1.PageSize">
+            <summary>
+            获取或设置每页大小。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.IListArgs`1.Filter(System.Linq.IQueryable{`0})">
+            <summary>
+            在查询对象上应用筛选条件。
+            </summary>
+            <param name="q"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.IOperaionTypePermissions">
+            <summary>
+            提供获取操作类型授权的方法。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.IOperaionTypePermissions.GetAllowedRoles(System.String)">
+            <summary>
+            指定操作类型，获取允许执行此操作的角色。
+            </summary>
+            <param name="operationType"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

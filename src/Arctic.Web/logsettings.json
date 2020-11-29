@@ -1,0 +1,35 @@
+{
+  "Serilog": {
+    "Using": [ "Serilog.Expressions" ],
+    "MinimumLevel": {
+      "Default": "Debug",
+      "Override": {
+        "System": "Information",
+        "Microsoft": "Information",
+        "Microsoft.AspNetCore": "Debug",
+        "NHibernate": "Warning"
+      }
+    },
+    "Enrich": [ "FromLogContext" ],
+    "Filter": [
+      {
+        "Name": "ByExcluding",
+        "Args": {
+          "expression": "StartsWith(RequestPath, '/api/logs/')"
+        }
+      }
+    ],
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u4}] {Message:lj} {RequestId} {NewLine}{Exception}"
+        }
+      }
+    ],
+    "Properties": {
+      "excludeAdditionalProperties": true
+    }
+  }
+
+}

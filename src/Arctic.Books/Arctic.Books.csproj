@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.3.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Arctic.Auditing\Arctic.Auditing.csproj" />
+    <ProjectReference Include="..\Arctic.NHibernateExtensions\Arctic.NHibernateExtensions.csproj" />
+  </ItemGroup>
+
+</Project>

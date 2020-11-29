@@ -1,0 +1,91 @@
+﻿using Autofac;
+using NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Event;
+using NHibernate.Logging.Serilog;
+using Serilog;
+using System.Collections.Generic;
+
+namespace Arctic.NHibernateExtensions
+{
+    public static class NHibernateContainerBuilderExtensions
+    {
+        static readonly ILogger _logger = Log.ForContext(typeof(NHibernateContainerBuilderExtensions));
+
+
+        /// <summary>
+        /// 设置 NHiberernate 使用 <see cref="SerilogLoggerFactory"/>；
+        /// 使用 hibernate.cfg.xml 配置 NHibernate；
+        /// 从容器解析 <see cref="XModelMapper"/> 添加到 <see cref="Configuration"/>；
+        /// 根据选项添加 <see cref="CheckTransactionListener"/>；
+        /// 向容器注册 <see cref="Configuration"/>；
+        /// 向容器注册添加了 <see cref="AuditInterceptor"/> 的 <see cref="ISessionFactory"/>；
+        /// 向容器注册 <see cref="ISession"/>；
+        /// 根据选项打开 <see cref="HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler"/>；
+        /// 在调用之前，应使用 <see cref="AddModelMapper{TModelMapper}(ContainerBuilder)"/> 添加 <see cref="XModelMapper"/>。
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="options">配置选项。</param>
+        public static void ConfigureNHibernate(this ContainerBuilder builder, NHibernateOptions options)
+        {
+            _logger.Information("正在配置 NHibernate，选项：{options}", options);
+
+            NHibernateLogger.SetLoggersFactory(new SerilogLoggerFactory());
+
+            builder.Register(c => {
+                Configuration configuration = new Configuration();
+                configuration.Configure();
+
+                foreach (var mapper in c.Resolve<IEnumerable<XModelMapper>>())
+                {
+                    _logger.Information("从容器解析到 ModelMapper {modelMapperType}", mapper.GetType());
+                    var mappings = mapper.CompileMappingForEachExplicitlyAddedEntity();
+                    foreach (var mapping in mappings)
+                    {
+                        configuration.AddMapping(mapping);
+                    }
+                }
+
+                if (options.CheckTransaction)
+                {
+                    // 开始：nh 事件，检查事务，要求必须打开事务
+                    CheckTransactionListener checkTransactionListener = new CheckTransactionListener();
+                    configuration.AppendListeners(ListenerType.PreInsert, new IPreInsertEventListener[] { checkTransactionListener });
+                    configuration.AppendListeners(ListenerType.PreUpdate, new IPreUpdateEventListener[] { checkTransactionListener });
+                    configuration.AppendListeners(ListenerType.PreDelete, new IPreDeleteEventListener[] { checkTransactionListener });
+                    configuration.AppendListeners(ListenerType.PreLoad, new IPreLoadEventListener[] { checkTransactionListener });
+                    // 结束：nh 事件
+
+                    _logger.Information("向 NHibernate.Cfg.Configuration 添加了事件侦听程序 CheckTransactionListener");
+                }
+
+                return configuration;
+
+            }).SingleInstance();
+
+            builder.Register(c => {
+                // 生成 SessionFactory
+                var configuration = c.Resolve<Configuration>();
+                ISessionFactory sessionFactory = configuration.BuildSessionFactory();
+                return sessionFactory;
+            }).SingleInstance().ExternallyOwned();
+
+            builder.Register(c =>
+                c.Resolve<ISessionFactory>()
+                .WithOptions()
+                // 添加处理审计拦截器
+                .Interceptor(new AuditInterceptor())
+                .OpenSession()
+            ).InstancePerLifetimeScope();
+        }
+
+
+        public static void AddModelMapper<T>(this ContainerBuilder builder) where T : XModelMapper, new()
+        {
+            builder.Register(c => new T()).As<XModelMapper>().SingleInstance();
+            _logger.Information("向容器注册了 ModelMapper {modelMapperType}", typeof(T));
+        }
+    }
+
+
+}
