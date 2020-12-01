@@ -19,6 +19,7 @@ namespace Arctic.NHibernateExtensions
         }
         public override bool OnFlushDirty(object entity, object id, object[] currentState, object[] previousState, string[] propertyNames, IType[] types)
         {
+            bool modified = false;
             if (entity is IHasMtime hasMtime)
             {
                 for (int i = 0; i < propertyNames.Length; i++)
@@ -26,7 +27,7 @@ namespace Arctic.NHibernateExtensions
                     if (nameof(hasMtime.mtime).Equals(propertyNames[i]))
                     {
                         currentState[i] = DateTime.Now;
-                        return true;
+                        modified = true;
                     }
                 }
             }
@@ -38,12 +39,12 @@ namespace Arctic.NHibernateExtensions
                     if (nameof(hasMuser.muser).Equals(propertyNames[i]))
                     {
                         currentState[i] = getCurrentUserName();
-                        return true;
+                        modified = true;
                     }
                 }
             }
 
-            return false;
+            return modified;
         }
 
         public override bool OnSave(object entity, object id, object[] state, string[] propertyNames, IType[] types)
