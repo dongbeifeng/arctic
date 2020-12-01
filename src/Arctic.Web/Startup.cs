@@ -74,8 +74,8 @@ namespace Arctic.Web
             builder.AddBooks();
 
             //builder.RegisterType<OperaionTypePermissions>().AsImplementedInterfaces().SingleInstance();
-            builder.ConfigureNHibernate(Configuration.GetSection("NHibernate").Get<NHibernateOptions>());
             builder.AddEventBus(Configuration.GetSection("EventBus").Get<SimpleEventBusOptions>());
+            builder.AddNHibernate();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,7 +6,6 @@ using Serilog;
 using System;
 using System.Data;
 using System.Diagnostics;
-using ISession = NHibernate.ISession;
 
 namespace Arctic.NHibernateExtensions.AspNetCore
 {
