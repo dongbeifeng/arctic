@@ -12,7 +12,7 @@ namespace Arctic.EventBus
     {
         static readonly ILogger _logger = Log.ForContext(typeof(SimpleEventBusContainerBuilderExtensions));
 
-        public static void ConfigureEventBus(this ContainerBuilder builder, SimpleEventBusOptions options)
+        public static void AddEventBus(this ContainerBuilder builder, SimpleEventBusOptions options)
         {
             _logger.Information("正在配置事件总线");
 
@@ -35,6 +35,8 @@ namespace Arctic.EventBus
                 }
                 RegisterEventHandlers(builder, eventConfig.EventType, handlerTypes);
             }
+
+            _logger.Information("已配置事件总线");
         }
 
         /// <summary>
@@ -71,7 +73,5 @@ namespace Arctic.EventBus
                     );
             }
         }
-
     }
-
 }

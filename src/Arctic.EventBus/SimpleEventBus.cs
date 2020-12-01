@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Autofac.Builder;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,12 @@ using System.Threading.Tasks;
 namespace Arctic.EventBus
 {
     /// <summary>
-    /// 基于 Autofac 实现的简单事件总线。可以使用 autofac 将 SimpleEventBus 注入到使用方。
-    /// SimpleEventBus 使用 <see cref="Autofac.Builder.IRegistrationBuilder{TLimit, TActivatorData, TRegistrationStyle}.InstancePerLifetimeScope"/>
-    /// 注册到 Autofac 容器。每次引发事件，都会创建新的事件处理程序实例，而不会重用以前的处理程序实例，因而允许事件处理程序有状态。
+    /// 基于 Autofac 实现的简单事件总线。
+    /// 每次引发事件，都会创建新的事件处理程序实例，而不会重用以前的处理程序实例，这种方式允许事件处理程序有状态。
     /// </summary>
+    /// <remarks>
+    /// SimpleEventBus 使用 <see cref="IRegistrationBuilder{TLimit, TActivatorData, TRegistrationStyle}.InstancePerLifetimeScope"/> 注册到 Autofac 容器。
+    /// </remarks>
     public sealed class SimpleEventBus
     {
         IEnumerable<Lazy<IEventHandler, EventHandlerMeta>> _eventHandlers;

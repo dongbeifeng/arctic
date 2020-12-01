@@ -4,6 +4,36 @@
         <name>Arctic.Web</name>
     </assembly>
     <members>
+        <member name="T:Arctic.Web.ActionData">
+            <summary>
+            表示操作结果
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ActionData.Success">
+            <summary>
+            指示操作是否成功
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ActionData.Message">
+            <summary>
+            操作结果的消息说明
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.ListData">
+            <summary>
+            表示列表页结果
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ListData.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ListData.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
         <member name="T:Arctic.Web.Books.BookListArgs">
             <summary>
             图书列表查询参数
