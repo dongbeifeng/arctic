@@ -4,21 +4,35 @@ using System;
 
 namespace Arctic.Web
 {
+    /// <summary>
+    /// 指示 Action 的操作类型，并对用户授权。
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class OperationTypeAttribute : AuthorizeAttribute, IActionFilter
     {
         const string POLICY_PREFIX = "OPERATION_TYPE_";
 
+        /// <summary>
+        /// 初始化新实例
+        /// </summary>
+        /// <param name="operationType"></param>
         public OperationTypeAttribute(string operationType)
         {
             this.OperationType = operationType;
         }
 
+        /// <summary>
+        /// 获取或设置操作类型
+        /// </summary>
         public string OperationType
         {
             get
             {
-                return Policy.Substring(POLICY_PREFIX.Length);
+                if (Policy == null)
+                {
+                    throw new Exception();
+                }
+                return Policy[POLICY_PREFIX.Length..];
             }
             set
             {

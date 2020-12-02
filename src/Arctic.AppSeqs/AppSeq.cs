@@ -16,6 +16,7 @@ namespace Arctic.AppSeqs
 
         protected AppSeq()
         {
+            SeqName = default!;
         }
 
         /// <summary>
@@ -23,18 +24,18 @@ namespace Arctic.AppSeqs
         /// </summary>
         [Required]
         [MaxLength(50)]
-        public virtual String SeqName { get; internal protected set; }
+        public virtual string SeqName { get; internal protected set; }
 
         /// <summary>
         /// 序列的下一个值。
         /// </summary>
-        public virtual Int32 NextVal { get; protected set; }
+        public virtual int NextVal { get; protected set; }
 
         /// <summary>
         /// 获取序列的下一个值。
         /// </summary>
         /// <returns></returns>
-        public virtual Int32 GetNextVal()
+        public virtual int GetNextVal()
         {
             return this.NextVal++;
         }

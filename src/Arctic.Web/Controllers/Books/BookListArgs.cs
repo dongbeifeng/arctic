@@ -16,7 +16,7 @@ namespace Arctic.Web.Books
         /// 标题，支持模糊查找
         /// </summary>
         [ListFilter(ListFilterOperator.Like)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// 出版日期
@@ -34,17 +34,17 @@ namespace Arctic.Web.Books
         /// <summary>
         /// 排序字段
         /// </summary>
-        public OrderedDictionary Sort { get; set; }
+        public OrderedDictionary? Sort { get; set; }
 
         /// <summary>
         /// 基于 1 的当前页面。
         /// </summary>
-        public int Current { get; set; }
+        public int? Current { get; set; }
 
         /// <summary>
         /// 每页大小
         /// </summary>
-        public int PageSize { get; set; }
+        public int? PageSize { get; set; }
 
     }
 }

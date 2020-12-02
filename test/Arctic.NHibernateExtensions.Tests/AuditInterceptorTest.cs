@@ -15,14 +15,14 @@ namespace Arctic.NHibernateExtensions.Tests
         {
             public System.DateTime ctime { get; set; } = DateTime.MinValue;
             public System.DateTime mtime { get; set; } = DateTime.MinValue;
-            public string cuser { get; set; }
-            public string muser { get; set; }
-            public string Bar { get; set; }
+            public string cuser { get; set; } = default!;
+            public string muser { get; set; } = default!;
+            public string? Bar { get; set; }
         }
 
         private class SetUser : IDisposable
         {
-            IPrincipal principal = null;
+            readonly IPrincipal? principal = null;
             public SetUser()
             {
                 principal = Thread.CurrentPrincipal;
@@ -36,12 +36,12 @@ namespace Arctic.NHibernateExtensions.Tests
         }
 
         [Fact]
-        public async Task TestOnFlush()
+        public void TestOnFlush()
         {
             AuditInterceptor interceptor = new AuditInterceptor();
             Foo foo = new Foo();
-            object[] currentState = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar };
-            object[] previousState = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar };
+            object[] currentState = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
+            object[] previousState = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
             string[] propertiesNames = new[] { "ctime", "mtime", "cuser", "muser", "Bar" };
             IType[] types = new IType[] { TypeFactory.GetDateTimeType(4), TypeFactory.GetDateTimeType(4), TypeFactory.GetStringType(10), TypeFactory.GetStringType(10), TypeFactory.GetStringType(10) };
             using (new SetUser())
@@ -64,11 +64,11 @@ namespace Arctic.NHibernateExtensions.Tests
         }
 
         [Fact]
-        public async Task TestOnSave()
+        public void TestOnSave()
         {
             AuditInterceptor interceptor = new AuditInterceptor();
             Foo foo = new Foo();
-            object[] state = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar };
+            object[] state = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
             string[] propertiesNames = new[] { "ctime", "mtime", "cuser", "muser", "Bar" };
             IType[] types = new IType[] { TypeFactory.GetDateTimeType(4), TypeFactory.GetDateTimeType(4), TypeFactory.GetStringType(10), TypeFactory.GetStringType(10), TypeFactory.GetStringType(10) };
             using (new SetUser())

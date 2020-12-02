@@ -260,7 +260,7 @@
         </member>
         <member name="P:Arctic.Web.OperationResult.Message">
             <summary>
-            操作结果的消息说明
+            描述操作结果的消息
             </summary>
         </member>
         <member name="T:Arctic.Web.IOperaionTypePermissions">
@@ -274,6 +274,22 @@
             </summary>
             <param name="operationType"></param>
             <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.OperationTypeAttribute">
+            <summary>
+            指示 Action 的操作类型，并对用户授权。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.#ctor(System.String)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="operationType"></param>
+        </member>
+        <member name="P:Arctic.Web.OperationTypeAttribute.OperationType">
+            <summary>
+            获取或设置操作类型
+            </summary>
         </member>
     </members>
 </doc>

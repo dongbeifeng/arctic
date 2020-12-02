@@ -21,7 +21,7 @@ namespace Arctic.EventBus
             foreach (var eventConfig in options.Events)
             {
                 List<Type> handlerTypes = new List<Type>();
-                foreach (var handlerTypeName in eventConfig?.Handlers ?? new string[0])
+                foreach (var handlerTypeName in eventConfig.Handlers ?? Array.Empty<string>())
                 {
                     _logger.Information("添加事件处理程序 {eventType} --> {handlerType}", eventConfig.EventType, handlerTypeName);
 
@@ -57,7 +57,7 @@ namespace Arctic.EventBus
                 throw new ArgumentNullException(nameof(handlerTypes));
             }
 
-            eventType = eventType?.Trim();
+            eventType = eventType.Trim();
             foreach (Type handlerType in handlerTypes)
             {
                 if (typeof(IEventHandler).IsAssignableFrom(handlerType) == false)

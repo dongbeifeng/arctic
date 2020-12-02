@@ -28,6 +28,7 @@ namespace Arctic.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            AutofacContainer = default!;
         }
 
         public IConfiguration Configuration { get; }
@@ -129,7 +130,7 @@ namespace Arctic.Web
 
             app.Use(async (context, next) =>
             {
-                using (LogContext.PushProperty("UserName", context.User.Identity.Name))
+                using (LogContext.PushProperty("UserName", context.User.Identity?.Name ?? "-"))
                 {
                     await next();
                 }

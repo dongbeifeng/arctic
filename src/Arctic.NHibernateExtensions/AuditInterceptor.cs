@@ -13,18 +13,18 @@ namespace Arctic.NHibernateExtensions
     /// </summary>
     public class AuditInterceptor : EmptyInterceptor
     {
-        private static string getCurrentUserName()
+        private static string GetCurrentUserName()
         {
             return (Thread.CurrentPrincipal?.Identity?.Name) ?? "-";
         }
         public override bool OnFlushDirty(object entity, object id, object[] currentState, object[] previousState, string[] propertyNames, IType[] types)
         {
             bool modified = false;
-            if (entity is IHasMtime hasMtime)
+            if (entity is IHasMtime)
             {
                 for (int i = 0; i < propertyNames.Length; i++)
                 {
-                    if (nameof(hasMtime.mtime).Equals(propertyNames[i]))
+                    if (nameof(IHasMtime.mtime).Equals(propertyNames[i]))
                     {
                         currentState[i] = DateTime.Now;
                         modified = true;
@@ -32,13 +32,13 @@ namespace Arctic.NHibernateExtensions
                 }
             }
 
-            if (entity is IHasMuser hasMuser)
+            if (entity is IHasMuser)
             {
                 for (int i = 0; i < propertyNames.Length; i++)
                 {
-                    if (nameof(hasMuser.muser).Equals(propertyNames[i]))
+                    if (nameof(IHasMuser.muser).Equals(propertyNames[i]))
                     {
-                        currentState[i] = getCurrentUserName();
+                        currentState[i] = GetCurrentUserName();
                         modified = true;
                     }
                 }
@@ -51,11 +51,11 @@ namespace Arctic.NHibernateExtensions
         {
             bool modified = false;
 
-            if (entity is IHasCtime hasCtime)
+            if (entity is IHasCtime)
             {
                 for (int i = 0; i < propertyNames.Length; i++)
                 {
-                    if (nameof(hasCtime.ctime).Equals(propertyNames[i]))
+                    if (nameof(IHasCtime.ctime).Equals(propertyNames[i]))
                     {
                         state[i] = DateTime.Now;
                         modified = true;
@@ -63,23 +63,23 @@ namespace Arctic.NHibernateExtensions
                 }
             }
 
-            if (entity is IHasCuser hasCuser)
+            if (entity is IHasCuser)
             {
                 for (int i = 0; i < propertyNames.Length; i++)
                 {
-                    if (nameof(hasCuser.cuser).Equals(propertyNames[i]) && state[i] == null)
+                    if (nameof(IHasCuser.cuser).Equals(propertyNames[i]) && state[i] == null)
                     {
-                        state[i] = getCurrentUserName();
+                        state[i] = GetCurrentUserName();
                         modified = true;
                     }
                 }
             }
 
-            if (entity is IHasMtime hasMtime)
+            if (entity is IHasMtime)
             {
                 for (int i = 0; i < propertyNames.Length; i++)
                 {
-                    if (nameof(hasMtime.mtime).Equals(propertyNames[i]))
+                    if (nameof(IHasMtime.mtime).Equals(propertyNames[i]))
                     {
                         state[i] = DateTime.Now;
                         modified = true;
@@ -87,18 +87,17 @@ namespace Arctic.NHibernateExtensions
                 }
             }
 
-            if (entity is IHasMuser hasMuser)
+            if (entity is IHasMuser)
             {
                 for (int i = 0; i < propertyNames.Length; i++)
                 {
-                    if (nameof(hasMuser.muser).Equals(propertyNames[i]))
+                    if (nameof(IHasMuser.muser).Equals(propertyNames[i]))
                     {
-                        state[i] = getCurrentUserName();
+                        state[i] = GetCurrentUserName();
                         modified = true;
                     }
                 }
             }
-
 
             return modified;
         }

@@ -16,7 +16,7 @@ namespace Arctic.EventBus
     /// </remarks>
     public sealed class SimpleEventBus
     {
-        IEnumerable<Lazy<IEventHandler, EventHandlerMeta>> _eventHandlers;
+        readonly IEnumerable<Lazy<IEventHandler, EventHandlerMeta>> _eventHandlers;
 
         static readonly Dictionary<SimpleEventBus, Stack<string>> _stacks = new Dictionary<SimpleEventBus, Stack<string>>();
 
@@ -68,9 +68,9 @@ namespace Arctic.EventBus
         /// <param name="eventData"></param>
         /// <exception cref="ArgumentNullException">eventType 为 null 或空字符串。</exception>
         /// <exception cref="TooManyEventsException">事件个数已超过 <see cref="MaxEvents"/> 属性的值。</exception>
-        public async Task FireEventAsync(string eventType, object eventData)
+        public async Task FireEventAsync(string eventType, object? eventData)
         {
-            eventType = eventType?.Trim();
+            eventType = eventType.Trim();
             if (string.IsNullOrEmpty(eventType))
             {
                 throw new ArgumentException("eventType 不能是 null 或空字符串。");
@@ -102,7 +102,7 @@ namespace Arctic.EventBus
         }
 
 
-        private async Task InternalFireEventAsync(string eventType, object eventData)
+        private async Task InternalFireEventAsync(string eventType, object? eventData)
         {
             IEventHandler[] handlers = GetEventHandlers(eventType);
             if (handlers.Length == 0)
@@ -124,7 +124,7 @@ namespace Arctic.EventBus
         /// <returns></returns>
         IEventHandler[] GetEventHandlers(string eventType)
         {
-            eventType = eventType?.Trim();
+            eventType = eventType.Trim();
             return _eventHandlers
                 .Where(x => string.Equals(x.Metadata.EventType, eventType, StringComparison.InvariantCultureIgnoreCase))
                 .Select(x => x.Value)

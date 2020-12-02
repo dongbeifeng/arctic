@@ -24,7 +24,7 @@ namespace Arctic.Web
 
         private class DebugShowActionArgsImpl : ActionFilterAttribute
         {
-            ILogger _logger;
+            readonly ILogger _logger;
 
             public DebugShowActionArgsImpl(ILogger logger)
             {

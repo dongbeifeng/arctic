@@ -45,11 +45,16 @@ namespace Arctic.Web
             var props = argsType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var prop in props)
             {
-                object val = GetPropertyValue(prop, listArgs);
+                var attr = prop.GetCustomAttribute<ListFilterAttribute>();
+                if (attr == null)
+                {
+                    continue;
+                }
+
+                object? val = GetPropertyValue(prop, listArgs);
 
                 if (val != null)
                 {
-                    var attr = prop.GetCustomAttribute<ListFilterAttribute>();
 
                     string targetProperty;
                     if (attr.TargetProperty != null)
@@ -87,14 +92,14 @@ namespace Arctic.Web
                 }
             }
 
-            string orderBy = GetOrderByClause(listArgs.Sort);
+            string? orderBy = GetOrderByClause(listArgs.Sort);
             if (string.IsNullOrWhiteSpace(orderBy) == false)
             {
                 q = q.OrderBy(orderBy);
             }
 
-            int current = listArgs.Current > 0 ? listArgs.Current : 1;
-            int pageSize = listArgs.PageSize > 0 ? listArgs.PageSize : 10;
+            int current = listArgs.Current > 0 ? listArgs.Current.Value : 1;
+            int pageSize = listArgs.PageSize > 0 ? listArgs.PageSize.Value : 10;
             var totalItemCount = q.Count();
             if (totalItemCount == 0)
             {
@@ -110,7 +115,7 @@ namespace Arctic.Web
         }
 
 
-        static object GetPropertyValue<T>(PropertyInfo prop, IListArgs<T> listArgs)
+        static object? GetPropertyValue<T>(PropertyInfo prop, IListArgs<T> listArgs)
         {
             var attr = prop.GetCustomAttribute<ListFilterAttribute>();
             if (attr == null)
@@ -118,12 +123,12 @@ namespace Arctic.Web
                 return null;
             }
 
-            object val = prop.GetValue(listArgs);
+            object? val = prop.GetValue(listArgs);
 
             // 处理字符串类型的查询条件
             if (prop.PropertyType == typeof(string))
             {
-                string str = (string)val;
+                string? str = (string?)val;
 
                 // 忽略空白字符串
                 if (string.IsNullOrWhiteSpace(str))
@@ -145,33 +150,37 @@ namespace Arctic.Web
             return val;
         }
 
-        static string GetOrderByClause(OrderedDictionary sort)
+        static string? GetOrderByClause(OrderedDictionary? sort)
         {
-            if (sort?.Count > 0)
+            if (sort == null || sort.Count == 0)
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (DictionaryEntry entry in sort)
-                {
-                    string sortOrder = entry.Value?.ToString()?.ToLower() switch
-                    {
-                        "desc" or "descend" or "descending" => "DESC",
-                        _ => "ASC"
-                    };
-
-                    sb.Append($"{entry.Key} {sortOrder}, ");
-                }
-                sb.Remove(sb.Length - 2, 2);
-                return sb.ToString();
+                return null;
             }
+            StringBuilder sb = new StringBuilder();
+            foreach (DictionaryEntry entry in sort)
+            {
+                string sortOrder = entry.Value?.ToString()?.ToLower() switch
+                {
+                    "desc" 
+                    or "descend" 
+                    or "descending" => "DESC",
+                    _ => "ASC"
+                };
 
-            return string.Empty;
+                sb.Append($"{entry.Key} {sortOrder}, ");
+            }
+            sb.Remove(sb.Length - 2, 2);
+            return sb.ToString();
         }
 
         static Expression<Func<T, bool>> CreateLikeExpression<T>(string targetPropertyName, string likePattern)
         {
             // x => SqlMethods.Like(x.StringField, "a%")
-            MethodInfo mi = typeof(SqlMethods).GetMethod("Like", new Type[] { typeof(string), typeof(string) });
-
+            MethodInfo? mi = typeof(SqlMethods).GetMethod("Like", new Type[] { typeof(string), typeof(string) });
+            if (mi == null)
+            {
+                throw new InvalidOperationException();
+            }
             ParameterExpression x = Expression.Parameter(typeof(T), "x");  // x
             Expression stringField = Expression.Property(x, targetPropertyName);   // x.StringField
             Expression pattern = Expression.Constant(likePattern, typeof(string));  // 'a%'

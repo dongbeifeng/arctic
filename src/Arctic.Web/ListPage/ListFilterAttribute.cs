@@ -53,7 +53,7 @@ namespace Arctic.Web
         /// <summary>
         /// 指示在目标类型的哪个属性上查询。如果为 null，则在同名属性上查询。
         /// </summary>
-        public string TargetProperty { get; init; }
+        public string? TargetProperty { get; init; }
 
         /// <summary>
         /// 指示使用哪个操作符进行查询。

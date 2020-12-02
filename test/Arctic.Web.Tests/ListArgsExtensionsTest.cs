@@ -12,24 +12,24 @@ namespace Arctic.Web.Tests
     {
         class Foo
         {
-            public string Title { get; set; }
+            public string? Title { get; set; }
 
-            public string Author { get; set; }
+            public string? Author { get; set; }
         }
 
         class FooListArgs : IListArgs<Foo>
         {
             [ListFilter(Operator = Like)]
-            public string Title { get; set; }
+            public string? Title { get; set; }
 
             [ListFilter]
-            public string Author { get; set; }
+            public string? Author { get; set; }
 
-            public OrderedDictionary Sort { get; set; }
+            public OrderedDictionary? Sort { get; set; }
 
-            public int Current { get; set; }
+            public int? Current { get; set; }
 
-            public int PageSize { get; set; }
+            public int? PageSize { get; set; }
 
         }
 

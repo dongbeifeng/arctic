@@ -1,17 +1,19 @@
-﻿namespace Arctic.EventBus
+﻿using System;
+
+namespace Arctic.EventBus
 {
     /// <summary>
     /// 事件总线选项。
     /// </summary>    
     public sealed class SimpleEventBusOptions
     {
-        public Event[] Events { get; set; } = new Event[0];
+        public Event[] Events { get; set; } = Array.Empty<Event>();
 
         public class Event
         {
-            public string EventType { get; set; }
+            public string EventType { get; set; } = default!;
 
-            public string[] Handlers { get; set; }
+            public string[]? Handlers { get; set; }
         }
     }
 

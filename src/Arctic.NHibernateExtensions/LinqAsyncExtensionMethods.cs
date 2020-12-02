@@ -12,15 +12,22 @@ namespace Arctic.NHibernateExtensions
     {
         static Task<TResult> Switch<TSource, TResult>(this IQueryable<TSource> source, Func<TResult> whenMemory, Func<Task<TResult>> whenNh)
         {
-            switch (source.Provider)
+            return source.Provider switch
             {
-                case EnumerableQuery<TSource>:
-                    return Task.FromResult(whenMemory());
-                case INhQueryProvider:
-                    return whenNh();
-                default:
-                    throw new NotSupportedException();
-            }
+                EnumerableQuery<TSource> => Task.FromResult(whenMemory()),
+                INhQueryProvider => whenNh(),
+                _ => throw new NotSupportedException(),
+            };
+        }
+
+        static Task<TResult?> SwitchNullable<TSource, TResult>(this IQueryable<TSource> source, Func<TResult?> whenMemory, Func<Task<TResult?>> whenNh)
+        {
+            return source.Provider switch
+            {
+                EnumerableQuery<TSource> => Task.FromResult(whenMemory()),
+                INhQueryProvider => whenNh(),
+                _ => throw new NotSupportedException(),
+            };
         }
 
         public static Task<bool> AllAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
@@ -225,18 +232,18 @@ namespace Arctic.NHibernateExtensions
                 () => LinqExtensionMethods.FirstAsync(source, cancellationToken)
             );
         }
-        public static Task<TSource> FirstOrDefaultAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<TSource?> FirstOrDefaultAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            return source.Switch(
+            return source.SwitchNullable(
                 () => Queryable.FirstOrDefault(source, predicate),
-                () => LinqExtensionMethods.FirstOrDefaultAsync(source, predicate, cancellationToken)
+                () => LinqExtensionMethods.FirstOrDefaultAsync(source, predicate, cancellationToken)!
                 );
         }
-        public static Task<TSource> FirstOrDefaultAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource?> FirstOrDefaultAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
-            return source.Switch(
+            return source.SwitchNullable(
                 () => Queryable.FirstOrDefault(source),
-                () => LinqExtensionMethods.FirstOrDefaultAsync(source, cancellationToken)
+                () => LinqExtensionMethods.FirstOrDefaultAsync(source, cancellationToken)!
                 );
         }
 
@@ -255,31 +262,35 @@ namespace Arctic.NHibernateExtensions
                 );
         }
 
-        public static Task<TResult> MaxAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector, CancellationToken cancellationToken = default)
+        public static Task<TResult?> MaxAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector, CancellationToken cancellationToken = default)
         {
-            return source.Switch(
+            return source.SwitchNullable(
                 () => Queryable.Max(source, selector),
-                () => LinqExtensionMethods.MaxAsync(source, selector, cancellationToken));
+                () => LinqExtensionMethods.MaxAsync(source, selector, cancellationToken)!
+                );
         }
-        public static Task<TSource> MaxAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource?> MaxAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
-            return source.Switch(
+            return source.SwitchNullable(
                 () => Queryable.Max(source),
-                () => LinqExtensionMethods.MaxAsync(source, cancellationToken));
+                () => LinqExtensionMethods.MaxAsync(source, cancellationToken)!
+                );
         }
 
-        public static Task<TSource> MinAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource?> MinAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
-            return source.Switch(
+            return source.SwitchNullable(
               () => Queryable.Min(source),
-              () => LinqExtensionMethods.MinAsync(source, cancellationToken));
+              () => LinqExtensionMethods.MinAsync(source, cancellationToken)!
+              );
         }
 
-        public static Task<TResult> MinAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector, CancellationToken cancellationToken = default)
+        public static Task<TResult?> MinAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector, CancellationToken cancellationToken = default)
         {
-            return source.Switch(
+            return source.SwitchNullable(
               () => Queryable.Min(source, selector),
-              () => LinqExtensionMethods.MinAsync(source, selector, cancellationToken));
+              () => LinqExtensionMethods.MinAsync(source, selector, cancellationToken)!
+              );
         }
 
         public static Task<TSource> SingleAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
@@ -295,17 +306,19 @@ namespace Arctic.NHibernateExtensions
               () => Queryable.Single(source),
               () => LinqExtensionMethods.SingleAsync(source, cancellationToken));
         }
-        public static Task<TSource> SingleOrDefaultAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource?> SingleOrDefaultAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.SingleOrDefault(source),
-              () => LinqExtensionMethods.SingleOrDefaultAsync(source, cancellationToken));
+              () => LinqExtensionMethods.SingleOrDefaultAsync(source, cancellationToken)!
+              );
         }
-        public static Task<TSource> SingleOrDefaultAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<TSource?> SingleOrDefaultAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            return source.Switch(
+            return source.SwitchNullable(
               () => Queryable.SingleOrDefault(source, predicate),
-              () => LinqExtensionMethods.SingleOrDefaultAsync(source, predicate, cancellationToken));
+              () => LinqExtensionMethods.SingleOrDefaultAsync(source, predicate, cancellationToken)!
+              );
         }
         public static Task<decimal?> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal?>> selector, CancellationToken cancellationToken = default)
         {

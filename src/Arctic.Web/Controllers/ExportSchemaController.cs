@@ -16,7 +16,7 @@ namespace Arctic.Web.Controllers
     [Route("[controller]")]
     public class ExportSchemaController : ControllerBase
     {
-        Configuration _nhConfiguration;
+        readonly Configuration _nhConfiguration;
         readonly IWebHostEnvironment _env;
         readonly ILogger _logger;
 

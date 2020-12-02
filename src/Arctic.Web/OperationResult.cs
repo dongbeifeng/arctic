@@ -14,10 +14,8 @@ namespace Arctic.Web
         public bool Success { get; init; }
 
         /// <summary>
-        /// 操作结果的消息说明
+        /// 描述操作结果的消息
         /// </summary>
-        public string Message { get; init; }
+        public string? Message { get; init; }
     }
-
-
 }

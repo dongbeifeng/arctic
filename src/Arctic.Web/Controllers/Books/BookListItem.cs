@@ -15,7 +15,7 @@ namespace Arctic.Web.Books
         /// <summary>
         /// 标题
         /// </summary>
-        public string Title { get; init; }
+        public string? Title { get; init; }
 
         /// <summary>
         /// 价格
@@ -34,7 +34,7 @@ namespace Arctic.Web.Books
         /// <summary>
         /// 当前分页的数据
         /// </summary>
-        public IEnumerable<BookListItem> Data { get; init; }
+        public IEnumerable<BookListItem>? Data { get; init; }
 
         /// <summary>
         /// 总共有多少个数据

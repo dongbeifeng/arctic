@@ -19,27 +19,27 @@ namespace Arctic.EventBus.Tests
 
         private class Foo1Handler : IEventHandler
         {
-            public async Task ProcessAsync(string eventType, object eventData)
+            public async Task ProcessAsync(string eventType, object? eventData)
             {
                 await Task.Yield();
-                FooData data = (FooData)eventData;
+                FooData data = (FooData)eventData!;
                 data.Handler1++;
             }
         }
 
         private class Foo2Handler : IEventHandler
         {
-            public async Task ProcessAsync(string eventType, object eventData)
+            public async Task ProcessAsync(string eventType, object? eventData)
             {
                 await Task.Yield();
-                FooData data = (FooData)eventData;
+                FooData data = (FooData)eventData!;
                 data.Handler2++;
             }
         }
 
         private class FooExHandler : IEventHandler
         {
-            public async Task ProcessAsync(string eventType, object eventData)
+            public async Task ProcessAsync(string eventType, object? eventData)
             {
                 await Task.Yield();
                 throw new Exception("TEST");
@@ -49,14 +49,19 @@ namespace Arctic.EventBus.Tests
 
         private class BarData
         {
-            public SimpleEventBus EventBus { get; set; }
+            public SimpleEventBus EventBus { get; set; } = default!;
             public int CallTimes { get; set; }
         }
 
         private class BarHandler : IEventHandler
         {
-            public async Task ProcessAsync(string eventType, object eventData)
+            public async Task ProcessAsync(string eventType, object? eventData)
             {
+                if (eventData == null)
+                {
+                    throw new ArgumentNullException(nameof(eventData));
+                }
+
                 BarData data = (BarData)eventData;
                 data.CallTimes++;
                 await Task.Yield();
@@ -67,7 +72,7 @@ namespace Arctic.EventBus.Tests
 
         private class BazData
         {
-            public SimpleEventBus EventBus { get; set; }
+            public SimpleEventBus EventBus { get; set; } = default!;
 
             public List<int> Calls { get; } = new List<int>();
         }
@@ -76,8 +81,12 @@ namespace Arctic.EventBus.Tests
         {
             private static readonly Random _random = new Random();
 
-            public async Task ProcessAsync(string eventType, object eventData)
+            public async Task ProcessAsync(string eventType, object? eventData)
             {
+                if (eventData == null)
+                {
+                    throw new ArgumentNullException(nameof(eventData));
+                }
                 BazData data = (BazData)eventData;
 
                 await Task.Yield();
@@ -97,10 +106,10 @@ namespace Arctic.EventBus.Tests
 
         private class QuxHandler : IEventHandler
         {
-            public Task ProcessAsync(string eventType, object eventData)
+            public Task ProcessAsync(string eventType, object? eventData)
             {
-                QuxData data = (QuxData)eventData;
-                data.Handlers.Add(this);
+                QuxData? data = (QuxData?)eventData;
+                data?.Handlers?.Add(this);
                 return Task.CompletedTask;
             }
         }
@@ -168,8 +177,10 @@ namespace Arctic.EventBus.Tests
         public async Task 超出事件数限制时会抛异常()
         {
             var bus = CreateBus();
-            BarData data = new BarData();
-            data.EventBus = bus;
+            BarData data = new BarData
+            {
+                EventBus = bus
+            };
 
             await Assert.ThrowsAsync<TooManyEventsException>(async () => await bus.FireEventAsync("Bar", data));
 
@@ -182,10 +193,14 @@ namespace Arctic.EventBus.Tests
 
         public async Task 两个事件总线实例彼此独立()
         {
-            BazData data1 = new BazData();
-            data1.EventBus = CreateBus();
-            BazData data2 = new BazData();
-            data2.EventBus = CreateBus();
+            BazData data1 = new BazData
+            {
+                EventBus = CreateBus()
+            };
+            BazData data2 = new BazData
+            {
+                EventBus = CreateBus()
+            };
 
             Task task1 = data1.EventBus.FireEventAsync("Baz", data1);
             Task task2 = data2.EventBus.FireEventAsync("Baz", data2);

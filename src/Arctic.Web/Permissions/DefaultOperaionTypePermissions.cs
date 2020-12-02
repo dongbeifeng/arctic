@@ -8,7 +8,7 @@ namespace Arctic.Web
     {
         readonly ISessionFactory _sessionFactory;
 
-        List<(string roleName, string opType)> _data;
+        List<(string roleName, string opType)>? _data;
 
         public DefaultOperaionTypePermissions(ISessionFactory sessionFactory)
         {
@@ -18,7 +18,7 @@ namespace Arctic.Web
         public List<string> GetAllowedRoles(string opType)
         {
             LoadData();
-            return _data.Where(x => x.opType == opType)
+            return _data!.Where(x => x.opType == opType)
                 .Select(x => x.roleName)
                 .Union(new[] { "admin" })
                 .Distinct()
@@ -32,20 +32,16 @@ namespace Arctic.Web
             {
                 if (_data == null)
                 {
-                    using (var session = _sessionFactory.OpenSession())
-                    {
-                        using (ITransaction tx = session.BeginTransaction())
-                        {
-                            // TODO 未完成
-                            //_data = session.Query<Role>()
-                            //    .ToList()
-                            //    .SelectMany(role => role.AllowedOpTypes.Select(opType => (role.RoleName, opType)))
-                            //    .ToList();
-                            _data = new List<(string roleName, string opType)>();
+                    using var session = _sessionFactory.OpenSession();
+                    using ITransaction tx = session.BeginTransaction();
+                    // TODO 未完成
+                    //_data = session.Query<Role>()
+                    //    .ToList()
+                    //    .SelectMany(role => role.AllowedOpTypes.Select(opType => (role.RoleName, opType)))
+                    //    .ToList();
+                    _data = new List<(string roleName, string opType)>();
 
-                            tx.Commit();
-                        }
-                    }
+                    tx.Commit();
                 }
             }
         }

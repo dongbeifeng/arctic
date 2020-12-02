@@ -2,7 +2,7 @@
 {
     public class EventHandlerMeta
     {
-        public string EventType { get; set; }
+        public string EventType { get; set; } = default!;
     }
 
 }

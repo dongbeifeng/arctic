@@ -28,7 +28,7 @@ namespace Arctic.NHibernateExtensions
                 }
 
                 // 不可空值类型对应的列也不可空
-                PropertyInfo p = prop.LocalMember as PropertyInfo;
+                PropertyInfo? p = prop.LocalMember as PropertyInfo;
                 if (p != null)
                 {
                     if (IsValueTypeAndNotNullable(p.PropertyType))
@@ -66,7 +66,7 @@ namespace Arctic.NHibernateExtensions
             return true;
         }
 
-        private static List<string> keywords = new List<string> {
+        private static readonly List<string> keywords = new List<string> {
             "Number", "Thread", "Weight", "Category",
             "Exists","Operator", "Enabled",
             "Column","Level","Type","Message","Role","Name","Status",

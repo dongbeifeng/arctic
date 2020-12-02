@@ -13,17 +13,17 @@ namespace Arctic.Web
         /// <summary>
         /// 获取或设置排序信息。
         /// </summary>
-        OrderedDictionary Sort { get; set; }
+        OrderedDictionary? Sort { get; set; }
 
         /// <summary>
         /// 获取或设置基于 1 的分页索引。
         /// </summary>
-        int Current { get; set; }
+        int? Current { get; set; }
 
         /// <summary>
         /// 获取或设置每页大小。
         /// </summary>
-        int PageSize { get; set; }
+        int? PageSize { get; set; }
 
 
     }

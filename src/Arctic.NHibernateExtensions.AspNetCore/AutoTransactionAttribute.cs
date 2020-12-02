@@ -22,10 +22,10 @@ namespace Arctic.NHibernateExtensions.AspNetCore
 
         private class AutoTransactionImpl : ActionFilterAttribute, IExceptionFilter
         {
-            private Stopwatch _sw;
-            IsolationLevel _isolationLevel;
-            ISession _session;
-            ILogger _logger;
+            readonly Stopwatch _sw;
+            readonly IsolationLevel _isolationLevel;
+            readonly ISession _session;
+            readonly ILogger _logger;
 
             public AutoTransactionImpl(ISession session, ILogger logger, IsolationLevel isolationLevel)
             {

@@ -14,6 +14,6 @@ namespace Arctic.EventBus
         /// </summary>
         /// <param name="eventType">事件名称。</param>
         /// <param name="eventData">事件数据。</param>
-        Task ProcessAsync(string eventType, object eventData);
+        Task ProcessAsync(string eventType, object? eventData);
     }
 }
