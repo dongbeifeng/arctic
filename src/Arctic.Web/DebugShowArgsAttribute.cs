@@ -5,23 +5,28 @@ using Serilog;
 using System;
 using System.Text.Json;
 
-namespace Arctic.Web.Debug
+namespace Arctic.Web
 {
+    /// <summary>
+    /// 向日志写入 Action 的参数。
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public sealed class ShowArgsAttribute : TypeFilterAttribute
+    public sealed class DebugShowArgsAttribute : TypeFilterAttribute
     {
-
-        public ShowArgsAttribute()
-            : base(typeof(ShowActionArgsImpl))
+        /// <summary>
+        /// 初始化新实例。
+        /// </summary>
+        public DebugShowArgsAttribute()
+            : base(typeof(DebugShowActionArgsImpl))
         {
             this.IsReusable = false;
         }
 
-        private class ShowActionArgsImpl : ActionFilterAttribute
+        private class DebugShowActionArgsImpl : ActionFilterAttribute
         {
             ILogger _logger;
 
-            public ShowActionArgsImpl(ILogger logger)
+            public DebugShowActionArgsImpl(ILogger logger)
             {
                 _logger = logger;
             }

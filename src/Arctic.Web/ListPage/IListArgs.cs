@@ -7,7 +7,7 @@ namespace Arctic.Web
     /// <summary>
     /// 定义列表页参数。
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">目标类型</typeparam>
     public interface IListArgs<T>
     {
         /// <summary>
@@ -26,12 +26,6 @@ namespace Arctic.Web
         int PageSize { get; set; }
 
 
-        /// <summary>
-        /// 在查询对象上应用筛选条件。
-        /// </summary>
-        /// <param name="q"></param>
-        /// <returns></returns>
-        IQueryable<T> Filter(IQueryable<T> q);
     }
 
 }

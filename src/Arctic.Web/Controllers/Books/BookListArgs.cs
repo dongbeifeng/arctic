@@ -1,4 +1,6 @@
 ﻿using Arctic.Books;
+using NHibernate.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -13,8 +15,21 @@ namespace Arctic.Web.Books
         /// <summary>
         /// 标题，支持模糊查找
         /// </summary>
-        [DbLike]
+        [ListFilter(ListFilterOperator.Like)]
         public string Title { get; set; }
+
+        /// <summary>
+        /// 出版日期
+        /// </summary>
+        [ListFilter("PublicationDate", ListFilterOperator.GTE )]
+        public DateTime? PublicationDateFrom { get; set; }
+
+
+        /// <summary>
+        /// 出版日期
+        /// </summary>
+        [ListFilter("PublicationDate", ListFilterOperator.LT)]
+        public DateTime? PublicationDateTo { get; set; }
 
         /// <summary>
         /// 排序字段
@@ -31,14 +46,5 @@ namespace Arctic.Web.Books
         /// </summary>
         public int PageSize { get; set; }
 
-        public IQueryable<Book> Filter(IQueryable<Book> q)
-        {
-            if (Title != null)
-            {
-                q = q.Where(x => x.Title == Title);
-            }
-
-            return q;
-        }
     }
 }

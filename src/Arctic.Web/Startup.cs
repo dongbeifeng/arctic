@@ -110,7 +110,7 @@ namespace Arctic.Web
 
             if (env.IsDevelopment())
             {
-#warning 仅用于调试
+#warning 仅用于调试期间
                 app.Use(async (context, next) =>
                 {
                     var claims = new List<Claim>

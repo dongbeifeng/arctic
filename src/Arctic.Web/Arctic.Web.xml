@@ -4,36 +4,6 @@
         <name>Arctic.Web</name>
     </assembly>
     <members>
-        <member name="T:Arctic.Web.ActionData">
-            <summary>
-            表示操作结果
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.ActionData.Success">
-            <summary>
-            指示操作是否成功
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.ActionData.Message">
-            <summary>
-            操作结果的消息说明
-            </summary>
-        </member>
-        <member name="T:Arctic.Web.ListData">
-            <summary>
-            表示列表页结果
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.ListData.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.ListData.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Arctic.Web.Books.BookListArgs">
             <summary>
             图书列表查询参数
@@ -42,6 +12,16 @@
         <member name="P:Arctic.Web.Books.BookListArgs.Title">
             <summary>
             标题，支持模糊查找
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.PublicationDateFrom">
+            <summary>
+            出版日期
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListArgs.PublicationDateTo">
+            <summary>
+            出版日期
             </summary>
         </member>
         <member name="P:Arctic.Web.Books.BookListArgs.Sort">
@@ -79,6 +59,21 @@
             价格
             </summary>
         </member>
+        <member name="T:Arctic.Web.Books.BookListResult">
+            <summary>
+            表示列表页结果
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListResult.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookListResult.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
         <member name="M:Arctic.Web.Books.BooksController.Get(Arctic.Web.Books.BookListArgs)">
             <summary>
             查询图书列表
@@ -114,18 +109,21 @@
             <param name="seqName">序列名</param>
             <returns></returns>
         </member>
-        <member name="T:Arctic.Web.DbLikeAttribute">
+        <member name="T:Arctic.Web.DebugShowArgsAttribute">
             <summary>
-            用于修饰 <see cref="T:Arctic.Web.IListArgs`1"/> 的字符串类型属性，表示这个属性使用数据库的 LIKE 操作符进行查询。
-            此标记的作用是告知 <see cref="M:Arctic.Web.ListArgsExtensions.NormalizeStringProperties``1(Arctic.Web.IListArgs{``0})"/> 方法
-            将字符串中的 <c>*</c> 替换成 <c>%</c>，将 <c>?</c> 替换成 <c>_</c>。
+            向日志写入 Action 的参数。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.DebugShowArgsAttribute.#ctor">
+            <summary>
+            初始化新实例。
             </summary>
         </member>
         <member name="T:Arctic.Web.IListArgs`1">
             <summary>
             定义列表页参数。
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="T">目标类型</typeparam>
         </member>
         <member name="P:Arctic.Web.IListArgs`1.Sort">
             <summary>
@@ -142,12 +140,128 @@
             获取或设置每页大小。
             </summary>
         </member>
-        <member name="M:Arctic.Web.IListArgs`1.Filter(System.Linq.IQueryable{`0})">
+        <member name="T:Arctic.Web.ListArgsExtensions">
             <summary>
-            在查询对象上应用筛选条件。
+            为 <see cref="T:Arctic.Web.IListArgs`1"/> 提供动态查询方法。
             </summary>
-            <param name="q"></param>
+        </member>
+        <member name="M:Arctic.Web.ListArgsExtensions.ToPagedListAsync``1(System.Linq.IQueryable{``0},Arctic.Web.IListArgs{``0})">
+            <summary>
+            使用列表参数进行查询，返回分页的列表。
+            </summary>
+            <typeparam name="T">目标类型</typeparam>
+            <param name="q">目标类型上的查询对象</param>
+            <param name="listArgs">列表参数</param>
             <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.ListArgsExtensions.SqlMethods">
+            <summary>
+            代替 <see cref="M:NHibernate.Linq.SqlMethods.Like(System.String,System.String)"/>，以提供内存里的简单模糊查询。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.ListFilterAttribute">
+            <summary>
+            用于修饰 <see cref="T:Arctic.Web.IListArgs`1"/> 中的属性，<see cref="M:Arctic.Web.ListArgsExtensions.ToPagedListAsync``1(System.Linq.IQueryable{``0},Arctic.Web.IListArgs{``0})"/> 
+            方法会根据 ListFilterAttribute 配置自动生成查询对象。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.ListFilterAttribute.#ctor">
+            <summary>
+            使用 == 操作符在同名属性上查询。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.ListFilterAttribute.#ctor(Arctic.Web.ListFilterOperator)">
+            <summary>
+            使用指定的操作符在同名属性上查询。
+            </summary>
+            <param name="op"></param>
+        </member>
+        <member name="M:Arctic.Web.ListFilterAttribute.#ctor(System.String)">
+            <summary>
+            使用 == 操作符在指定的属性上查询。
+            </summary>
+            <param name="targetProperty"></param>
+        </member>
+        <member name="M:Arctic.Web.ListFilterAttribute.#ctor(System.String,Arctic.Web.ListFilterOperator)">
+            <summary>
+            使用指定的操作符在指定的属性上查询。
+            </summary>
+            <param name="targetProperty"></param>
+            <param name="op"></param>
+        </member>
+        <member name="P:Arctic.Web.ListFilterAttribute.TargetProperty">
+            <summary>
+            指示在目标类型的哪个属性上查询。如果为 null，则在同名属性上查询。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ListFilterAttribute.Operator">
+            <summary>
+            指示使用哪个操作符进行查询。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.ListFilterOperator">
+            <summary>
+            查询操作符。
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.E">
+            <summary>
+            相等
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.Like">
+            <summary>
+            like
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.GT">
+            <summary>
+            大于
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.GTE">
+            <summary>
+            大于等于
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.LT">
+            <summary>
+            小于
+            </summary>
+        </member>
+        <member name="F:Arctic.Web.ListFilterOperator.LTE">
+            <summary>
+            小于等于
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.PagedList`1">
+            <summary>
+            表示分页的列表。
+            CurrentPage 基于 1。
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Arctic.Web.PagedList`1.#ctor(System.Collections.Generic.List{`0},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            表示分页的列表。
+            CurrentPage 基于 1。
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Arctic.Web.OperationResult">
+            <summary>
+            表示操作结果
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.OperationResult.Success">
+            <summary>
+            指示操作是否成功
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.OperationResult.Message">
+            <summary>
+            操作结果的消息说明
+            </summary>
         </member>
         <member name="T:Arctic.Web.IOperaionTypePermissions">
             <summary>

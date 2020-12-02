@@ -1,11 +1,8 @@
 ﻿using Arctic.Books;
 using Arctic.NHibernateExtensions.AspNetCore;
-using Arctic.Web.Debug;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using Serilog;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,17 +27,24 @@ namespace Arctic.Web.Books
         /// <param name="args">查询参数</param>
         /// <returns></returns>
         [HttpPost]
-        [ShowArgs]
+        [DebugShowArgs]
         [AutoTransaction]
-        public async Task<IEnumerable<BookListItem>> Get(BookListArgs args)
+        [Route("list")]
+        public async Task<BookListResult> Get(BookListArgs args)
         {
-            var (list, total) = await _session.Query<Book>().FilterByAsync(args);
-            return list.Select(x => new BookListItem
+            var (list, _, _, total) = await _session.Query<Book>().ToPagedListAsync(args);
+            return new BookListResult
             {
-                BookId = x.BookId,
-                Title = x.Title,
-                Price = x.Price,
-            });
+                Success = true,
+                Message = "OK",                
+                Data = list.Select(x => new BookListItem
+                {
+                    BookId = x.BookId,
+                    Title = x.Title,
+                    Price = x.Price,
+                }),
+                Total = total
+            };
         }
 
         [HttpGet("{id}")]
