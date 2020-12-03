@@ -40,10 +40,18 @@ namespace Arctic.Web
             }
         }
 
+        /// <summary>
+        /// 实现 <see cref="IActionFilter.OnActionExecuted(ActionExecutedContext)"/>。
+        /// </summary>
+        /// <param name="context"></param>
         public void OnActionExecuted(ActionExecutedContext context)
         {
         }
 
+        /// <summary>
+        /// 实现 <see cref="IActionFilter.OnActionExecuting(ActionExecutingContext)"/>。
+        /// </summary>
+        /// <param name="context"></param>
         public void OnActionExecuting(ActionExecutingContext context)
         {
             context.HttpContext.Items[typeof(OperationTypeAttribute)] = OperationType;

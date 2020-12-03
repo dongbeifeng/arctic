@@ -4,6 +4,46 @@
         <name>Arctic.Web</name>
     </assembly>
     <members>
+        <member name="T:Arctic.Web.Books.BookDetail">
+            <summary>
+            图书详细页的数据项。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetail.BookId">
+            <summary>
+            图书 Id。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetail.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetail.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetail.Price">
+            <summary>
+            价格
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Books.BookList">
+            <summary>
+            表示列表页结果
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookList.Data">
+            <summary>
+            当前分页的数据
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookList.Total">
+            <summary>
+            总共有多少个数据
+            </summary>
+        </member>
         <member name="T:Arctic.Web.Books.BookListArgs">
             <summary>
             图书列表查询参数
@@ -59,27 +99,85 @@
             价格
             </summary>
         </member>
-        <member name="T:Arctic.Web.Books.BookListResult">
+        <member name="M:Arctic.Web.Books.BooksController.List(Arctic.Web.Books.BookListArgs)">
             <summary>
-            表示列表页结果
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.Books.BookListResult.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.Books.BookListResult.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
-        <member name="M:Arctic.Web.Books.BooksController.Get(Arctic.Web.Books.BookListArgs)">
-            <summary>
-            查询图书列表
+            图书列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Detail(System.Int32)">
+            <summary>
+            详细信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Create(Arctic.Web.Books.CreateBookArgs)">
+            <summary>
+            创建图书
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Update(System.Int32,Arctic.Web.Books.UpdateBookArgs)">
+            <summary>
+            更新图书
+            </summary>
+            <param name="id"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Arctic.Web.Books.BooksController.Delete(System.Int32)">
+            <summary>
+            删除图书
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.Books.CreateBookArgs">
+            <summary>
+            创建图书操作的参数
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.CreateBookArgs.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.CreateBookArgs.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.CreateBookArgs.Price">
+            <summary>
+            价格
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.CreateBookArgs.PublicationDate">
+            <summary>
+            出版日期
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.Books.UpdateBookArgs">
+            <summary>
+            更新图书操作的参数
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.UpdateBookArgs.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.UpdateBookArgs.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.UpdateBookArgs.Price">
+            <summary>
+            价格
+            </summary>
         </member>
         <member name="T:Arctic.Web.Controllers.ExportSchemaController">
             <summary>
@@ -263,9 +361,27 @@
             描述操作结果的消息
             </summary>
         </member>
+        <member name="T:Arctic.Web.DefaultOperaionTypePermissions">
+            <summary>
+            <see cref="T:Arctic.Web.IOperaionTypePermissions"/> 接口的默认实现
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.DefaultOperaionTypePermissions.#ctor(NHibernate.ISessionFactory)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="sessionFactory"></param>
+        </member>
+        <member name="M:Arctic.Web.DefaultOperaionTypePermissions.GetAllowedRoles(System.String)">
+            <summary>
+            指定操作类型，获取允许执行此操作的角色。
+            </summary>
+            <param name="opType"></param>
+            <returns></returns>
+        </member>
         <member name="T:Arctic.Web.IOperaionTypePermissions">
             <summary>
-            提供获取操作类型授权的方法。
+            提供为操作类型获取授权的方法。
             </summary>
         </member>
         <member name="M:Arctic.Web.IOperaionTypePermissions.GetAllowedRoles(System.String)">
@@ -290,6 +406,18 @@
             <summary>
             获取或设置操作类型
             </summary>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)"/>。
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)"/>。
+            </summary>
+            <param name="context"></param>
         </member>
     </members>
 </doc>

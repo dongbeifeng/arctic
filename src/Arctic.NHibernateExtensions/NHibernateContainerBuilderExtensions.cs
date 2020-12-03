@@ -5,6 +5,7 @@ using NHibernate.Event;
 using NHibernate.Logging.Serilog;
 using Serilog;
 using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace Arctic.NHibernateExtensions
 {
@@ -69,12 +70,17 @@ namespace Arctic.NHibernateExtensions
                 return sessionFactory;
             }).SingleInstance().ExternallyOwned();
 
-            builder.Register(c =>
-                c.Resolve<ISessionFactory>()
-                .WithOptions()
-                // 添加处理审计拦截器
-                .Interceptor(new AuditInterceptor())
-                .OpenSession()
+            builder.Register(c => 
+            {
+                var principal = c.Resolve<IPrincipal>();
+                AuditInterceptor interceptor = new AuditInterceptor(principal);
+                return c.Resolve<ISessionFactory>()
+                    .WithOptions()
+                    // 添加审计拦截器
+                    .Interceptor(interceptor)
+                    .OpenSession();
+            }
+            
             ).InstancePerLifetimeScope();
 
             _logger.Information("已配置 NHibernate");

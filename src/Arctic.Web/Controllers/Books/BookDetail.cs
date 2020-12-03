@@ -1,9 +1,9 @@
 ﻿namespace Arctic.Web.Books
 {
     /// <summary>
-    /// 图书列表页的数据项。
+    /// 图书详细页的数据项。
     /// </summary>
-    public class BookListItem
+    public class BookDetail
     {
         /// <summary>
         /// 图书 Id。
@@ -14,6 +14,11 @@
         /// 标题
         /// </summary>
         public string? Title { get; init; }
+
+        /// <summary>
+        /// 作者
+        /// </summary>
+        public string Author { get; set; }
 
         /// <summary>
         /// 价格

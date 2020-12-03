@@ -3,6 +3,7 @@ using Arctic.NHibernateExtensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using Serilog;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +13,8 @@ namespace Arctic.Web.Books
     [ApiController]
     public class BooksController : ControllerBase
     {
-        ISession _session;
-        ILogger _logger;
+        readonly ISession _session;
+        readonly ILogger _logger;
 
         public BooksController(ISession session, ILogger logger)
         {
@@ -22,7 +23,7 @@ namespace Arctic.Web.Books
         }
 
         /// <summary>
-        /// 查询图书列表
+        /// 图书列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
@@ -30,43 +31,103 @@ namespace Arctic.Web.Books
         [DebugShowArgs]
         [AutoTransaction]
         [Route("list")]
-        public async Task<BookListResult> Get(BookListArgs args)
+        public async Task<BookList> List(BookListArgs args)
         {
-            var (list, _, _, total) = await _session.Query<Book>().ToPagedListAsync(args);
-            return new BookListResult
+            var pagedList = await _session.Query<Book>().ToPagedListAsync(args);
+            return new BookList
             {
                 Success = true,
                 Message = "OK",                
-                Data = list.Select(x => new BookListItem
+                Data = pagedList.List.Select(x => new BookListItem
                 {
                     BookId = x.BookId,
                     Title = x.Title,
                     Price = x.Price,
                 }),
-                Total = total
+                Total = pagedList.Total
             };
         }
 
+        /// <summary>
+        /// 详细信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [AutoTransaction]
-        public string Get(int id)
+        public async Task<BookDetail> Detail(int id)
         {
-            return "value";
+            var book = await _session.GetAsync<Book>(id);
+            return new BookDetail 
+            {
+                BookId = book.BookId,
+                Author = book.Author,
+                Price = book.Price,
+                Title = book.Title,
+            };
         }
 
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
-
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        /// <summary>
+        /// 创建图书
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AutoTransaction]
+        [Route("create")]
+        public async Task<OperationResult> Create(CreateBookArgs args)
         {
+            Book book = new Book
+            {
+                Author = args.Author,
+                Price = args.Price,
+                Title = args.Title,
+                PublicationDate = args.PublicationDate ?? throw new Exception(),
+            };
+            await _session.SaveAsync(book);
+            return new OperationResult { Success = true, Message = "OK" };
         }
 
+
+        /// <summary>
+        /// 更新图书
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="args"></param>
+        [HttpPut("update/{id}")]
+        [AutoTransaction]
+        public async Task<OperationResult> Update(int id, [FromBody] UpdateBookArgs args)
+        {
+            Book? book = await _session.GetAsync<Book>(id);
+            if (book == null)
+            {
+                throw new InvalidOperationException();
+            }
+            book.Author = args.Author;
+            book.Price = args.Price;
+            book.Title = args.Title;
+            await _session.UpdateAsync(book);
+            return new OperationResult { Success = true, Message = "OK" };
+        }
+
+
+        /// <summary>
+        /// 删除图书
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AutoTransaction]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<OperationResult> Delete(int id)
         {
+            Book? book = await _session.GetAsync<Book>(id);
+            if (book == null)
+            {
+                throw new InvalidOperationException();
+            }
+            await _session.DeleteAsync(book);
+            return new OperationResult { Success = true, Message = "OK" };
+
         }
     }
 }

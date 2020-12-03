@@ -37,9 +37,10 @@ namespace Arctic.Web.Controllers
             {
                 throw new InvalidOperationException("只能在开发环境运行此工具");
             }
-
+            _logger.Warning("正在导出数据库架构，当前是开发环境，所有表结构将重建");
             SchemaExport export = new SchemaExport(_nhConfiguration);
             await export.CreateAsync(true, true);
+            _logger.Information("已导出数据库架构");
 
             return "成功";
         }

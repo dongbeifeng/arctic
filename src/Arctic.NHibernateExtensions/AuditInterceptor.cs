@@ -2,6 +2,7 @@
 using NHibernate;
 using NHibernate.Type;
 using System;
+using System.Security.Principal;
 using System.Threading;
 
 namespace Arctic.NHibernateExtensions
@@ -13,9 +14,15 @@ namespace Arctic.NHibernateExtensions
     /// </summary>
     public class AuditInterceptor : EmptyInterceptor
     {
-        private static string GetCurrentUserName()
+        readonly IPrincipal? _principal;
+        public AuditInterceptor(IPrincipal? principal)
         {
-            return (Thread.CurrentPrincipal?.Identity?.Name) ?? "-";
+            _principal = principal;
+        }
+
+        private string GetCurrentUserName()
+        {
+            return (_principal?.Identity?.Name) ?? "-";
         }
         public override bool OnFlushDirty(object entity, object id, object[] currentState, object[] previousState, string[] propertyNames, IType[] types)
         {
@@ -102,5 +109,4 @@ namespace Arctic.NHibernateExtensions
             return modified;
         }
     }
-
 }

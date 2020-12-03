@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Arctic.Web
 {
     /// <summary>
-    /// 提供获取操作类型授权的方法。
+    /// 提供为操作类型获取授权的方法。
     /// </summary>
     public interface IOperaionTypePermissions
     {

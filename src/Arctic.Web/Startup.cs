@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,6 +21,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Security.Claims;
+using System.Security.Principal;
+
+#pragma warning disable 1591
 
 namespace Arctic.Web
 {
@@ -49,6 +53,11 @@ namespace Arctic.Web
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+            services.AddHttpContextAccessor();
+            services.AddTransient<IPrincipal>(provider => 
+                provider.GetService<IHttpContextAccessor>()?.HttpContext?.User!
+                );
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -145,3 +154,5 @@ namespace Arctic.Web
         }
     }
 }
+
+#pragma warning restore 1591

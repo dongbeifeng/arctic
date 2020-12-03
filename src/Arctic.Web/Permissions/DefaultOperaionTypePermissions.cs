@@ -4,17 +4,29 @@ using System.Linq;
 
 namespace Arctic.Web
 {
+    /// <summary>
+    /// <see cref="IOperaionTypePermissions"/> 接口的默认实现
+    /// </summary>
     public class DefaultOperaionTypePermissions : IOperaionTypePermissions
     {
         readonly ISessionFactory _sessionFactory;
 
         List<(string roleName, string opType)>? _data;
 
+        /// <summary>
+        /// 初始化新实例。
+        /// </summary>
+        /// <param name="sessionFactory"></param>
         public DefaultOperaionTypePermissions(ISessionFactory sessionFactory)
         {
             _sessionFactory = sessionFactory;
         }
 
+        /// <summary>
+        /// 指定操作类型，获取允许执行此操作的角色。
+        /// </summary>
+        /// <param name="opType"></param>
+        /// <returns></returns>
         public List<string> GetAllowedRoles(string opType)
         {
             LoadData();

@@ -7,6 +7,8 @@ using Serilog;
 using System;
 using System.IO;
 
+#pragma warning disable 1591
+
 namespace Arctic.Web
 {
     public class Program
@@ -51,3 +53,5 @@ namespace Arctic.Web
                 });
     }
 }
+
+#pragma warning restore 1591
