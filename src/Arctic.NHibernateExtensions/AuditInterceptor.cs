@@ -1,4 +1,4 @@
-﻿using Arctic.Auditing;
+using Arctic.Auditing;
 using NHibernate;
 using NHibernate.Type;
 using System;

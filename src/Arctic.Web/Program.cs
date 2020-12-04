@@ -28,13 +28,13 @@ namespace Arctic.Web
 
             try
             {
-                Log.Information("程序正在启动");
+                Log.Information("绋嬪簭姝ｅ湪鍚姩");
 
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "程序意外停止");
+                Log.Fatal(ex, "绋嬪簭鎰忓鍋滄");
             }
             finally
             {

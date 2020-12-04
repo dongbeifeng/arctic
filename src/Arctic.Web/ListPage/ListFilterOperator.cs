@@ -1,4 +1,4 @@
-﻿namespace Arctic.Web
+namespace Arctic.Web
 {
     /// <summary>
     /// 查询操作符。

@@ -27,7 +27,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.AppSeqs", "src\Arcti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.AppCodes", "src\Arctic.AppCodes\Arctic.AppCodes.csproj", "{AEF6361E-3ADC-45E4-A94F-FB96BB18220E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arctic.Books", "src\Arctic.Books\Arctic.Books.csproj", "{0F319CC1-D226-4898-86E4-818FDE960970}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.Books", "src\Arctic.Books\Arctic.Books.csproj", "{0F319CC1-D226-4898-86E4-818FDE960970}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{86CCAD86-8F04-41ED-BF7D-763A58E2493B}"
+	ProjectSection(SolutionItems) = preProject
+		build.ps1 = build.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

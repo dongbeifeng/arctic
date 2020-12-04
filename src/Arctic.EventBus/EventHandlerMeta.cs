@@ -1,4 +1,4 @@
-﻿namespace Arctic.EventBus
+namespace Arctic.EventBus
 {
     public class EventHandlerMeta
     {

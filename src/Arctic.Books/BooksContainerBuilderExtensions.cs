@@ -1,4 +1,4 @@
-﻿using Arctic.Books.Mappings;
+using Arctic.Books.Mappings;
 using Arctic.NHibernateExtensions;
 using Autofac;
 

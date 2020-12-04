@@ -1,4 +1,4 @@
-﻿namespace Arctic.Auditing
+namespace Arctic.Auditing
 {
     // TODO 重命名
     /// <summary>

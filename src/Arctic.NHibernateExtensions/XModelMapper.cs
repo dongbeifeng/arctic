@@ -1,4 +1,4 @@
-﻿using NHibernate.Mapping.ByCode;
+using NHibernate.Mapping.ByCode;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -1,4 +1,4 @@
-﻿using Arctic.Books;
+using Arctic.Books;
 using NHibernate.Linq;
 using System;
 using System.Collections.Generic;

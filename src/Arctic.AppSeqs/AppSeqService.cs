@@ -1,4 +1,4 @@
-﻿using NHibernate;
+using NHibernate;
 using System;
 using System.Threading.Tasks;
 using System.Transactions;

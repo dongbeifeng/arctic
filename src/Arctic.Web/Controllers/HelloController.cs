@@ -1,4 +1,4 @@
-﻿using Arctic.AppSeqs;
+using Arctic.AppSeqs;
 using Arctic.EventBus;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;

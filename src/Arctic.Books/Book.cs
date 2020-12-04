@@ -1,4 +1,4 @@
-﻿using Arctic.Auditing;
+using Arctic.Auditing;
 using System;
 using System.ComponentModel.DataAnnotations;
 

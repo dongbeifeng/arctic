@@ -1,4 +1,4 @@
-﻿using Arctic.NHibernateExtensions;
+using Arctic.NHibernateExtensions;
 using Autofac;
 using System.Collections.Generic;
 using System.Linq;

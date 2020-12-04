@@ -1,4 +1,4 @@
-﻿using NHibernate.Mapping.ByCode;
+using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace Arctic.Books.Mappings

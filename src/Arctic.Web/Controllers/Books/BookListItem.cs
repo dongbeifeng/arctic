@@ -1,4 +1,4 @@
-﻿namespace Arctic.Web.Books
+namespace Arctic.Web.Books
 {
     /// <summary>
     /// 图书列表页的数据项。

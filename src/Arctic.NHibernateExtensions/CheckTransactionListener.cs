@@ -1,4 +1,4 @@
-﻿using NHibernate;
+using NHibernate;
 using NHibernate.Event;
 using System;
 using System.Threading;

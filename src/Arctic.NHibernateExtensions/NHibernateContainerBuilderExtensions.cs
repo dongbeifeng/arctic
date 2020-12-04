@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Event;

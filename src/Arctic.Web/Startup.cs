@@ -98,7 +98,7 @@ namespace Arctic.Web
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Arctic.Web v1"));
             }
 
-            // TODO ¸ÄÎª°²È«µÄÉèÖÃ
+            // TODO æ”¹ä¸ºå®‰å…¨çš„è®¾ç½®
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseHsts();
 
@@ -120,7 +120,7 @@ namespace Arctic.Web
 
             if (env.IsDevelopment())
             {
-#warning ½öÓÃÓÚµ÷ÊÔÆÚ¼ä
+#warning ä»…ç”¨äºè°ƒè¯•æœŸé—´
                 app.Use(async (context, next) =>
                 {
                     var claims = new List<Claim>

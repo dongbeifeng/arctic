@@ -1,4 +1,4 @@
-﻿using Arctic.Books;
+using Arctic.Books;
 using Arctic.NHibernateExtensions.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;

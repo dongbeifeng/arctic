@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using Serilog;
 using System;
 using System.Collections.Generic;

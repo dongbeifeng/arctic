@@ -9,7 +9,7 @@ namespace Arctic.EventBus.Tests
 {
     public class SimpleEventBusTest
     {
-        #region Ç¶Ì×ÀàĞÍ
+        #region åµŒå¥—ç±»å‹
 
         private class FooData
         {
@@ -133,7 +133,7 @@ namespace Arctic.EventBus.Tests
         }
 
         [Fact]
-        public async Task Òı·¢Î´×¢²á´¦Àí³ÌĞòµÄÊÂ¼ş²»»áÅ×³öÒì³£()
+        public async Task å¼•å‘æœªæ³¨å†Œå¤„ç†ç¨‹åºçš„äº‹ä»¶ä¸ä¼šæŠ›å‡ºå¼‚å¸¸()
         {
             var bus = CreateBus();
 
@@ -141,14 +141,14 @@ namespace Arctic.EventBus.Tests
         }
 
         //[Fact]
-        //public void ×¢²á·½·¨²»½ÓÊÜÎ´ÊµÏÖIEventHandler½Ó¿ÚµÄ²ÎÊı()
+        //public void æ³¨å†Œæ–¹æ³•ä¸æ¥å—æœªå®ç°IEventHandleræ¥å£çš„å‚æ•°()
         //{
         //    var types = new[] { typeof(object) };
         //    Assert.Throws<ArgumentException>(() => EventBusState.RegisterEventHandlers(_builder, "Foo", types));
         //}
 
         [Fact]
-        public async Task ÓĞ¶à¸ö´¦Àí³ÌĞòÓ¦°´´ÎĞò±»µ÷ÓÃ()
+        public async Task æœ‰å¤šä¸ªå¤„ç†ç¨‹åºåº”æŒ‰æ¬¡åºè¢«è°ƒç”¨()
         {
             var bus = CreateBus();
             FooData data = new FooData();
@@ -161,7 +161,7 @@ namespace Arctic.EventBus.Tests
 
 
         [Fact]
-        public async Task ÊÂ¼şÃû²»Çø·Ö´óĞ¡Ğ´()
+        public async Task äº‹ä»¶åä¸åŒºåˆ†å¤§å°å†™()
         {
             var bus = CreateBus();
             FooData data = new FooData();
@@ -174,7 +174,7 @@ namespace Arctic.EventBus.Tests
 
 
         [Fact]
-        public async Task ³¬³öÊÂ¼şÊıÏŞÖÆÊ±»áÅ×Òì³£()
+        public async Task è¶…å‡ºäº‹ä»¶æ•°é™åˆ¶æ—¶ä¼šæŠ›å¼‚å¸¸()
         {
             var bus = CreateBus();
             BarData data = new BarData
@@ -191,7 +191,7 @@ namespace Arctic.EventBus.Tests
 
         [Fact]
 
-        public async Task Á½¸öÊÂ¼ş×ÜÏßÊµÀı±Ë´Ë¶ÀÁ¢()
+        public async Task ä¸¤ä¸ªäº‹ä»¶æ€»çº¿å®ä¾‹å½¼æ­¤ç‹¬ç«‹()
         {
             BazData data1 = new BazData
             {
@@ -213,7 +213,7 @@ namespace Arctic.EventBus.Tests
 
         [Fact]
 
-        public async Task ²âÊÔÅ×Òì³£()
+        public async Task æµ‹è¯•æŠ›å¼‚å¸¸()
         {
             var bus = CreateBus();
 
@@ -222,7 +222,7 @@ namespace Arctic.EventBus.Tests
 
         [Fact]
 
-        public async Task Ò»¸ö´¦Àí³ÌĞò×¢²áÁ½´Î»á´´½¨Á½¸öÊµÀı()
+        public async Task ä¸€ä¸ªå¤„ç†ç¨‹åºæ³¨å†Œä¸¤æ¬¡ä¼šåˆ›å»ºä¸¤ä¸ªå®ä¾‹()
         {
 
             SimpleEventBus bus = new SimpleEventBus(new[] {

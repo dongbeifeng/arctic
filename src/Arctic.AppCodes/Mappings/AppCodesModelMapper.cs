@@ -1,4 +1,4 @@
-﻿using Arctic.NHibernateExtensions;
+using Arctic.NHibernateExtensions;
 using System.Reflection;
 
 namespace Arctic.AppCodes.Mappings
