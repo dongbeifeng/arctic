@@ -21,9 +21,7 @@ $buildSuffix = @{ $true = "$($suffix)-$($commitHash)"; $false = "$($branch)-$($c
 Write-Output "build: Package version suffix is $suffix"
 Write-Output "build: Build version suffix is $buildSuffix"
 
-$children = Get-ChildItem src/* 
-$children.Where({ $_ -ne "Arctice.Books" })
-foreach ($src in $children) {
+foreach ($src in Get-ChildItem src/*) {
     Push-Location $src
 
     Write-Output "build: Packaging project in $src"
