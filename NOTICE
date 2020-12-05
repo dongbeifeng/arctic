@@ -1,0 +1,63 @@
+Autfac
+(https://autofac.org/)
+© Autofac Contributors 2013
+
+Autofac.Extensions.DependencyInjection
+(https://autofac.org/)
+© Autofac Contributors 2013
+
+AutofacSerilogIntegration
+© Nicholas Blumhardt
+(https://github.com/nblumhardt/autofac-serilog-integration)
+
+coverlet.collector
+(https://github.com/coverlet-coverage/coverlet)
+© tonerdo
+
+NHibernate
+(https://nhibernate.info/)
+© NHibernate Community 2020
+
+NHibernate.Logging.Serilog
+© lnu
+(https://github.com/lnu/NHibernate.Logging.Serilog)
+
+NSubstitue
+(https://nsubstitute.github.io/)
+© Anthony Egerton,David Tchepak,Alexandr Nikitin,Alex Povar
+
+Serilog
+(https://serilog.net/)
+© 2013-2020 Serilog Contributors
+
+Serilog.AspNetCore
+(https://github.com/serilog/serilog-aspnetcore)
+© Microsoft,Serilog Contributors
+
+Serilog.Expressions
+(https://github.com/serilog/serilog-expressions)
+© Serilog Contributors
+
+Serilog.Sinks.Console
+(https://github.com/serilog/serilog-sinks-console)
+© Serilog Contributors
+
+Serilog.Sinks.MSSqlServer
+(https://github.com/serilog/serilog-sinks-mssqlserver)
+© Michiel van Oudheusden,Christian Kadluba,Serilog Contributors
+
+Swashbuckle.AspNetCore
+(https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
+
+System.Linq.Dynamic.Core
+(https://dynamic-linq.net/)
+© ZZZ Projects,Stef Heyenrath,Microsoft,Scott Guthrie,King Wilder,Nathan Arnott
+
+xunit
+(https://github.com/xunit/xunit)
+© James Newkirk,Brad Wilson
+
+xunit.runner.visualstudio
+(https://github.com/xunit/visualstudio.xunit)
+© .NET Foundation and Contributors
+
