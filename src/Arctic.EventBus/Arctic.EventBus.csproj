@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <Description>提供简单事件总线。</Description>
+    <Authors>王建军</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/dongbeifeng/arctic</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

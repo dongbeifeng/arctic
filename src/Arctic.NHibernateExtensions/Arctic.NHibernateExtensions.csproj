@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Authors>王建军</Authors>
+    <Description>包含 NHibernate 的扩展。</Description>
+    <PackageProjectUrl>https://github.com/dongbeifeng/arctic</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

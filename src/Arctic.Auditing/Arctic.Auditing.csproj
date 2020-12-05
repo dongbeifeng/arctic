@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <Authors>王建军</Authors>
+    <Description>提供审计接口。</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/dongbeifeng/arctic</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>

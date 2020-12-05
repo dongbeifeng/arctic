@@ -3,6 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <Company />
+    <Authors>王建军</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Description>提供基于数据库的代码表。</Description>
+    <PackageProjectUrl>https://github.com/dongbeifeng/arctic</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
