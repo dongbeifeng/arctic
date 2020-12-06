@@ -7,10 +7,7 @@
     <Authors>王建军</Authors>
     <Description>包含 NHibernate 的扩展。</Description>
     <PackageProjectUrl>https://github.com/dongbeifeng/arctic</PackageProjectUrl>
-<<<<<<< HEAD
-=======
     <Version>1.0.1</Version>
->>>>>>> develop
   </PropertyGroup>
 
   <ItemGroup>
