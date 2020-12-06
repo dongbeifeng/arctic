@@ -123,7 +123,7 @@ namespace Arctic.Web
             int start = (current - 1) * pageSize;
             var list = await q.Skip(start)
                 .Take(pageSize)
-                .ToListAsync()
+                .WrappedToListAsync()
                 .ConfigureAwait(false);
             return new PagedList<T>(list, current, pageSize, totalItemCount);
         }

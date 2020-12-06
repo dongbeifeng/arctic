@@ -44,7 +44,7 @@ namespace Arctic.NHibernateExtensions
             };
         }
 
-        public static Task<bool> AllAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<bool> WrappedAllAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.All(source, predicate),
@@ -52,7 +52,7 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<bool> AnyAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<bool> WrappedAnyAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Any(source),
@@ -60,7 +60,7 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<bool> AnyAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<bool> WrappedAnyAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Any(source, predicate),
@@ -69,7 +69,7 @@ namespace Arctic.NHibernateExtensions
         }
 
 
-        public static Task<double> AverageAsync(this IQueryable<long> source, CancellationToken cancellationToken = default)
+        public static Task<double> WrappedAverageAsync(this IQueryable<long> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
@@ -77,7 +77,7 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<double?> AverageAsync(this IQueryable<long?> source, CancellationToken cancellationToken = default)
+        public static Task<double?> WrappedAverageAsync(this IQueryable<long?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
@@ -85,7 +85,7 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<float> AverageAsync(this IQueryable<float> source, CancellationToken cancellationToken = default)
+        public static Task<float> WrappedAverageAsync(this IQueryable<float> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
@@ -93,91 +93,91 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<float?> AverageAsync(this IQueryable<float?> source, CancellationToken cancellationToken = default)
+        public static Task<float?> WrappedAverageAsync(this IQueryable<float?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
                 () => LinqExtensionMethods.AverageAsync(source, cancellationToken)
             );
         }
-        public static Task<double> AverageAsync(this IQueryable<double> source, CancellationToken cancellationToken = default)
+        public static Task<double> WrappedAverageAsync(this IQueryable<double> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
                 () => LinqExtensionMethods.AverageAsync(source, cancellationToken)
             );
         }
-        public static Task<double?> AverageAsync(this IQueryable<double?> source, CancellationToken cancellationToken = default)
+        public static Task<double?> WrappedAverageAsync(this IQueryable<double?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
                 () => LinqExtensionMethods.AverageAsync(source, cancellationToken)
             );
         }
-        public static Task<decimal> AverageAsync(this IQueryable<decimal> source, CancellationToken cancellationToken = default)
+        public static Task<decimal> WrappedAverageAsync(this IQueryable<decimal> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
                 () => LinqExtensionMethods.AverageAsync(source, cancellationToken)
             );
         }
-        public static Task<decimal?> AverageAsync(this IQueryable<decimal?> source, CancellationToken cancellationToken = default)
+        public static Task<decimal?> WrappedAverageAsync(this IQueryable<decimal?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
                 () => LinqExtensionMethods.AverageAsync(source, cancellationToken)
             );
         }
-        public static Task<double> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, long>> selector, CancellationToken cancellationToken = default)
+        public static Task<double> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, long>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
                 () => LinqExtensionMethods.AverageAsync(source, selector, cancellationToken)
             );
         }
-        public static Task<double?> AverageAsync(this IQueryable<int?> source, CancellationToken cancellationToken = default)
+        public static Task<double?> WrappedAverageAsync(this IQueryable<int?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
                 () => LinqExtensionMethods.AverageAsync(source, cancellationToken)
             );
         }
-        public static Task<double?> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, long?>> selector, CancellationToken cancellationToken = default)
+        public static Task<double?> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, long?>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
                 () => LinqExtensionMethods.AverageAsync(source, selector, cancellationToken)
             );
         }
-        public static Task<float> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, float>> selector, CancellationToken cancellationToken = default)
+        public static Task<float> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, float>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
                 () => LinqExtensionMethods.AverageAsync(source, selector, cancellationToken)
             );
         }
-        public static Task<float?> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, float?>> selector, CancellationToken cancellationToken = default)
+        public static Task<float?> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, float?>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
                 () => LinqExtensionMethods.AverageAsync(source, selector, cancellationToken)
             );
         }
-        public static Task<double> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, double>> selector, CancellationToken cancellationToken = default)
+        public static Task<double> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, double>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
                 () => LinqExtensionMethods.AverageAsync(source, selector, cancellationToken)
             );
         }
-        public static Task<double?> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, double?>> selector, CancellationToken cancellationToken = default)
+        public static Task<double?> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, double?>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
                 () => LinqExtensionMethods.AverageAsync(source, selector, cancellationToken)
             );
         }
-        public static Task<decimal> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal>> selector, CancellationToken cancellationToken = default)
+        public static Task<decimal> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
@@ -185,7 +185,7 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<decimal?> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal?>> selector, CancellationToken cancellationToken = default)
+        public static Task<decimal?> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal?>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
@@ -193,7 +193,7 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<double> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, int>> selector, CancellationToken cancellationToken = default)
+        public static Task<double> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, int>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
@@ -201,14 +201,14 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<double> AverageAsync(this IQueryable<int> source, CancellationToken cancellationToken = default)
+        public static Task<double> WrappedAverageAsync(this IQueryable<int> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source),
                 () => LinqExtensionMethods.AverageAsync(source, cancellationToken)
             );
         }
-        public static Task<double?> AverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, int?>> selector, CancellationToken cancellationToken = default)
+        public static Task<double?> WrappedAverageAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, int?>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Average(source, selector),
@@ -216,14 +216,14 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<int> CountAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<int> WrappedCountAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Count(source),
                 () => LinqExtensionMethods.CountAsync(source, cancellationToken)
             );
         }
-        public static Task<int> CountAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<int> WrappedCountAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.Count(source, predicate),
@@ -231,7 +231,7 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<TSource> FirstAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<TSource> WrappedFirstAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.First(source, predicate),
@@ -239,21 +239,21 @@ namespace Arctic.NHibernateExtensions
             );
         }
 
-        public static Task<TSource> FirstAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource> WrappedFirstAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.First(source),
                 () => LinqExtensionMethods.FirstAsync(source, cancellationToken)
             );
         }
-        public static Task<TSource?> FirstOrDefaultAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<TSource?> WrappedFirstOrDefaultAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return source.SwitchNullable(
                 () => Queryable.FirstOrDefault(source, predicate),
                 () => LinqExtensionMethods.FirstOrDefaultAsync(source, predicate, cancellationToken)!
                 );
         }
-        public static Task<TSource?> FirstOrDefaultAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource?> WrappedFirstOrDefaultAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.SwitchNullable(
                 () => Queryable.FirstOrDefault(source),
@@ -262,13 +262,13 @@ namespace Arctic.NHibernateExtensions
         }
 
 
-        public static Task<long> LongCountAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<long> WrappedLongCountAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.LongCount(source, predicate),
                 () => LinqExtensionMethods.LongCountAsync(source, predicate, cancellationToken));
         }
-        public static Task<long> LongCountAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<long> WrappedLongCountAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
                 () => Queryable.LongCount(source),
@@ -276,14 +276,14 @@ namespace Arctic.NHibernateExtensions
                 );
         }
 
-        public static Task<TResult?> MaxAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector, CancellationToken cancellationToken = default)
+        public static Task<TResult?> WrappedMaxAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector, CancellationToken cancellationToken = default)
         {
             return source.SwitchNullable(
                 () => Queryable.Max(source, selector),
                 () => LinqExtensionMethods.MaxAsync(source, selector, cancellationToken)!
                 );
         }
-        public static Task<TSource?> MaxAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource?> WrappedMaxAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.SwitchNullable(
                 () => Queryable.Max(source),
@@ -291,7 +291,7 @@ namespace Arctic.NHibernateExtensions
                 );
         }
 
-        public static Task<TSource?> MinAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource?> WrappedMinAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.SwitchNullable(
               () => Queryable.Min(source),
@@ -299,7 +299,7 @@ namespace Arctic.NHibernateExtensions
               );
         }
 
-        public static Task<TResult?> MinAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector, CancellationToken cancellationToken = default)
+        public static Task<TResult?> WrappedMinAsync<TSource, TResult>(this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector, CancellationToken cancellationToken = default)
         {
             return source.SwitchNullable(
               () => Queryable.Min(source, selector),
@@ -307,158 +307,158 @@ namespace Arctic.NHibernateExtensions
               );
         }
 
-        public static Task<TSource> SingleAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<TSource> WrappedSingleAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Single(source, predicate),
               () => LinqExtensionMethods.SingleAsync(source, predicate, cancellationToken));
         }
 
-        public static Task<TSource> SingleAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource> WrappedSingleAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Single(source),
               () => LinqExtensionMethods.SingleAsync(source, cancellationToken));
         }
-        public static Task<TSource?> SingleOrDefaultAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<TSource?> WrappedSingleOrDefaultAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.SingleOrDefault(source),
               () => LinqExtensionMethods.SingleOrDefaultAsync(source, cancellationToken)!
               );
         }
-        public static Task<TSource?> SingleOrDefaultAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
+        public static Task<TSource?> WrappedSingleOrDefaultAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return source.SwitchNullable(
               () => Queryable.SingleOrDefault(source, predicate),
               () => LinqExtensionMethods.SingleOrDefaultAsync(source, predicate, cancellationToken)!
               );
         }
-        public static Task<decimal?> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal?>> selector, CancellationToken cancellationToken = default)
+        public static Task<decimal?> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal?>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source, selector),
               () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
         }
-        public static Task<double> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, double>> selector, CancellationToken cancellationToken = default)
+        public static Task<double> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, double>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source, selector),
               () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
         }
-        public static Task<float?> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, float?>> selector, CancellationToken cancellationToken = default)
+        public static Task<float?> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, float?>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source, selector),
               () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
         }
-        public static Task<float> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, float>> selector, CancellationToken cancellationToken = default)
+        public static Task<float> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, float>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source, selector),
               () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
         }
-        public static Task<long?> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, long?>> selector, CancellationToken cancellationToken = default)
+        public static Task<long?> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, long?>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source, selector),
               () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
         }
-        public static Task<long> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, long>> selector, CancellationToken cancellationToken = default)
+        public static Task<long> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, long>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source, selector),
               () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
         }
-        public static Task<float?> SumAsync(this IQueryable<float?> source, CancellationToken cancellationToken = default)
+        public static Task<float?> WrappedSumAsync(this IQueryable<float?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source),
               () => LinqExtensionMethods.SumAsync(source, cancellationToken));
         }
-        public static Task<float> SumAsync(this IQueryable<float> source, CancellationToken cancellationToken = default)
+        public static Task<float> WrappedSumAsync(this IQueryable<float> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source),
               () => LinqExtensionMethods.SumAsync(source, cancellationToken));
         }
-        public static Task<int> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, int>> selector, CancellationToken cancellationToken = default)
-        {
-            return source.Switch(
-              () => Queryable.Sum(source, selector),
-              () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
-        }
-
-        public static Task<long?> SumAsync(this IQueryable<long?> source, CancellationToken cancellationToken = default)
-        {
-            return source.Switch(
-              () => Queryable.Sum(source),
-              () => LinqExtensionMethods.SumAsync(source, cancellationToken));
-        }
-        public static Task<long> SumAsync(this IQueryable<long> source, CancellationToken cancellationToken = default)
-        {
-            return source.Switch(
-              () => Queryable.Sum(source),
-              () => LinqExtensionMethods.SumAsync(source, cancellationToken));
-        }
-        public static Task<int?> SumAsync(this IQueryable<int?> source, CancellationToken cancellationToken = default)
-        {
-            return source.Switch(
-              () => Queryable.Sum(source),
-              () => LinqExtensionMethods.SumAsync(source, cancellationToken));
-        }
-        public static Task<int> SumAsync(this IQueryable<int> source, CancellationToken cancellationToken = default)
-        {
-            return source.Switch(
-              () => Queryable.Sum(source),
-              () => LinqExtensionMethods.SumAsync(source, cancellationToken));
-        }
-        public static Task<int?> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, int?>> selector, CancellationToken cancellationToken = default)
-        {
-            return source.Switch(
-              () => Queryable.Sum(source, selector),
-              () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
-        }
-        public static Task<decimal> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal>> selector, CancellationToken cancellationToken = default)
+        public static Task<int> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, int>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source, selector),
               () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
         }
 
-        public static Task<double> SumAsync(this IQueryable<double> source, CancellationToken cancellationToken = default)
+        public static Task<long?> WrappedSumAsync(this IQueryable<long?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source),
               () => LinqExtensionMethods.SumAsync(source, cancellationToken));
         }
-        public static Task<double?> SumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, double?>> selector, CancellationToken cancellationToken = default)
+        public static Task<long> WrappedSumAsync(this IQueryable<long> source, CancellationToken cancellationToken = default)
+        {
+            return source.Switch(
+              () => Queryable.Sum(source),
+              () => LinqExtensionMethods.SumAsync(source, cancellationToken));
+        }
+        public static Task<int?> WrappedSumAsync(this IQueryable<int?> source, CancellationToken cancellationToken = default)
+        {
+            return source.Switch(
+              () => Queryable.Sum(source),
+              () => LinqExtensionMethods.SumAsync(source, cancellationToken));
+        }
+        public static Task<int> WrappedSumAsync(this IQueryable<int> source, CancellationToken cancellationToken = default)
+        {
+            return source.Switch(
+              () => Queryable.Sum(source),
+              () => LinqExtensionMethods.SumAsync(source, cancellationToken));
+        }
+        public static Task<int?> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, int?>> selector, CancellationToken cancellationToken = default)
+        {
+            return source.Switch(
+              () => Queryable.Sum(source, selector),
+              () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
+        }
+        public static Task<decimal> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal>> selector, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source, selector),
               () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
         }
 
-        public static Task<double?> SumAsync(this IQueryable<double?> source, CancellationToken cancellationToken = default)
+        public static Task<double> WrappedSumAsync(this IQueryable<double> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source),
               () => LinqExtensionMethods.SumAsync(source, cancellationToken));
         }
-        public static Task<decimal> SumAsync(this IQueryable<decimal> source, CancellationToken cancellationToken = default)
+        public static Task<double?> WrappedSumAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, double?>> selector, CancellationToken cancellationToken = default)
+        {
+            return source.Switch(
+              () => Queryable.Sum(source, selector),
+              () => LinqExtensionMethods.SumAsync(source, selector, cancellationToken));
+        }
+
+        public static Task<double?> WrappedSumAsync(this IQueryable<double?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source),
               () => LinqExtensionMethods.SumAsync(source, cancellationToken));
         }
-        public static Task<decimal?> SumAsync(this IQueryable<decimal?> source, CancellationToken cancellationToken = default)
+        public static Task<decimal> WrappedSumAsync(this IQueryable<decimal> source, CancellationToken cancellationToken = default)
+        {
+            return source.Switch(
+              () => Queryable.Sum(source),
+              () => LinqExtensionMethods.SumAsync(source, cancellationToken));
+        }
+        public static Task<decimal?> WrappedSumAsync(this IQueryable<decimal?> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Queryable.Sum(source),
               () => LinqExtensionMethods.SumAsync(source, cancellationToken));
         }
 
-        public static Task<List<TSource>> ToListAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
+        public static Task<List<TSource>> WrappedToListAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
         {
             return source.Switch(
               () => Enumerable.ToList(source),

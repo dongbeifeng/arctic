@@ -25,8 +25,8 @@ namespace Arctic.NHibernateExtensions.Tests
         {
             var q = Enumerable.Range(1, 19).AsQueryable();
 
-            var v1 = await q.AllAsync(x => x < 0);
-            var v2 = await q.AllAsync(x => x > 0);
+            var v1 = await q.WrappedAllAsync(x => x < 0);
+            var v2 = await q.WrappedAllAsync(x => x > 0);
 
             Assert.False(v1);
             Assert.True(v2);
@@ -38,8 +38,8 @@ namespace Arctic.NHibernateExtensions.Tests
             var q1 = Enumerable.Range(1, 19).AsQueryable();
             var q2 = Enumerable.Range(1, 0).AsQueryable();
 
-            var v1 = await q1.AnyAsync();
-            var v2 = await q2.AnyAsync();
+            var v1 = await q1.WrappedAnyAsync();
+            var v2 = await q2.WrappedAnyAsync();
 
             Assert.True(v1);
             Assert.False(v2);
@@ -50,8 +50,8 @@ namespace Arctic.NHibernateExtensions.Tests
         {
             var q = Enumerable.Range(1, 19).AsQueryable();
 
-            var v1 = await q.AnyAsync(x => x < 0);
-            var v2 = await q.AnyAsync(x => x > 0);
+            var v1 = await q.WrappedAnyAsync(x => x < 0);
+            var v2 = await q.WrappedAnyAsync(x => x > 0);
 
             Assert.False(v1);
             Assert.True(v2);
@@ -64,7 +64,7 @@ namespace Arctic.NHibernateExtensions.Tests
         {
             var q = Enumerable.Range(1, 19).AsQueryable();
 
-            var v1 = await q.ToListAsync();
+            var v1 = await q.WrappedToListAsync();
 
             Assert.Equal(19, v1.Count);
         }
