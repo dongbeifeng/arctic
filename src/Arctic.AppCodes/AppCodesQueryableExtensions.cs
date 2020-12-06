@@ -32,7 +32,7 @@ namespace Arctic.AppCodes
             return q
                 .Where(x => x.AppCodeType == appCodeType)
                 .OrderBy(x => x.DisplayOrder)
-                .ToListAsync();
+                .WrappedToListAsync();
         }
     }
 }

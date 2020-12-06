@@ -40,7 +40,7 @@ namespace Arctic.Books
         public virtual string Author { get; set; }
 
         /// <summary>
-        /// 值类型天然不可为 null。
+        /// 值类型不需要加 Required。
         /// </summary>
         public virtual DateTime PublicationDate { get; set; }
 
@@ -48,10 +48,11 @@ namespace Arctic.Books
 
         #region auditing properties
 
-        #endregion
         public virtual string cuser { get; set; }
         public virtual string muser { get; set; }
         public virtual DateTime mtime { get; set; }
         public virtual DateTime ctime { get; set; }
+
+        #endregion
     }
 }
