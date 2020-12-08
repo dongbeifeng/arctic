@@ -24,7 +24,6 @@ namespace Arctic.Web
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class OperationTypeAttribute : AuthorizeAttribute, IActionFilter
     {
-        const string POLICY_PREFIX = "OPERATION_TYPE_";
 
         /// <summary>
         /// 初始化新实例
@@ -46,11 +45,11 @@ namespace Arctic.Web
                 {
                     throw new Exception();
                 }
-                return Policy[POLICY_PREFIX.Length..];
+                return Policy[POLICY_PREFIX.Value.Length..];
             }
             set
             {
-                Policy = $"{POLICY_PREFIX}{value}";
+                Policy = $"{POLICY_PREFIX.Value}{value}";
             }
         }
 

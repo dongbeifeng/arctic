@@ -22,14 +22,13 @@ namespace Arctic.Web
 {
     internal class OperationTypePolicyProvider : IAuthorizationPolicyProvider
     {
-        const string POLICY_PREFIX = "OPTYPE_";
-        readonly IOperaionTypePermissions _opTypePermissions;
+        readonly IOperaionTypeAuthoriztion _permissions;
         readonly ILogger _logger;
         public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
 
-        public OperationTypePolicyProvider(IOperaionTypePermissions opTypePermissions, IOptions<AuthorizationOptions> options, ILogger logger)
+        public OperationTypePolicyProvider(IOperaionTypeAuthoriztion permissions, IOptions<AuthorizationOptions> options, ILogger logger)
         {
-            _opTypePermissions = opTypePermissions;
+            _permissions = permissions;
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
             _logger = logger;
         }
@@ -41,10 +40,10 @@ namespace Arctic.Web
 
         public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {
-            if (policyName.StartsWith(POLICY_PREFIX, StringComparison.OrdinalIgnoreCase))
+            if (policyName.StartsWith(POLICY_PREFIX.Value, StringComparison.OrdinalIgnoreCase))
             {
-                string opType = policyName[POLICY_PREFIX.Length..];
-                var roles = _opTypePermissions.GetAllowedRoles(opType).ToArray();
+                string opType = policyName[POLICY_PREFIX.Value.Length..];
+                var roles = _permissions.GetAllowedRoles(opType).ToArray();
                 if (roles.Length > 0)
                 {
                     var policy = new AuthorizationPolicyBuilder()

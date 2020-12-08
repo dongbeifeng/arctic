@@ -19,9 +19,9 @@ using System.Linq;
 namespace Arctic.Web
 {
     /// <summary>
-    /// <see cref="IOperaionTypePermissions"/> 接口的默认实现
+    /// <see cref="IOperaionTypeAuthoriztion"/> 接口的默认实现
     /// </summary>
-    public class DefaultOperaionTypePermissions : IOperaionTypePermissions
+    public class DefaultOperaionTypeAuthoriztion : IOperaionTypeAuthoriztion
     {
         readonly ISessionFactory _sessionFactory;
 
@@ -31,7 +31,7 @@ namespace Arctic.Web
         /// 初始化新实例。
         /// </summary>
         /// <param name="sessionFactory"></param>
-        public DefaultOperaionTypePermissions(ISessionFactory sessionFactory)
+        public DefaultOperaionTypeAuthoriztion(ISessionFactory sessionFactory)
         {
             _sessionFactory = sessionFactory;
         }

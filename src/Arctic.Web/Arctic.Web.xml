@@ -4,6 +4,69 @@
         <name>Arctic.Web</name>
     </assembly>
     <members>
+        <member name="T:Arctic.Web.DefaultOperaionTypeAuthoriztion">
+            <summary>
+            <see cref="T:Arctic.Web.IOperaionTypeAuthoriztion"/> 接口的默认实现
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.DefaultOperaionTypeAuthoriztion.#ctor(NHibernate.ISessionFactory)">
+            <summary>
+            初始化新实例。
+            </summary>
+            <param name="sessionFactory"></param>
+        </member>
+        <member name="M:Arctic.Web.DefaultOperaionTypeAuthoriztion.GetAllowedRoles(System.String)">
+            <summary>
+            指定操作类型，获取允许执行此操作的角色。
+            </summary>
+            <param name="opType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.IOperaionTypeAuthoriztion">
+            <summary>
+            提供为操作类型获取授权的方法。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.IOperaionTypeAuthoriztion.GetAllowedRoles(System.String)">
+            <summary>
+            指定操作类型，获取允许执行此操作的角色。
+            </summary>
+            <param name="operationType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Arctic.Web.OperationTypeAttribute">
+            <summary>
+            指示 Action 的操作类型，并对用户授权。
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.#ctor(System.String)">
+            <summary>
+            初始化新实例
+            </summary>
+            <param name="operationType"></param>
+        </member>
+        <member name="P:Arctic.Web.OperationTypeAttribute.OperationType">
+            <summary>
+            获取或设置操作类型
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)"/>。
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Arctic.Web.OperationTypeAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)"/>。
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="F:Arctic.Web.POLICY_PREFIX.Value">
+            <summary>
+            POLICY 常数
+            </summary>
+        </member>
         <member name="T:Arctic.Web.Books.BookDetail">
             <summary>
             图书详细页的数据项。
@@ -360,64 +423,6 @@
             <summary>
             描述操作结果的消息
             </summary>
-        </member>
-        <member name="T:Arctic.Web.DefaultOperaionTypePermissions">
-            <summary>
-            <see cref="T:Arctic.Web.IOperaionTypePermissions"/> 接口的默认实现
-            </summary>
-        </member>
-        <member name="M:Arctic.Web.DefaultOperaionTypePermissions.#ctor(NHibernate.ISessionFactory)">
-            <summary>
-            初始化新实例。
-            </summary>
-            <param name="sessionFactory"></param>
-        </member>
-        <member name="M:Arctic.Web.DefaultOperaionTypePermissions.GetAllowedRoles(System.String)">
-            <summary>
-            指定操作类型，获取允许执行此操作的角色。
-            </summary>
-            <param name="opType"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Arctic.Web.IOperaionTypePermissions">
-            <summary>
-            提供为操作类型获取授权的方法。
-            </summary>
-        </member>
-        <member name="M:Arctic.Web.IOperaionTypePermissions.GetAllowedRoles(System.String)">
-            <summary>
-            指定操作类型，获取允许执行此操作的角色。
-            </summary>
-            <param name="operationType"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Arctic.Web.OperationTypeAttribute">
-            <summary>
-            指示 Action 的操作类型，并对用户授权。
-            </summary>
-        </member>
-        <member name="M:Arctic.Web.OperationTypeAttribute.#ctor(System.String)">
-            <summary>
-            初始化新实例
-            </summary>
-            <param name="operationType"></param>
-        </member>
-        <member name="P:Arctic.Web.OperationTypeAttribute.OperationType">
-            <summary>
-            获取或设置操作类型
-            </summary>
-        </member>
-        <member name="M:Arctic.Web.OperationTypeAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
-            <summary>
-            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)"/>。
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:Arctic.Web.OperationTypeAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
-            <summary>
-            实现 <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)"/>。
-            </summary>
-            <param name="context"></param>
         </member>
     </members>
 </doc>

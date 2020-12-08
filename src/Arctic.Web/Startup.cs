@@ -79,7 +79,7 @@ namespace Arctic.Web
                     // Configuration.Bind("JwtSetting", options);
                 });
             services.AddSingleton<IAuthorizationPolicyProvider, OperationTypePolicyProvider>();
-            services.AddSingleton<IOperaionTypePermissions, DefaultOperaionTypePermissions>();
+            services.AddSingleton<IOperaionTypeAuthoriztion, DefaultOperaionTypeAuthoriztion>();
             services.AddAuthorization(options => {
             });
 
