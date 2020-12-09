@@ -56,7 +56,7 @@ namespace Arctic.Web
 
             //}
             // TODO 实现功能：如果 listArgs 上有 Filter<T>(IListArgs<T>) 方法，则首先调用 Filter 方法
-            var props = argsType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var props = argsType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (var prop in props)
             {
                 var attr = prop.GetCustomAttribute<ListFilterAttribute>();
@@ -67,9 +67,38 @@ namespace Arctic.Web
 
                 object? val = GetPropertyValue(prop, listArgs);
 
-                if (val != null)
+                if (val == null)
                 {
+                    continue;
+                }
 
+
+                if (attr.Operator == ListFilterOperator.Linq)
+                {
+                    string exprProp = prop.Name + "Expr";
+
+                    PropertyInfo? pi = argsType.GetProperty(exprProp, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                    if (pi == null)
+                    {
+                        throw new InvalidOperationException($"表达式属性不存在，{exprProp}");
+                    }
+
+                    object? expr = pi.GetValue(listArgs, null);
+                    if (expr == null)
+                    {
+                        continue;
+                    }
+                    if (expr is Expression<Func<T, bool>> e)
+                    {
+                        q = q.Where(e);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"{exprProp} 的类型不是 {typeof(Expression<Func<T, bool>>)}");
+                    }
+                }
+                else
+                {
                     string targetProperty;
                     if (attr.TargetProperty != null)
                     {
@@ -100,8 +129,14 @@ namespace Arctic.Web
                         case ListFilterOperator.LTE:
                             q = q.Where($"{targetProperty} <= @0", val);
                             break;
-                        default:
+                        case ListFilterOperator.IN:
+                            if (val is Array arr && arr.Length > 0)
+                            {
+                                q = q.Where($"@0.Contains({targetProperty})", val);
+                            }
                             break;
+                        default:
+                            throw new NotSupportedException("不支持的查询操作");
                     }
                 }
             }
@@ -175,8 +210,8 @@ namespace Arctic.Web
             {
                 string sortOrder = entry.Value?.ToString()?.ToLower() switch
                 {
-                    "desc" 
-                    or "descend" 
+                    "desc"
+                    or "descend"
                     or "descending" => "DESC",
                     _ => "ASC"
                 };

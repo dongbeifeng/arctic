@@ -20,35 +20,44 @@ namespace Arctic.Web
     public enum ListFilterOperator
     {
         /// <summary>
-        /// 相等
+        /// 表示目标字段等于查询参数
         /// </summary>
         E,
-        
+
         /// <summary>
-        /// like
-        /// </summary>
-        
+        /// 表示目标字段 like 查询参数
+        /// </summary>        
         Like,
 
         /// <summary>
-        /// 大于
+        /// 表示目标字段大于查询参数
         /// </summary>
         GT,
 
         /// <summary>
-        /// 大于等于
+        /// 表示目标字段大于等于查询参数
         /// </summary>
         GTE,
 
         /// <summary>
-        /// 小于
+        /// 表示目标字段小于查询参数
         /// </summary>
         LT,
 
         /// <summary>
-        /// 小于等于
+        /// 表示目标字段小于等于查询参数
         /// </summary>
         LTE,
+
+        /// <summary>
+        /// 表示目标字段 IN 查询参数
+        /// </summary>
+        IN,
+
+        /// <summary>
+        /// 使用 Linq 查询，用于查询方式不整齐的情况。如果应用于名为 X 的属性上，则会寻找 XExpr 的属性以获取表示谓词的 <see cref="Expression{TDelegate}"/>，TDelegate 是 <see cref="Func{T, TResult}"/>
+        /// </summary>
+        Linq,
     }
 
 }

@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
 using static Arctic.Web.ListFilterOperator;
@@ -31,13 +32,52 @@ namespace Arctic.Web.Tests
             public string? Author { get; set; }
         }
 
-        class FooListArgs : IListArgs<Foo>
+        class NormalFooListArgs : IListArgs<Foo>
         {
-            [ListFilter(Operator = Like)]
+            [ListFilter(ListFilterOperator.Like)]
             public string? Title { get; set; }
 
             [ListFilter]
             public string? Author { get; set; }
+
+
+            public OrderedDictionary? Sort { get; set; }
+
+            public int? Current { get; set; }
+
+            public int? PageSize { get; set; }
+
+        }
+
+        class LinqFooListArgs : IListArgs<Foo>
+        {
+            [ListFilter(ListFilterOperator.Linq)]
+            public string? Title { get; set; }
+
+            internal Expression<Func<Foo, bool>>? TitleExpr
+            {
+                get
+                {
+                    if (Title == null)
+                    {
+                        return null;
+                    }
+                    return x => x.Title != null && x.Title.Contains(Title);
+                }
+            }
+
+            public OrderedDictionary? Sort { get; set; }
+
+            public int? Current { get; set; }
+
+            public int? PageSize { get; set; }
+
+        }
+
+        class InFooListArgs : IListArgs<Foo>
+        {
+            [ListFilter(ListFilterOperator.IN)]
+            public string[]? Author { get; set; }
 
             public OrderedDictionary? Sort { get; set; }
 
@@ -49,7 +89,7 @@ namespace Arctic.Web.Tests
 
 
         [Fact]
-        public async Task TestListAsync()
+        public async Task TestToPagedListNormalAsync()
         {
             var list = new List<Foo>
             {
@@ -58,7 +98,7 @@ namespace Arctic.Web.Tests
                 new Foo{ Title = "the quick brown dog jumps over a lazy fox", Author = "Dog" },
             }.AsQueryable();
 
-            FooListArgs args = new FooListArgs
+            NormalFooListArgs args = new NormalFooListArgs
             {
                 Author = " Fox    ",
                 Title = "fox jumps*",
@@ -73,6 +113,53 @@ namespace Arctic.Web.Tests
             Assert.Equal(10, size);
             Assert.Equal("Fox", items[0].Author);
         }
+
+        [Fact]
+        public async Task TestToPagedListLinqAsync()
+        {
+            var list = new List<Foo>
+            {
+                new Foo{ Title = "the quick brown fox jumps over a lazy dog", Author = "Fox" },
+                new Foo{ Title = "the quick brown fox jumps over a lazy dog", Author = "Fox" },
+                new Foo{ Title = "the quick brown dog jumps over a lazy fox", Author = "Dog" },
+            }.AsQueryable();
+
+            LinqFooListArgs args = new LinqFooListArgs
+            {
+                Title = "fox jumps",
+            };
+            var (items, current, size, total) = await list.ToPagedListAsync(args);
+
+            Assert.Equal(2, total);
+            Assert.Equal(2, items.Count);
+            Assert.Equal(1, current);
+            Assert.Equal(10, size);
+            Assert.Equal("Fox", items[0].Author);
+        }
+
+        [Fact]
+        public async Task TestToPagedListInAsync()
+        {
+            var list = new List<Foo>
+            {
+                new Foo{ Title = "the quick brown fox jumps over a lazy dog", Author = "Fox" },
+                new Foo{ Title = "the quick brown fox jumps over a lazy dog", Author = "Fox" },
+                new Foo{ Title = "the quick brown dog jumps over a lazy fox", Author = "Dog" },
+            }.AsQueryable();
+
+            InFooListArgs args = new InFooListArgs
+            {
+                Author = new[] { "Fox" },
+            };
+            var (items, current, size, total) = await list.ToPagedListAsync(args);
+
+            Assert.Equal(2, total);
+            Assert.Equal(2, items.Count);
+            Assert.Equal(1, current);
+            Assert.Equal(10, size);
+            Assert.Equal("Fox", items[0].Author);
+        }
+
     }
 
 }

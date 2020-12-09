@@ -35,14 +35,14 @@ namespace Arctic.Web.Books
         /// <summary>
         /// 出版日期
         /// </summary>
-        [ListFilter("PublicationDate", ListFilterOperator.GTE )]
+        [ListFilter(ListFilterOperator.GTE, "PublicationDate")]
         public DateTime? PublicationDateFrom { get; set; }
 
 
         /// <summary>
         /// 出版日期
         /// </summary>
-        [ListFilter("PublicationDate", ListFilterOperator.LT)]
+        [ListFilter(ListFilterOperator.LT, "PublicationDate")]
         public DateTime? PublicationDateTo { get; set; }
 
         /// <summary>
