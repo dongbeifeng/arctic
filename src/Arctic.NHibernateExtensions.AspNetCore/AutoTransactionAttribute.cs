@@ -100,7 +100,7 @@ namespace Arctic.NHibernateExtensions.AspNetCore
 
                 filterContext.Result = new OkObjectResult(new
                 {
-                    Success = true,
+                    Success = false,
                     Message = "操作失败，" + filterContext.Exception.Message,
                 });
                 filterContext.ExceptionHandled = true;
