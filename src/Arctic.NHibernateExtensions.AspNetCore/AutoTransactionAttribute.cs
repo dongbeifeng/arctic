@@ -98,12 +98,12 @@ namespace Arctic.NHibernateExtensions.AspNetCore
                 _sw.Stop();
                 _logger.Information("AutoTransaction 已回滚，{url}，耗时 {elapsedTime} 毫秒。", filterContext.HttpContext.Request.GetDisplayUrl(), _sw.ElapsedMilliseconds);
 
-                Func<Exception, ActionResult> _errorHandler = filterContext.HttpContext.GetResultFactoryOnError();
-                if (_errorHandler != null)
+                filterContext.Result = new OkObjectResult(new
                 {
-                    filterContext.Result = _errorHandler(filterContext.Exception);
-                    filterContext.ExceptionHandled = true;
-                }
+                    Success = true,
+                    Message = "操作失败，" + filterContext.Exception.Message,
+                });
+                filterContext.ExceptionHandled = true;
             }
         }
     }
