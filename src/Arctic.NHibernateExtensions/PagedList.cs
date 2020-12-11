@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,33 +13,14 @@
 // limitations under the License.
 
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 
-namespace Arctic.Web
+namespace Arctic.NHibernateExtensions
 {
     /// <summary>
-    /// 定义列表页参数。
+    /// 表示分页的列表。页码基于 1。
     /// </summary>
-    /// <typeparam name="T">目标类型</typeparam>
-    public interface IListArgs<T>
-    {
-        /// <summary>
-        /// 获取或设置排序信息。
-        /// </summary>
-        OrderedDictionary? Sort { get; set; }
+    /// <typeparam name="T"></typeparam>
+    public record PagedList<T>(List<T> List, int CurrentPage, int PageSize, int Total);
 
-        /// <summary>
-        /// 获取或设置基于 1 的分页索引。
-        /// </summary>
-        int? Current { get; set; }
-
-        /// <summary>
-        /// 获取或设置每页大小。
-        /// </summary>
-        int? PageSize { get; set; }
-
-
-    }
 
 }

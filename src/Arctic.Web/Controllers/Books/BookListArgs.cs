@@ -24,7 +24,7 @@ namespace Arctic.Web.Books
     /// <summary>
     /// 图书列表查询参数
     /// </summary>
-    public class BookListArgs : IListArgs<Book>
+    public class BookListArgs : ISearchArgs<Book>
     {
         /// <summary>
         /// 标题，支持模糊查找

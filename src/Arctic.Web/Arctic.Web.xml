@@ -315,11 +315,6 @@
             <param name="listArgs">列表参数</param>
             <returns></returns>
         </member>
-        <member name="T:Arctic.Web.ListArgsExtensions.SqlMethods">
-            <summary>
-            代替 <see cref="M:NHibernate.Linq.SqlMethods.Like(System.String,System.String)"/>，以提供内存里的简单模糊查询。
-            </summary>
-        </member>
         <member name="T:Arctic.Web.ListFilterAttribute">
             <summary>
             用于修饰 <see cref="T:Arctic.Web.IListArgs`1"/> 中的属性，

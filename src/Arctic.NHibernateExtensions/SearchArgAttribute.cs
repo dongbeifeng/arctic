@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+﻿// Copyright 2020 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Collections.Generic;
+using System;
 
-namespace Arctic.Web
+namespace Arctic.NHibernateExtensions
 {
     /// <summary>
-    /// 表示分页的列表。
-    /// CurrentPage 基于 1。
+    /// 指示查询方式，如果不指定，则为 <see cref="SearchMode.Equal"/>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public record PagedList<T>(List<T> List, int CurrentPage, int PageSize, int Total);
+    [System.AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
+    public sealed class SearchArgAttribute : Attribute
+    {
+        public SearchArgAttribute(SearchMode searchMode = SearchMode.Equal)
+        {
+            this.SeachMode = searchMode;
+        }
+
+        public SearchMode SeachMode { get; private set; }
+    }
+
 
 }
