@@ -65,7 +65,8 @@ namespace Arctic.NHibernateExtensions
             var props = argsType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (var argProp in props)
             {
-                if (argProp.IsDefined(typeof(NonSearchArgAttribute)))
+                SearchArgAttribute? searchModeAttribute = argProp.GetCustomAttribute<SearchArgAttribute>();
+                if (searchModeAttribute == null)
                 {
                     continue;
                 }
@@ -91,13 +92,8 @@ namespace Arctic.NHibernateExtensions
                     throw new InvalidOperationException($"类型 {typeof(T)} 上没有名为 {sourcePropertyName} 的属性");
                 }
 
-                SearchMode searchMode = SearchMode.Equal;
-                SearchArgAttribute? searchModeAttribute = argProp.GetCustomAttribute<SearchArgAttribute>();
-                if (searchModeAttribute != null)
-                {
-                    searchMode = searchModeAttribute.SeachMode;
-                }
-                switch (searchMode)
+
+                switch (searchModeAttribute.SeachMode)
                 {
                     case SearchMode.Equal:
                             q = q.Where($"{sourcePropertyName} == @0", argVal);

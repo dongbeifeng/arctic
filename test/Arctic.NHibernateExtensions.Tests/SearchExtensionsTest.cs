@@ -35,6 +35,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
 
         class EqualArgs
         {
+            [SearchArg]
             public string? Name { get; set; }
 
             [SearchArg(SearchMode.Equal)]
@@ -104,11 +105,6 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             }
         }
 
-        class NonSearchArgs
-        {
-            [NonSearchArg]
-            public string? Name { get; set; }
-        }
 
         #endregion
 
@@ -309,29 +305,6 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             Assert.Equal("Dog", list1[1].Name);
         }
 
-        [Fact]
-        public void TestNonSearchArg()
-        {
-            var list = new List<Student>
-            {
-                new Student{ Name = "Fox", No = 1 },
-                new Student{ Name = "Dog", No = 2 },
-                new Student{ Name = "Cat", No = 3 },
-            };
-            var q = list.AsQueryable();
-
-            NonSearchArgs args = new NonSearchArgs
-            {
-                Name = "Dog"
-            };
-
-            var list1 = q.Filter(args).ToList();
-
-            Assert.Equal(3, list1.Count);
-            Assert.Equal("Fox", list1[0].Name);
-            Assert.Equal("Dog", list1[1].Name);
-            Assert.Equal("Cat", list1[2].Name);
-        }
 
         [Fact]
         public void FilterMethodOnSearchArgsShouldBeInvoked()
