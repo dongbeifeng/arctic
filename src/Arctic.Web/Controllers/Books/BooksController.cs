@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.AspNetCore;
 using Arctic.Books;
-using Arctic.NHibernateExtensions.AspNetCore;
+using Arctic.NHibernateExtensions;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using Serilog;
@@ -47,7 +48,7 @@ namespace Arctic.Web.Books
         [Route("list")]
         public async Task<BookList> List(BookListArgs args)
         {
-            var pagedList = await _session.Query<Book>().ToPagedListAsync(args);
+            var pagedList = await _session.Query<Book>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new BookList
             {
                 Success = true,

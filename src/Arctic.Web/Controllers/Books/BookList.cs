@@ -31,6 +31,4 @@ namespace Arctic.Web.Books
         /// </summary>
         public int Total { get; init; }
     }
-
-
 }

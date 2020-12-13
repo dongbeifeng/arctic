@@ -32,7 +32,7 @@ namespace Arctic.Web.Books
         /// <summary>
         /// 作者
         /// </summary>
-        public string Author { get; set; }
+        public string? Author { get; set; }
 
         /// <summary>
         /// 价格

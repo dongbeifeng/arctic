@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Arctic.Books;
+using Arctic.NHibernateExtensions;
 using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
@@ -24,25 +25,27 @@ namespace Arctic.Web.Books
     /// <summary>
     /// 图书列表查询参数
     /// </summary>
-    public class BookListArgs : ISearchArgs<Book>
+    public class BookListArgs
     {
         /// <summary>
         /// 标题，支持模糊查找
         /// </summary>
-        [ListFilter(ListFilterOperator.Like)]
+        [SearchArg(SearchMode.Like)]
         public string? Title { get; set; }
 
         /// <summary>
         /// 出版日期
         /// </summary>
-        [ListFilter(ListFilterOperator.GTE, "PublicationDate")]
+        [SourceProperty("PublicationDate")]
+        [SearchArg(SearchMode.GreaterOrEqual)]
         public DateTime? PublicationDateFrom { get; set; }
 
 
         /// <summary>
         /// 出版日期
         /// </summary>
-        [ListFilter(ListFilterOperator.LT, "PublicationDate")]
+        [SourceProperty("PublicationDate")]
+        [SearchArg(SearchMode.Less)]
         public DateTime? PublicationDateTo { get; set; }
 
         /// <summary>
