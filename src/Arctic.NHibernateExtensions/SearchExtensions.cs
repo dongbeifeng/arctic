@@ -87,12 +87,6 @@ namespace Arctic.NHibernateExtensions
                     sourcePropertyName = sourcePropertyAttribute.PropertyName;
                 }
 
-                if (typeof(T).GetProperty(sourcePropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase) == null)
-                {
-                    throw new InvalidOperationException($"类型 {typeof(T)} 上没有名为 {sourcePropertyName} 的属性");
-                }
-
-
                 switch (searchModeAttribute.SeachMode)
                 {
                     case SearchMode.Equal:

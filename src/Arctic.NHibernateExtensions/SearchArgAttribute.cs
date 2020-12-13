@@ -17,7 +17,7 @@ using System;
 namespace Arctic.NHibernateExtensions
 {
     /// <summary>
-    /// 指示查询方式，如果不指定，则为 <see cref="SearchMode.Equal"/>
+    /// 指示属性是查询参数以及查询方式。
     /// </summary>
     [System.AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
     public sealed class SearchArgAttribute : Attribute
