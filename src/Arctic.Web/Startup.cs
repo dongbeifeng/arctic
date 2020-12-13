@@ -14,6 +14,7 @@
 
 using Arctic.AppCodes;
 using Arctic.AppSeqs;
+using Arctic.AspNetCore;
 using Arctic.Books;
 using Arctic.EventBus;
 using Arctic.NHibernateExtensions;
@@ -78,8 +79,7 @@ namespace Arctic.Web
                 {
                     // Configuration.Bind("JwtSetting", options);
                 });
-            services.AddSingleton<IAuthorizationPolicyProvider, OperationTypePolicyProvider>();
-            services.AddSingleton<IOperaionTypeAuthoriztion, DefaultOperaionTypeAuthoriztion>();
+            services.AddOperationType();
             services.AddAuthorization(options => {
             });
 

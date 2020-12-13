@@ -18,9 +18,9 @@ using Serilog;
 using System;
 using System.Threading.Tasks;
 
-namespace Arctic.Web
+namespace Arctic.AspNetCore
 {
-    internal class OperationTypePolicyProvider : IAuthorizationPolicyProvider
+    public class OperationTypePolicyProvider : IAuthorizationPolicyProvider
     {
         readonly IOperaionTypeAuthoriztion _permissions;
         readonly ILogger _logger;

@@ -21,7 +21,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 
-namespace Arctic.NHibernateExtensions.AspNetCore
+namespace Arctic.AspNetCore
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public sealed class AutoTransactionAttribute : TypeFilterAttribute

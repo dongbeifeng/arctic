@@ -19,7 +19,7 @@ using Serilog;
 using System;
 using System.Text.Json;
 
-namespace Arctic.Web
+namespace Arctic.AspNetCore
 {
     /// <summary>
     /// 向日志写入 Action 的参数。

@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 
-namespace Arctic.Web
+namespace Arctic.AspNetCore
 {
     /// <summary>
     /// 指示 Action 的操作类型，并对用户授权。
@@ -70,7 +70,4 @@ namespace Arctic.Web
             context.HttpContext.Items[typeof(OperationTypeAttribute)] = OperationType;
         }
     }
-
-
-
 }

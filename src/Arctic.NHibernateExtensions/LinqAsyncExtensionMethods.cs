@@ -22,6 +22,9 @@ using System.Threading.Tasks;
 
 namespace Arctic.NHibernateExtensions
 {
+    /// <summary>
+    /// 提供包装的 Linq 异步方法，以便在数据库和内存两种场景都可工作。
+    /// </summary>
     public static class LinqAsyncExtensionMethods
     {
         static Task<TResult> Switch<TSource, TResult>(this IQueryable<TSource> source, Func<TResult> whenMemory, Func<Task<TResult>> whenNh)

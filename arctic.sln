@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.Auditing", "src\Arct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.NHibernateExtensions.Tests", "test\Arctic.NHibernateExtensions.Tests\Arctic.NHibernateExtensions.Tests.csproj", "{8FECF196-53AD-4776-B928-BE36E17A45B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.NHibernateExtensions.AspNetCore", "src\Arctic.NHibernateExtensions.AspNetCore\Arctic.NHibernateExtensions.AspNetCore.csproj", "{EDB00B66-5E4B-4997-8A75-0D2B4D4BC07B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.AspNetCore", "src\Arctic.AspNetCore\Arctic.AspNetCore.csproj", "{EDB00B66-5E4B-4997-8A75-0D2B4D4BC07B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arctic.Web.Tests", "test\Arctic.Web.Tests\Arctic.Web.Tests.csproj", "{A31764E0-BF4F-472E-830A-2CE8709FFACD}"
 EndProject

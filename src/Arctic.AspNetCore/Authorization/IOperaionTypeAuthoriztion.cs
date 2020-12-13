@@ -12,16 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Arctic.Web
+using System;
+using System.Collections.Generic;
+
+namespace Arctic.AspNetCore
 {
-    internal static class POLICY_PREFIX
+    /// <summary>
+    /// 提供为操作类型获取授权的方法。
+    /// </summary>
+    public interface IOperaionTypeAuthoriztion
     {
         /// <summary>
-        /// POLICY 常数
+        /// 指定操作类型，获取允许执行此操作的角色。
         /// </summary>
-        public const string Value = "OPERATION_TYPE_";
+        /// <param name="operationType"></param>
+        /// <returns></returns>
+        List<string> GetAllowedRoles(string operationType);
+
     }
-
-
-
 }

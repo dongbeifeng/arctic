@@ -31,9 +31,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Arctic.AppCodes\Arctic.AppCodes.csproj" />
     <ProjectReference Include="..\Arctic.AppSeqs\Arctic.AppSeqs.csproj" />
+    <ProjectReference Include="..\Arctic.AspNetCore\Arctic.AspNetCore.csproj" />
     <ProjectReference Include="..\Arctic.Books\Arctic.Books.csproj" />
     <ProjectReference Include="..\Arctic.EventBus\Arctic.EventBus.csproj" />
-    <ProjectReference Include="..\Arctic.NHibernateExtensions.AspNetCore\Arctic.NHibernateExtensions.AspNetCore.csproj" />
     <ProjectReference Include="..\Arctic.NHibernateExtensions\Arctic.NHibernateExtensions.csproj" />
   </ItemGroup>
 

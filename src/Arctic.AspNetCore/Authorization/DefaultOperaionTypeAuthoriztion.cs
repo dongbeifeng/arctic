@@ -16,9 +16,8 @@ using NHibernate;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Arctic.Web
-{
-    /// <summary>
+namespace Arctic.AspNetCore
+{   /// <summary>
     /// <see cref="IOperaionTypeAuthoriztion"/> 接口的默认实现
     /// </summary>
     public class DefaultOperaionTypeAuthoriztion : IOperaionTypeAuthoriztion
@@ -72,5 +71,6 @@ namespace Arctic.Web
             }
         }
     }
+
 
 }
