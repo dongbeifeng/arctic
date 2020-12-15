@@ -36,6 +36,82 @@ dotnet run
 
 NHibernate 支持多种关系型数据库。程序开发时使用的数据库是 SQL Server 2019 Developer。
 
-## 前端
+## 列表页
 
-* `IListArgs<T>` 接口的字段名称是适应 [Ant design pro](https://pro.ant.design/) 设计的。
+列表页有一个查询参数，名称形式为 `XListArgs`，查询参数包装了查询条件，排序条件和分页条件：
+
+``` csharp
+
+/// <summary>
+/// 图书列表查询参数
+/// </summary>
+public class BookListArgs
+{
+    //
+    // 使用 SearchArgAttribute，表示这个属性是查询条件
+    // SearchMode.Like 表示使用模糊查询
+    // 下面的属性表示 source.Title like this.Title
+    // 
+    /// <summary>
+    /// 标题，支持模糊查找，使用 ? 表示一个字符，使用 * 表示任意个字符
+    /// </summary>
+    [SearchArg(SearchMode.Like)]
+    public string? Title { get; set; }
+
+    //
+    // SourceProperty 表示在哪个属性上查询
+    // SearchMode.GreaterOrEqual 表示 大于等于
+    // 下面的属性表示 source.PublicationDate >= this.PublicationDateFrom
+    // 
+    /// <summary>
+    /// 出版日期
+    /// </summary>
+    [SourceProperty("PublicationDate")]
+    [SearchArg(SearchMode.GreaterOrEqual)]
+    public DateTime? PublicationDateFrom { get; set; }
+
+
+    /// <summary>
+    /// 出版日期
+    /// </summary>
+    [SourceProperty("PublicationDate")]
+    [SearchArg(SearchMode.Less)]
+    public DateTime? PublicationDateTo { get; set; }
+
+    // 
+    // Sort 表示排序条件，字典的键表示排序字段，值表示排序顺序，
+    // 例如 { "Title": "asc", PublicationDate: "desc" } 表示
+    // ORDER BY Title ASC, PublicationDate DESC
+    // 
+    /// <summary>
+    /// 排序字段
+    /// </summary>
+    public OrderedDictionary? Sort { get; set; }
+
+    /// <summary>
+    /// 基于 1 的当前页面。
+    /// </summary>
+    public int? Current { get; set; }
+
+    /// <summary>
+    /// 每页大小
+    /// </summary>
+    public int? PageSize { get; set; }
+
+}
+
+```
+
+查询通过反射生成，列表页参数类不需要实现任何接口：
+
+``` csharp
+
+var pagedList = await _session.Query<Book>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
+
+```
+
+## TODO
+
+* ids4
+* docker
+* ELK

@@ -28,7 +28,7 @@ namespace Arctic.Web.Books
     public class BookListArgs
     {
         /// <summary>
-        /// 标题，支持模糊查找
+        /// 标题，支持模糊查找，使用 ? 表示一个字符，使用 * 表示任意个字符
         /// </summary>
         [SearchArg(SearchMode.Like)]
         public string? Title { get; set; }

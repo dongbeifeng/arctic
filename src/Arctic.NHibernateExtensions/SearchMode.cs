@@ -29,7 +29,7 @@ namespace Arctic.NHibernateExtensions
         /// <summary>
         /// 指示判断源属性是否 大于 查询参数值
         /// </summary>
-        GreaterThan,
+        Greater,
 
         /// <summary>
         /// 指示判断源属性是否 大于等于 查询参数值
