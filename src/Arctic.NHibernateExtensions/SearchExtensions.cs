@@ -95,7 +95,7 @@ namespace Arctic.NHibernateExtensions
                     case SearchMode.Like:
                             q = q.Where(CreateLikeExpression<T>(sourcePropertyName, (string)argVal));
                         break;
-                    case SearchMode.GreaterThan:
+                    case SearchMode.Greater:
                             q = q.Where($"{sourcePropertyName} > @0", argVal);
                         break;
                     case SearchMode.GreaterOrEqual:
