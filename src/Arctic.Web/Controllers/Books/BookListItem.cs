@@ -32,7 +32,7 @@ namespace Arctic.Web.Books
         /// <summary>
         /// 价格
         /// </summary>
-        public virtual decimal Price { get; init; }
+        public decimal Price { get; init; }
 
     }
 

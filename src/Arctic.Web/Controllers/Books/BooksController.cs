@@ -38,7 +38,7 @@ namespace Arctic.Web.Books
         }
 
         /// <summary>
-        /// 图书列表
+        /// 从数据库查询
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
@@ -46,13 +46,52 @@ namespace Arctic.Web.Books
         [DebugShowArgs]
         [AutoTransaction]
         [Route("list")]
-        public async Task<BookList> List(BookListArgs args)
+        public async Task<BookList> ListAsync(BookListArgs args)
         {
             var pagedList = await _session.Query<Book>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
             return new BookList
             {
                 Success = true,
                 Message = "OK",                
+                Data = pagedList.List.Select(x => new BookListItem
+                {
+                    BookId = x.BookId,
+                    Title = x.Title,
+                    Price = x.Price,
+                }),
+                Total = pagedList.Total
+            };
+        }
+
+        /// <summary>
+        /// 从内存数据查询
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [DebugShowArgs]
+        [Route("list2")]
+        public async Task<BookList> List2Async(BookListArgs args)
+        {
+            throw new Exception("123");
+            var q = Enumerable.Range(1, 100).Select(x => new Book
+            {
+                BookId = x,
+                Author = "Author",
+                ctime = DateTime.Now,
+                cuser = "cuser",
+                mtime = DateTime.Now,
+                muser = "muser",
+                Price = x,
+                PublicationDate = DateTime.Now.AddDays(-10 * x),
+                Title = "Title",
+            }).AsQueryable();
+
+            var pagedList = await q.SearchAsync(args, args.Sort, args.Current, args.PageSize);
+            return new BookList
+            {
+                Success = true,
+                Message = "OK",
                 Data = pagedList.List.Select(x => new BookListItem
                 {
                     BookId = x.BookId,
