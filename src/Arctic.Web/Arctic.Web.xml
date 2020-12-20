@@ -51,7 +51,8 @@
         </member>
         <member name="P:Arctic.Web.Books.BookListArgs.Title">
             <summary>
-            使用 SearchArg 表示属性是查询参数。SearchMode.Like 表示支持模糊查找，使用 ? 表示一个字符，使用 * 表示任意个字符。
+            使用 SearchArg 表示属性是查询参数。SearchMode.Like 表示支持模糊查找，
+            使用 ? 表示一个字符，使用 * 表示任意个字符。
             </summary>
         </member>
         <member name="P:Arctic.Web.Books.BookListArgs.PublicationDateFrom">
@@ -66,19 +67,16 @@
         </member>
         <member name="P:Arctic.Web.Books.BookListArgs.PublicationDateToExpr">
             <summary>
-            为 PublicationDateTo 属性提供查询表达式，应使用 internal 修饰符，否则 swagger 提供的接口文档会出现 System.Reflection 命名空间中的类型。
+            为 PublicationDateTo 属性提供查询表达式，应使用 internal 修饰符，
+            否则 swagger 提供的接口文档会出现 System.Reflection 命名空间中的类型。
             </summary>
         </member>
-        <member name="M:Arctic.Web.Books.BookListArgs.Filter(System.Linq.IQueryable{Arctic.Books.Book})">
-            <summary>
-            如果有名为 Filter 的公共方法，则 Filter 方法会先被调用。
-            </summary>
-            <param name="q"></param>
-            <returns></returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:Arctic.Web.Books.BookListArgs.Filter(System.Linq.IQueryable{Arctic.Books.Book})" -->
         <member name="P:Arctic.Web.Books.BookListArgs.Sort">
             <summary>
-            Sort 属性表示排序条件，字典的键表示排序字段，值表示排序顺序，例如 { "Title": "asc", PublicationDate: "desc" } 表示首先按 Title 属性升序排序，再按 PublicationDate 降序排序。
+            Sort 属性表示排序条件，字典的键表示排序字段，值表示排序顺序。
+            例如 { "Title": "asc", PublicationDate: "desc" } 
+            表示首先按 Title 属性升序排序，再按 PublicationDate 降序排序。
             </summary>
         </member>
         <member name="P:Arctic.Web.Books.BookListArgs.Current">

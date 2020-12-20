@@ -50,7 +50,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
 
         class GreaterThanArgs
         {
-            [SearchArg(SearchMode.GreaterThan)]
+            [SearchArg(SearchMode.Greater)]
             public int? No { get; set; }
         }
 
