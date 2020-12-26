@@ -468,6 +468,4 @@ namespace Arctic.NHibernateExtensions
               () => LinqExtensionMethods.ToListAsync(source, cancellationToken));
         }
     }
-
-
 }

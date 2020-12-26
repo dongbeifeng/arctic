@@ -41,14 +41,15 @@ namespace Arctic.Web.Books
         public DateTime? PublicationDateFrom { get; set; }
 
         /// <summary>
-        /// 当 SearchMode 为 Expression 时，则使用名为 PublicationDateToExpr 的属性来确定查询条件。
+        /// 当 SearchMode 为 Expression 时，则使用具有约定名称的的属性来确定查询条件。
+        /// 约定的属性名为此属性名后跟 Expr 后缀。
         /// </summary>
         [SearchArg(SearchMode.Expression)]
         public DateTime? PublicationDateTo { get; set; }
 
         /// <summary>
-        /// 为 PublicationDateTo 属性提供查询表达式，应使用 internal 修饰符，
-        /// 否则 swagger 提供的接口文档会出现 System.Reflection 命名空间中的类型。
+        /// 为 PublicationDateTo 属性提供查询表达式。
+        /// 应使用 internal 修饰符，否则 swagger 提供的接口文档会出现 System.Reflection 命名空间中的类型。
         /// </summary>
         internal Expression<Func<Book, bool>>? PublicationDateToExpr
         {
@@ -64,7 +65,7 @@ namespace Arctic.Web.Books
         }
 
         /// <summary>
-        /// 名为 Filter 的公共实例方法会先被调用。参数和返回值应为 IQueryable<Book>。
+        /// 名为 Filter 的公共实例方法会先被调用。参数和返回值应为 IQueryable{T}。
         /// </summary>
         /// <param name="q"></param>
         /// <returns></returns>

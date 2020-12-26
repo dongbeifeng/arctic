@@ -69,4 +69,35 @@ namespace Arctic.NHibernateExtensions.Tests
             Assert.Equal(19, v1.Count);
         }
     }
+
+    public class LoadInChunksQueryableExtensionsTest
+    {
+        [Fact]
+        public async Task TestToChunks()
+        {
+            var q = Enumerable.Range(1, 26).AsQueryable();
+
+            int i = 0;
+            int[] chunkSizes = new[] { 10, 10, 6 };
+            await foreach(var list in q.ToChunksAsync(10))
+            {
+                Assert.Equal(chunkSizes[i++], list.Count);
+            }
+        }
+
+        [Fact]
+        public async Task TestLoadInChunks()
+        {
+            var q = Enumerable.Range(1, 26).AsQueryable();
+
+            int i = 1;
+            await foreach (var item in q.LoadInChunksAsync(10))
+            {
+                Assert.Equal(i, item);
+                i++;
+            }
+        }
+
+    }
+
 }

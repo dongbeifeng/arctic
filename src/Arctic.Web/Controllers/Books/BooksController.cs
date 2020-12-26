@@ -183,5 +183,25 @@ namespace Arctic.Web.Books
             return new OperationResult { Success = true, Message = "OK" };
 
         }
+
+        /// <summary>
+        /// 测试按块加载查询，通过 SQL Server Profiler 验证 break 之后不会继续向数据库发出查询语句。
+        /// </summary>
+        /// <returns></returns>
+        [AutoTransaction]
+        [HttpPost("test-load-in-chunks")]
+        public async Task<int> TestLoadInChunks()
+        {
+            int i = 0;
+            await foreach(var book in _session.Query<Book>().LoadInChunksAsync(3))
+            {
+                i++;
+                if (i >= 5)
+                {
+                    break;
+                }
+            }
+            return i;
+        }
     }
 }
