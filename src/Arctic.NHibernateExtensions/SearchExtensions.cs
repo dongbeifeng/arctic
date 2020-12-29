@@ -267,18 +267,31 @@ namespace Arctic.NHibernateExtensions
             return sb.ToString();
         }
 
-        static Expression<Func<T, bool>> CreateLikeExpression<T>(string targetPropertyName, string likePattern)
+        static Expression<Func<T, bool>> CreateLikeExpression<T>(string sourcePropertyPath, string likePattern)
         {
-            // 要得到的表达式：x => SqlMethods.Like(x.StringField, "a%")
+            // 要得到的表达式：x => SqlMethods.Like(x.Foo.StringField, "a%")
             MethodInfo? mi = typeof(SqlMethods).GetMethod("Like", new Type[] { typeof(string), typeof(string) });
             if (mi == null)
             {
                 throw new InvalidOperationException();
             }
             ParameterExpression x = Expression.Parameter(typeof(T), "x");  // x
-            Expression stringField = Expression.Property(x, targetPropertyName);   // x.StringField
+
+            // 变量 propertyNames 的值: 
+            // [0]: Foo
+            // [1]: StringField
+            var propertyNames = sourcePropertyPath.Split(".").Select(x => x.Trim());
+            Expression parameter = x;
+            foreach (var propName in propertyNames)
+            {
+                // [0]: x.Foo
+                // [1]: x.Foo.StringField
+                parameter = Expression.Property(parameter, propName);
+            }
+            Expression stringField = parameter;
+
             Expression pattern = Expression.Constant(likePattern, typeof(string));  // 'a%'
-            Expression like = Expression.Call(null, mi, stringField, pattern); //  SqlMethods.Like(x.StringField, "a%")
+            Expression like = Expression.Call(null, mi, stringField, pattern); //  SqlMethods.Like(x.Foo.StringField, "a%")
 
             return Expression.Lambda<Func<T, bool>>(like, new ParameterExpression[] { x });
         }
