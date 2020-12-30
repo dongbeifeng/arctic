@@ -50,6 +50,12 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             public int? No { get; set; }
         }
 
+        class NotEqualArgs
+        {
+            [SearchArg(SearchMode.NotEqual)]
+            public int? No { get; set; }
+        }
+
         class LikeArgs
         {
             [SearchArg(SearchMode.Like)]
@@ -61,27 +67,38 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             public string? ClazzName { get; set; }
         }
 
-        class GreaterArgs
+        class NotLikeArgs
         {
-            [SearchArg(SearchMode.Greater)]
+            [SearchArg(SearchMode.NotLike)]
+            public string? StudentName { get; set; }
+
+
+            [SearchArg(SearchMode.NotLike)]
+            [SourceProperty("Clazz.ClazzName")]
+            public string? ClazzName { get; set; }
+        }
+
+        class GreaterThanArgs
+        {
+            [SearchArg(SearchMode.GreaterThan)]
             public int? No { get; set; }
         }
 
-        class GreaterOrEqualArgs
+        class GreaterThanOrEqualArgs
         {
-            [SearchArg(SearchMode.GreaterOrEqual)]
+            [SearchArg(SearchMode.GreaterThanOrEqual)]
             public int? No { get; set; }
         }
 
-        class LessArgs
+        class LessThanArgs
         {
-            [SearchArg(SearchMode.Less)]
+            [SearchArg(SearchMode.LessThan)]
             public int? No { get; set; }
         }
 
-        class LessOrEqualArgs
+        class LessThanOrEqualArgs
         {
-            [SearchArg(SearchMode.LessOrEqual)]
+            [SearchArg(SearchMode.LessThanOrEqual)]
             public int? No { get; set; }
         }
 
@@ -92,6 +109,13 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             public string[]? StudentNames { get; set; }
         }
 
+        class NotInArgs
+        {
+            [SourceProperty(nameof(Student.StudentName))]
+            [SearchArg(SearchMode.NotIn)]
+            public string[]? StudentNames { get; set; }
+        }   
+        
         class ExpressionArgs
         {
             [SearchArg(SearchMode.Expression)]
@@ -106,6 +130,24 @@ namespace Arctic.NHibernateExtensions.Web.Tests
                         return null;
                     }
                     return x => x.StudentName.Contains(StudentName);
+                }
+            }
+        }
+
+        class Expression2Args
+        {
+            [SearchArg(SearchMode.Expression)]
+            public bool? ShowInvisibleClazz { get; set; }
+
+            internal Expression<Func<Student, bool>>? ShowInvisibleClazzExpr
+            {
+                get
+                {
+                    if (ShowInvisibleClazz == true)
+                    {
+                        return null;
+                    }
+                    return x => x.Clazz.ClazzName != "invisible";
                 }
             }
         }
@@ -158,6 +200,29 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             Assert.Equal("Dog", list3[0].StudentName);
         }
 
+
+        [Fact]
+        public void TestNotEqual()
+        {
+            var list = new List<Student>
+            {
+                new Student{ StudentName = "Fox", No = 1 },
+                new Student{ StudentName = "Dog", No = 2 },
+                new Student{ StudentName = "Cat", No = 3 },
+            };
+            var q = list.AsQueryable();
+            NotEqualArgs args1 = new NotEqualArgs
+            {
+                No = 2,
+            };
+
+            var list1 = q.Filter(args1).ToList();
+
+            Assert.Equal(2, list1.Count);
+            Assert.Equal("Fox", list1[0].StudentName);
+            Assert.Equal("Cat", list1[1].StudentName);
+        }
+
         [Fact]
         public void TestLike()
         {
@@ -203,6 +268,48 @@ namespace Arctic.NHibernateExtensions.Web.Tests
         }
 
         [Fact]
+        public void TestNotLike()
+        {
+            var list = new List<Student>
+            {
+                new Student{ StudentName = "Fox", No = 1 },
+                new Student{ StudentName = "Dog", No = 2 },
+                new Student{ StudentName = "Cat", No = 3 },
+            };
+            var q = list.AsQueryable();
+            NotLikeArgs args1 = new NotLikeArgs
+            {
+                StudentName = "*o*   ",
+            };
+
+            var list1 = q.Filter(args1).ToList();
+
+            Assert.Single(list1);
+            Assert.Equal("Cat", list1[0].StudentName);
+        }
+
+        [Fact]
+        public void TestNotLike_NavigationProperty()
+        {
+            var list = new List<Student>
+            {
+                new Student{ StudentName = "Fox", Clazz = new Clazz{ ClazzName = "canine" }, No = 1 },
+                new Student{ StudentName = "Dog", Clazz = new Clazz{ ClazzName = "canine" }, No = 2 },
+                new Student{ StudentName = "Cat", Clazz = new Clazz{ ClazzName = "feline" }, No = 3 },
+            };
+            var q = list.AsQueryable();
+            NotLikeArgs args1 = new NotLikeArgs
+            {
+                ClazzName = "can*   ",
+            };
+
+            var list1 = q.Filter(args1).ToList();
+
+            Assert.Single(list1);
+            Assert.Equal("Cat", list1[0].StudentName);
+        }
+
+        [Fact]
         public void TestGreaterThan()
         {
             var list = new List<Student>
@@ -213,7 +320,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             };
             var q = list.AsQueryable();
 
-            GreaterArgs args = new GreaterArgs
+            GreaterThanArgs args = new GreaterThanArgs
             {
                 No = 1
             };
@@ -226,7 +333,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
         }
 
         [Fact]
-        public void TestGreaterOrEqual()
+        public void TestGreaterThanOrEqual()
         {
             var list = new List<Student>
             {
@@ -236,7 +343,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             };
             var q = list.AsQueryable();
 
-            GreaterOrEqualArgs args = new GreaterOrEqualArgs
+            GreaterThanOrEqualArgs args = new GreaterThanOrEqualArgs
             {
                 No = 2
             };
@@ -249,7 +356,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
         }
 
         [Fact]
-        public void TestLess()
+        public void TestLessThan()
         {
             var list = new List<Student>
             {
@@ -259,7 +366,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             };
             var q = list.AsQueryable();
 
-            LessArgs args = new LessArgs
+            LessThanArgs args = new LessThanArgs
             {
                 No = 3
             };
@@ -272,7 +379,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
         }
 
         [Fact]
-        public void TestLessOrEqual()
+        public void TestLessThanOrEqual()
         {
             var list = new List<Student>
             {
@@ -282,7 +389,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             };
             var q = list.AsQueryable();
 
-            LessOrEqualArgs args = new LessOrEqualArgs
+            LessThanOrEqualArgs args = new LessThanOrEqualArgs
             {
                 No = 2
             };
@@ -318,6 +425,29 @@ namespace Arctic.NHibernateExtensions.Web.Tests
         }
 
         [Fact]
+        public void TestNotIn()
+        {
+            var list = new List<Student>
+            {
+                new Student{ StudentName = "Fox", No = 1 },
+                new Student{ StudentName = "Dog", No = 2 },
+                new Student{ StudentName = "Cat", No = 3 },
+            };
+            var q = list.AsQueryable();
+
+            NotInArgs args = new NotInArgs
+            {
+                StudentNames = new[] { "Cat", "Stranger" }
+            };
+
+            var list1 = q.Filter(args).ToList();
+
+            Assert.Equal(2, list1.Count);
+            Assert.Equal("Fox", list1[0].StudentName);
+            Assert.Equal("Dog", list1[1].StudentName);
+        }
+
+        [Fact]
         public void TestExpression()
         {
             var list = new List<Student>
@@ -338,6 +468,52 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             Assert.Equal(2, list1.Count);
             Assert.Equal("Fox", list1[0].StudentName);
             Assert.Equal("Dog", list1[1].StudentName);
+        }
+
+        [Fact]
+        public void TestExpression2()
+        {
+            var list = new List<Student>
+            {
+                new Student{ StudentName = "Fox", No = 1, Clazz = new Clazz { ClazzName = "visible" } },
+                new Student{ StudentName = "Dog", No = 2, Clazz = new Clazz { ClazzName = "visible" } },
+                new Student{ StudentName = "Cat", No = 3, Clazz = new Clazz { ClazzName = "invisible" } },
+            };
+            var q = list.AsQueryable();
+
+            Expression2Args args = new Expression2Args
+            {
+            };
+
+            var list1 = q.Filter(args).ToList();
+
+            Assert.Equal(2, list1.Count);
+            Assert.Equal("Fox", list1[0].StudentName);
+            Assert.Equal("Dog", list1[1].StudentName);
+        }
+
+        [Fact]
+        public void TestExpression3()
+        {
+            var list = new List<Student>
+            {
+                new Student{ StudentName = "Fox", No = 1, Clazz = new Clazz { ClazzName = "visible" } },
+                new Student{ StudentName = "Dog", No = 2, Clazz = new Clazz { ClazzName = "visible" } },
+                new Student{ StudentName = "Cat", No = 3, Clazz = new Clazz { ClazzName = "invisible" } },
+            };
+            var q = list.AsQueryable();
+
+            Expression2Args args = new Expression2Args
+            {
+                ShowInvisibleClazz = true,
+            };
+
+            var list1 = q.Filter(args).ToList();
+
+            Assert.Equal(3, list1.Count);
+            Assert.Equal("Fox", list1[0].StudentName);
+            Assert.Equal("Dog", list1[1].StudentName);
+            Assert.Equal("Cat", list1[2].StudentName);
         }
 
 

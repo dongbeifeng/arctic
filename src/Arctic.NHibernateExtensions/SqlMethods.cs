@@ -29,7 +29,11 @@ namespace Arctic.NHibernateExtensions
         /// <returns></returns>
         public static bool Like(this string input, string pattern)
         {
-            pattern = Regex.Escape(pattern).Replace("%", ".*").Replace("_", ".");
+            pattern = Regex.Escape(pattern)
+                .Replace("*", ".*")                
+                .Replace("%", ".*")
+                .Replace("_", ".");
+            // pattern = Regex.Escape(pattern).Replace("*", ".*").Replace("?", ".");
             return Regex.IsMatch(input, pattern);
         }
     }

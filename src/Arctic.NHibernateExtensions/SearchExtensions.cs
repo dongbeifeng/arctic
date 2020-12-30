@@ -51,7 +51,7 @@ namespace Arctic.NHibernateExtensions
 
             // 如果 searchArgs 上有 Filter 方法，则首先调用 Filter 方法
             MethodInfo? filterMethodInfo = argsType.GetMethod("Filter", BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-            if (filterMethodInfo != null 
+            if (filterMethodInfo != null
                 && filterMethodInfo.GetParameters().Length == 1 && filterMethodInfo.GetParameters()[0].ParameterType == typeof(IQueryable<T>)
                 && filterMethodInfo.ReturnType == typeof(IQueryable<T>))
             {
@@ -74,7 +74,7 @@ namespace Arctic.NHibernateExtensions
                 object? argVal = GetPropertyValue(argProp, searchArgs);
 
                 //  查询参数属性为 null 表示忽略这个条件
-                if (argVal == null)
+                if (argVal == null && searchModeAttribute.SeachMode != SearchMode.Expression)
                 {
                     continue;
                 }
@@ -90,28 +90,40 @@ namespace Arctic.NHibernateExtensions
                 switch (searchModeAttribute.SeachMode)
                 {
                     case SearchMode.Equal:
-                            q = q.Where($"{sourcePropertyName} == @0", argVal);
+                        q = q.Where($"{sourcePropertyName} == @0", argVal);
+                        break;
+                    case SearchMode.NotEqual:
+                        q = q.Where($"{sourcePropertyName} != @0", argVal);
                         break;
                     case SearchMode.Like:
-                            q = q.Where(CreateLikeExpression<T>(sourcePropertyName, (string)argVal));
+                        q = q.Where(CreateLikeExpression<T>(sourcePropertyName, (string)argVal, false));
                         break;
-                    case SearchMode.Greater:
-                            q = q.Where($"{sourcePropertyName} > @0", argVal);
+                    case SearchMode.NotLike:
+                        q = q.Where(CreateLikeExpression<T>(sourcePropertyName, (string)argVal, true));
                         break;
-                    case SearchMode.GreaterOrEqual:
-                            q = q.Where($"{sourcePropertyName} >= @0", argVal);
+                    case SearchMode.GreaterThan:
+                        q = q.Where($"{sourcePropertyName} > @0", argVal);
                         break;
-                    case SearchMode.Less:
-                            q = q.Where($"{sourcePropertyName} < @0", argVal);
+                    case SearchMode.GreaterThanOrEqual:
+                        q = q.Where($"{sourcePropertyName} >= @0", argVal);
                         break;
-                    case SearchMode.LessOrEqual:
-                            q = q.Where($"{sourcePropertyName} <= @0", argVal);
+                    case SearchMode.LessThan:
+                        q = q.Where($"{sourcePropertyName} < @0", argVal);
+                        break;
+                    case SearchMode.LessThanOrEqual:
+                        q = q.Where($"{sourcePropertyName} <= @0", argVal);
                         break;
                     case SearchMode.In:
-                            if (argVal is Array arr && arr.Length > 0)
-                            {
-                                q = q.Where($"@0.Contains({sourcePropertyName})", argVal);
-                            }
+                        if (argVal is Array arr && arr.Length > 0)
+                        {
+                            q = q.Where($"@0.Contains({sourcePropertyName})", argVal);
+                        }
+                        break;
+                    case SearchMode.NotIn:
+                        if (argVal is Array arr2 && arr2.Length > 0)
+                        {
+                            q = q.Where($"@0.Contains({sourcePropertyName}) == false", argVal);
+                        }
                         break;
                     case SearchMode.Expression:
                         string exprPropName = argProp.Name + "Expr";
@@ -138,7 +150,7 @@ namespace Arctic.NHibernateExtensions
                         }
                         break;
                     default:
-                            throw new NotSupportedException("不支持的查询操作");
+                        throw new NotSupportedException("不支持的查询操作");
                 }
             }
 
@@ -215,6 +227,21 @@ namespace Arctic.NHibernateExtensions
             return q.Filter(searchArgs).OrderBy(sortInfo).ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
         }
 
+        /// <summary>
+        /// 在查询上进行筛选、排序、分页。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="q"></param>
+        /// <param name="searchArgs">搜索参数</param>
+        /// <param name="sortInfo">排序信息</param>
+        /// <param name="currentPage">基于 1 的页号码</param>
+        /// <param name="pageSize">每页大小</param>
+        /// <returns></returns>
+        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> q, object searchArgs, string?  sortInfo, int? currentPage, int? pageSize)
+        {
+            return q.Filter(searchArgs).OrderBy(sortInfo).ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
+        }
+
         static object? GetPropertyValue(PropertyInfo prop, object searchArgs)
         {
             object? val = prop.GetValue(searchArgs);
@@ -267,7 +294,7 @@ namespace Arctic.NHibernateExtensions
             return sb.ToString();
         }
 
-        static Expression<Func<T, bool>> CreateLikeExpression<T>(string sourcePropertyPath, string likePattern)
+        static Expression<Func<T, bool>> CreateLikeExpression<T>(string sourcePropertyPath, string likePattern, bool notLike)
         {
             // 要得到的表达式：x => SqlMethods.Like(x.Foo.StringField, "a%")
             MethodInfo? mi = typeof(SqlMethods).GetMethod("Like", new Type[] { typeof(string), typeof(string) });
@@ -292,7 +319,10 @@ namespace Arctic.NHibernateExtensions
 
             Expression pattern = Expression.Constant(likePattern, typeof(string));  // 'a%'
             Expression like = Expression.Call(null, mi, stringField, pattern); //  SqlMethods.Like(x.Foo.StringField, "a%")
-
+            if (notLike)
+            {
+                like = Expression.Not(like);
+            }
             return Expression.Lambda<Func<T, bool>>(like, new ParameterExpression[] { x });
         }
     }

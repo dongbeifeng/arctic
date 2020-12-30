@@ -37,7 +37,7 @@ namespace Arctic.Web.Books
         /// 当源属性名称和参数不同时，SourceProperty 指示在数据源的哪个属性上查找。
         /// </summary>
         [SourceProperty(nameof(Book.PublicationDate))]
-        [SearchArg(SearchMode.GreaterOrEqual)]
+        [SearchArg(SearchMode.GreaterThanOrEqual)]
         public DateTime? PublicationDateFrom { get; set; }
 
         /// <summary>

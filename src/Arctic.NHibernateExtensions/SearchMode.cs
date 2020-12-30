@@ -22,34 +22,50 @@ namespace Arctic.NHibernateExtensions
         Equal,
 
         /// <summary>
+        /// 指示判断源属性是否 不等于 查询参数值
+        /// </summary>
+        NotEqual,
+
+        /// <summary>
         /// 指示判断源属性是否 LIKE 查询参数值
         /// </summary>
         Like,
 
         /// <summary>
+        /// 指示判断源属性是否 NOT LIKE 查询参数值
+        /// </summary>
+        NotLike, 
+        
+        /// <summary>
         /// 指示判断源属性是否 大于 查询参数值
         /// </summary>
-        Greater,
+        GreaterThan,
 
         /// <summary>
         /// 指示判断源属性是否 大于等于 查询参数值
         /// </summary>
-        GreaterOrEqual,
+        GreaterThanOrEqual,
 
         /// <summary>
         /// 指示判断源属性是否 小于 查询参数值
         /// </summary>
-        Less,
+        LessThan,
         
         /// <summary>
         /// 指示判断源属性是否 小于等于 查询参数值
         /// </summary>
-        LessOrEqual,
+        LessThanOrEqual,
         
         /// <summary>
         /// 指示判断源属性是否 IN 查询参数值
         /// </summary>
         In,
+
+
+        /// <summary>
+        /// 指示判断源属性是否 NOT IN 查询参数值
+        /// </summary>
+        NotIn,
         
         /// <summary>
         /// 指示使用表达式作为谓词进行查询，表达式由查询参数名后跟 Expr 后缀命名的属性提供，
