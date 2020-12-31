@@ -80,7 +80,7 @@ namespace Arctic.AspNetCore
 
             public void OnException(ExceptionContext filterContext)
             {
-                _logger.Error(filterContext.Exception, "AutoTransaction 捕获错误。" + filterContext.Exception.Message);
+                _logger.Warning("发生错误，AutoTransaction 即将回滚，{url}", filterContext.HttpContext.Request.GetDisplayUrl());
                 try
                 {
                     ITransaction transaction = _session.GetCurrentTransaction();
@@ -89,21 +89,14 @@ namespace Arctic.AspNetCore
                         transaction.Rollback();
                         transaction.Dispose();
                     }
+                    _sw.Stop();
+                    _logger.Warning("AutoTransaction 已回滚，{url}，耗时 {elapsedTime} 毫秒", filterContext.HttpContext.Request.GetDisplayUrl(), _sw.ElapsedMilliseconds);
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex, "回滚事务时出错。{message}", ex.Message);
+                    _sw.Stop();
+                    _logger.Error(ex, "AutoTransaction 回滚时出错，{url}，耗时 {elapsedTime} 毫秒", filterContext.HttpContext.Request.GetDisplayUrl(), _sw.ElapsedMilliseconds);
                 }
-
-                _sw.Stop();
-                _logger.Information("AutoTransaction 已回滚，{url}，耗时 {elapsedTime} 毫秒。", filterContext.HttpContext.Request.GetDisplayUrl(), _sw.ElapsedMilliseconds);
-
-                filterContext.Result = new OkObjectResult(new
-                {
-                    Success = false,
-                    Message = "操作失败，" + filterContext.Exception.Message,
-                });
-                filterContext.ExceptionHandled = true;
             }
         }
     }

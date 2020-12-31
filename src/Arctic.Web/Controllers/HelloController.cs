@@ -16,9 +16,6 @@ using Arctic.AppSeqs;
 using Arctic.EventBus;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Arctic.Web.Controllers
@@ -65,7 +62,6 @@ namespace Arctic.Web.Controllers
             int i = await _seqService.GetNextAsync(seqName);
             return i;
         }
-
-
     }
+
 }

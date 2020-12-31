@@ -209,6 +209,24 @@
             价格
             </summary>
         </member>
+        <member name="T:Arctic.Web.Controllers.ErrorController">
+            <summary>
+            错误处理程序
+            </summary>
+        </member>
+        <member name="M:Arctic.Web.Controllers.ErrorController.Error">
+            <summary>
+            生产环境错误处理
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Arctic.Web.Controllers.ErrorController.ErrorLocalDevelopment(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            开发环境错误处理
+            </summary>
+            <param name="webHostEnvironment"></param>
+            <returns></returns>
+        </member>
         <member name="T:Arctic.Web.Controllers.ExportSchemaController">
             <summary>
             向数据库导出表结构的工具。
