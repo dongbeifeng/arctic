@@ -218,13 +218,13 @@ namespace Arctic.NHibernateExtensions
         /// <typeparam name="T"></typeparam>
         /// <param name="q"></param>
         /// <param name="searchArgs">搜索参数</param>
-        /// <param name="sortInfo">排序信息</param>
+        /// <param name="sort">排序信息</param>
         /// <param name="currentPage">基于 1 的页号码</param>
         /// <param name="pageSize">每页大小</param>
         /// <returns></returns>
-        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> q, object searchArgs, OrderedDictionary?  sortInfo, int? currentPage, int? pageSize)
+        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> q, object searchArgs, OrderedDictionary?  sort, int? currentPage, int? pageSize)
         {
-            return q.Filter(searchArgs).OrderBy(sortInfo).ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
+            return q.Filter(searchArgs).OrderBy(sort).ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
         }
 
         /// <summary>
@@ -233,13 +233,18 @@ namespace Arctic.NHibernateExtensions
         /// <typeparam name="T"></typeparam>
         /// <param name="q"></param>
         /// <param name="searchArgs">搜索参数</param>
-        /// <param name="sortInfo">排序信息</param>
+        /// <param name="sort">排序信息</param>
         /// <param name="currentPage">基于 1 的页号码</param>
         /// <param name="pageSize">每页大小</param>
         /// <returns></returns>
-        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> q, object searchArgs, string?  sortInfo, int? currentPage, int? pageSize)
+        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> q, object searchArgs, string?  sort, int? currentPage, int? pageSize)
         {
-            return q.Filter(searchArgs).OrderBy(sortInfo).ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
+            q = q.Filter(searchArgs);
+            if (!string.IsNullOrWhiteSpace(sort))
+            {
+                q = q.OrderBy(sort);
+            }
+            return q.ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
         }
 
         static object? GetPropertyValue(PropertyInfo prop, object searchArgs)
