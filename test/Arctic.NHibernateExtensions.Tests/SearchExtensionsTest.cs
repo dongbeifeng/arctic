@@ -106,7 +106,7 @@ namespace Arctic.NHibernateExtensions.Web.Tests
         {
             [SourceProperty(nameof(Student.StudentName))]
             [SearchArg(SearchMode.In)]
-            public string[]? StudentNames { get; set; }
+            public string?[]? StudentNames { get; set; }
         }
 
         class NotInArgs
@@ -422,6 +422,30 @@ namespace Arctic.NHibernateExtensions.Web.Tests
             Assert.Equal(2, list1.Count);
             Assert.Equal("Fox", list1[0].StudentName);
             Assert.Equal("Dog", list1[1].StudentName);
+        }
+
+        [Fact]
+        public void TestIn_忽略空白字符串和NULL()
+        {
+            var list = new List<Student>
+            {
+                new Student{ StudentName = "Fox", No = 1 },
+                new Student{ StudentName = "Dog", No = 2 },
+                new Student{ StudentName = "Cat", No = 3 },
+            };
+            var q = list.AsQueryable();
+
+            InArgs args = new InArgs
+            {
+                StudentNames = new[] { " ", null }
+            };
+
+            var list1 = q.Filter(args).ToList();
+
+            Assert.Equal(3, list1.Count);
+            Assert.Equal("Fox", list1[0].StudentName);
+            Assert.Equal("Dog", list1[1].StudentName);
+            Assert.Equal("Cat", list1[2].StudentName);
         }
 
         [Fact]

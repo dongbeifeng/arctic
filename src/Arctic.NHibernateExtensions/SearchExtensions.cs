@@ -114,15 +114,19 @@ namespace Arctic.NHibernateExtensions
                         q = q.Where($"{sourcePropertyName} <= @0", argVal);
                         break;
                     case SearchMode.In:
-                        if (argVal is Array arr && arr.Length > 0)
                         {
-                            q = q.Where($"@0.Contains({sourcePropertyName})", argVal);
+                            if (argVal is Array arr && arr.Length > 0)
+                            {
+                                q = q.Where($"@0.Contains({sourcePropertyName})", arr);
+                            }
                         }
                         break;
                     case SearchMode.NotIn:
-                        if (argVal is Array arr2 && arr2.Length > 0)
                         {
-                            q = q.Where($"@0.Contains({sourcePropertyName}) == false", argVal);
+                            if (argVal is Array arr && arr.Length > 0)
+                            {
+                                q = q.Where($"@0.Contains({sourcePropertyName}) == false", arr);
+                            }
                         }
                         break;
                     case SearchMode.Expression:
@@ -272,6 +276,25 @@ namespace Arctic.NHibernateExtensions
 
                 val = str;
             }
+            else if (val is Array arr)
+            {
+                List<object> list = new List<object>();
+                foreach (var item in arr)
+                {
+                    if (item is string str)
+                    {
+                        if (!string.IsNullOrWhiteSpace(str))
+                        {
+                            list.Add(str.Trim());
+                        }
+                    }
+                    else if (item != null)
+                    {
+                        list.Add(item);
+                    }
+                }
+                val = list.ToArray();
+            }
 
             return val;
         }
@@ -330,5 +353,6 @@ namespace Arctic.NHibernateExtensions
             }
             return Expression.Lambda<Func<T, bool>>(like, new ParameterExpression[] { x });
         }
+
     }
 }
