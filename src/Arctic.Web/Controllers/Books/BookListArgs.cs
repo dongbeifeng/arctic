@@ -75,11 +75,10 @@ namespace Arctic.Web.Books
         }
 
         /// <summary>
-        /// Sort 属性表示排序条件，字典的键表示排序字段，值表示排序顺序。
-        /// 例如 { "Title": "asc", PublicationDate: "desc" } 
+        /// Sort 属性表示排序条件，例如 "Title ASC, PublicationDate DESC"
         /// 表示首先按 Title 属性升序排序，再按 PublicationDate 降序排序。
         /// </summary>
-        public OrderedDictionary? Sort { get; set; }
+        public string? Sort { get; set; }
 
         /// <summary>
         /// Current 属性表示基于 1 的当前页面。

@@ -38,21 +38,19 @@ namespace Arctic.Web.Books
         }
 
         /// <summary>
-        /// 从数据库查询
+        /// 列表
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [DebugShowArgs]
         [AutoTransaction]
-        [Route("list")]
-        public async Task<BookList> ListAsync(BookListArgs args)
+        public async Task<ListResult<BookListItem>> Get([FromQuery]BookListArgs args)
         {
             var pagedList = await _session.Query<Book>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new BookList
+            return new ListResult<BookListItem>
             {
                 Success = true,
-                Message = "OK",                
                 Data = pagedList.List.Select(x => new BookListItem
                 {
                     BookId = x.BookId,
@@ -63,44 +61,6 @@ namespace Arctic.Web.Books
             };
         }
 
-        /// <summary>
-        /// 从内存数据查询
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [DebugShowArgs]
-        [Route("list2")]
-        public async Task<BookList> List2Async(BookListArgs args)
-        {
-            throw new Exception("123");
-            var q = Enumerable.Range(1, 100).Select(x => new Book
-            {
-                BookId = x,
-                Author = "Author",
-                ctime = DateTime.Now,
-                cuser = "cuser",
-                mtime = DateTime.Now,
-                muser = "muser",
-                Price = x,
-                PublicationDate = DateTime.Now.AddDays(-10 * x),
-                Title = "Title",
-            }).AsQueryable();
-
-            var pagedList = await q.SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new BookList
-            {
-                Success = true,
-                Message = "OK",
-                Data = pagedList.List.Select(x => new BookListItem
-                {
-                    BookId = x.BookId,
-                    Title = x.Title,
-                    Price = x.Price,
-                }),
-                Total = pagedList.Total
-            };
-        }
 
         /// <summary>
         /// 详细信息
@@ -109,9 +69,14 @@ namespace Arctic.Web.Books
         /// <returns></returns>
         [HttpGet("{id}")]
         [AutoTransaction]
-        public async Task<BookDetail> Detail(int id)
+        public async Task<ActionResult<BookDetail>> Get(int id)
         {
             var book = await _session.GetAsync<Book>(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
             return new BookDetail 
             {
                 BookId = book.BookId,
@@ -122,14 +87,13 @@ namespace Arctic.Web.Books
         }
 
         /// <summary>
-        /// 创建图书
+        /// 创建
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
         [HttpPost]
         [AutoTransaction]
-        [Route("create")]
-        public async Task<OperationResult> Create(CreateBookArgs args)
+        public async Task<IActionResult> Create(CreateBookArgs args)
         {
             Book book = new Book
             {
@@ -139,69 +103,47 @@ namespace Arctic.Web.Books
                 PublicationDate = args.PublicationDate ?? throw new Exception(),
             };
             await _session.SaveAsync(book);
-            return new OperationResult { Success = true, Message = "OK" };
+            return CreatedAtAction("Get", new { id = book.BookId });
         }
 
 
         /// <summary>
-        /// 更新图书
+        /// 更新
         /// </summary>
         /// <param name="id"></param>
         /// <param name="args"></param>
-        [HttpPut("update/{id}")]
+        [HttpPut("{id}")]
         [AutoTransaction]
-        public async Task<OperationResult> Update(int id, [FromBody] UpdateBookArgs args)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateBookArgs args)
         {
             Book? book = await _session.GetAsync<Book>(id);
             if (book == null)
             {
-                throw new InvalidOperationException();
+                return NotFound();
             }
             book.Author = args.Author;
             book.Price = args.Price;
             book.Title = args.Title;
             await _session.UpdateAsync(book);
-            return new OperationResult { Success = true, Message = "OK" };
+            return NoContent();
         }
 
 
         /// <summary>
-        /// 删除图书
+        /// 删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
         [HttpDelete("{id}")]
-        public async Task<OperationResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             Book? book = await _session.GetAsync<Book>(id);
-            if (book == null)
+            if (book != null)
             {
-                throw new InvalidOperationException();
+                await _session.DeleteAsync(book);
             }
-            await _session.DeleteAsync(book);
-            return new OperationResult { Success = true, Message = "OK" };
-
-        }
-
-        /// <summary>
-        /// 测试按块加载查询，通过 SQL Server Profiler 验证 break 之后不会继续向数据库发出查询语句。
-        /// </summary>
-        /// <returns></returns>
-        [AutoTransaction]
-        [HttpPost("test-load-in-chunks")]
-        public async Task<int> TestLoadInChunks()
-        {
-            int i = 0;
-            await foreach(var book in _session.Query<Book>().LoadInChunksAsync(3))
-            {
-                i++;
-                if (i >= 5)
-                {
-                    break;
-                }
-            }
-            return i;
+            return NoContent();
         }
     }
 }

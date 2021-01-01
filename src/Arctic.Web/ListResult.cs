@@ -18,18 +18,28 @@ using System.Collections.Generic;
 namespace Arctic.Web
 {
     /// <summary>
-    /// 表示操作结果
+    /// 表示列表页结果
     /// </summary>
-    public class OperationResult
+    /// <remarks>
+    /// 与前端 antd protable 匹配的数据结构。
+    /// </remarks>
+    /// <typeparam name="T"></typeparam>
+    public class ListResult<T>
     {
         /// <summary>
-        /// 指示操作是否成功
+        /// 是否成功
         /// </summary>
         public bool Success { get; init; }
 
         /// <summary>
-        /// 描述操作结果的消息
+        /// 数据列表
         /// </summary>
-        public string? Message { get; init; }
+        public IEnumerable<T>? Data { get; init; }
+
+        /// <summary>
+        /// 记录总数
+        /// </summary>
+        public int Total { get; init; }
     }
+
 }

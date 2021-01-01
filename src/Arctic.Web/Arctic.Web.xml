@@ -29,21 +29,6 @@
             价格
             </summary>
         </member>
-        <member name="T:Arctic.Web.Books.BookList">
-            <summary>
-            表示列表页结果
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.Books.BookList.Data">
-            <summary>
-            当前分页的数据
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.Books.BookList.Total">
-            <summary>
-            总共有多少个数据
-            </summary>
-        </member>
         <member name="T:Arctic.Web.Books.BookListArgs">
             <summary>
             列表查询参数，不需要实现特定接口或从特定基类派生。
@@ -81,8 +66,7 @@
         </member>
         <member name="P:Arctic.Web.Books.BookListArgs.Sort">
             <summary>
-            Sort 属性表示排序条件，字典的键表示排序字段，值表示排序顺序。
-            例如 { "Title": "asc", PublicationDate: "desc" } 
+            Sort 属性表示排序条件，例如 "Title ASC, PublicationDate DESC"
             表示首先按 Title 属性升序排序，再按 PublicationDate 降序排序。
             </summary>
         </member>
@@ -116,21 +100,14 @@
             价格
             </summary>
         </member>
-        <member name="M:Arctic.Web.Books.BooksController.ListAsync(Arctic.Web.Books.BookListArgs)">
+        <member name="M:Arctic.Web.Books.BooksController.Get(Arctic.Web.Books.BookListArgs)">
             <summary>
-            从数据库查询
+            列表
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Arctic.Web.Books.BooksController.List2Async(Arctic.Web.Books.BookListArgs)">
-            <summary>
-            从内存数据查询
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Arctic.Web.Books.BooksController.Detail(System.Int32)">
+        <member name="M:Arctic.Web.Books.BooksController.Get(System.Int32)">
             <summary>
             详细信息
             </summary>
@@ -139,29 +116,23 @@
         </member>
         <member name="M:Arctic.Web.Books.BooksController.Create(Arctic.Web.Books.CreateBookArgs)">
             <summary>
-            创建图书
+            创建
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
         <member name="M:Arctic.Web.Books.BooksController.Update(System.Int32,Arctic.Web.Books.UpdateBookArgs)">
             <summary>
-            更新图书
+            更新
             </summary>
             <param name="id"></param>
             <param name="args"></param>
         </member>
         <member name="M:Arctic.Web.Books.BooksController.Delete(System.Int32)">
             <summary>
-            删除图书
+            删除
             </summary>
             <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Arctic.Web.Books.BooksController.TestLoadInChunks">
-            <summary>
-            测试按块加载查询，通过 SQL Server Profiler 验证 break 之后不会继续向数据库发出查询语句。
-            </summary>
             <returns></returns>
         </member>
         <member name="T:Arctic.Web.Books.CreateBookArgs">
@@ -255,19 +226,28 @@
             <param name="seqName">序列名</param>
             <returns></returns>
         </member>
-        <member name="T:Arctic.Web.OperationResult">
+        <member name="T:Arctic.Web.ListResult`1">
             <summary>
-            表示操作结果
+            表示列表页结果
+            </summary>
+            <remarks>
+            与前端 antd protable 匹配的数据结构。
+            </remarks>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Arctic.Web.ListResult`1.Success">
+            <summary>
+            是否成功
             </summary>
         </member>
-        <member name="P:Arctic.Web.OperationResult.Success">
+        <member name="P:Arctic.Web.ListResult`1.Data">
             <summary>
-            指示操作是否成功
+            数据列表
             </summary>
         </member>
-        <member name="P:Arctic.Web.OperationResult.Message">
+        <member name="P:Arctic.Web.ListResult`1.Total">
             <summary>
-            描述操作结果的消息
+            记录总数
             </summary>
         </member>
     </members>
