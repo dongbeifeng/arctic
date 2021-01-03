@@ -18,7 +18,6 @@ namespace Arctic.Web.Controllers
         /// 生产环境错误处理
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
         [Route("/error")]
         public IActionResult Error()
         {
@@ -32,7 +31,6 @@ namespace Arctic.Web.Controllers
         /// </summary>
         /// <param name="webHostEnvironment"></param>
         /// <returns></returns>
-        [HttpGet]
         [Route("/error-local-development")]
         public IActionResult ErrorLocalDevelopment([FromServices] IWebHostEnvironment webHostEnvironment)
         {
