@@ -14,6 +14,7 @@
 
 using Arctic.NHibernateExtensions;
 using Autofac;
+using NHibernate.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace Arctic.AppCodes
             return q
                 .Where(x => x.AppCodeType == appCodeType)
                 .OrderBy(x => x.DisplayOrder)
-                .WrappedToListAsync();
+                .ToListAsync();
         }
     }
 }

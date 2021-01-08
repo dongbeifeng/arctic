@@ -23,24 +23,25 @@ using System.Collections.Specialized;
 using System.Text;
 using System.Collections;
 using Serilog;
+using NHibernate.Linq;
 
 namespace Arctic.NHibernateExtensions
 {
     /// <summary>
     /// 为 <see cref="ISearchArgs{T}"/> 提供动态查询方法。
     /// </summary>
-    public static class SearchExtensions
+    public static class NHibernateQueryableExtensions
     {
-        static ILogger _logger = Serilog.Log.ForContext(typeof(SearchExtensions));
+        static ILogger _logger = Serilog.Log.ForContext(typeof(NHibernateQueryableExtensions));
 
         /// <summary>
         /// 使用列表参数进行筛选。
         /// </summary>
         /// <typeparam name="T">目标类型</typeparam>
-        /// <param name="q">目标类型上的查询对象</param>
+        /// <param name="q">查询对象</param>
         /// <param name="searchArgs">查询参数</param>
         /// <returns></returns>
-        public static IQueryable<T> Filter<T>(this IQueryable<T> q, object searchArgs)
+        internal static IQueryable<T> Filter<T>(this IQueryable<T> q, object searchArgs)
         {
             if (searchArgs == null)
             {
@@ -171,7 +172,7 @@ namespace Arctic.NHibernateExtensions
         /// 值为 desc、descend、descending 表示降序，否则为升序。值不区分大小写。
         /// 例如 { "A" : "desc", "B": null } 表示先按属性 A 降序排序，再按属性 B 升序排序。</param>
         /// <returns></returns>
-        public static IQueryable<T> OrderBy<T>(this IQueryable<T> q, OrderedDictionary?  sortInfo)
+        internal static IQueryable<T> OrderBy<T>(this IQueryable<T> q, OrderedDictionary?  sortInfo)
         {
             string? orderBy = GetOrderByClause(sortInfo);
             if (string.IsNullOrWhiteSpace(orderBy) == false)
@@ -186,11 +187,11 @@ namespace Arctic.NHibernateExtensions
         /// 对查询分页
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="q"></param>
+        /// <param name="nhQuery">NHibernate 查询对象</param>
         /// <param name="currentPage">基于 1 的页号码</param>
         /// <param name="pageSize">每页大小</param>
         /// <returns></returns>
-        public static async Task<PagedList<T>> ToPagedListAsync<T>(this IQueryable<T> q, int currentPage, int pageSize)
+        public static async Task<PagedList<T>> ToPagedListAsync<T>(this IQueryable<T> nhQuery, int currentPage, int pageSize)
         {
             if (currentPage < 1)
             {
@@ -202,16 +203,16 @@ namespace Arctic.NHibernateExtensions
                 pageSize = 10;
             }
 
-            var total = q.Count();
+            var total = nhQuery.Count();
             if (total == 0)
             {
                 return new PagedList<T>(new List<T>(), 1, pageSize, 0);
             }
 
             int start = (currentPage - 1) * pageSize;
-            var list = await q.Skip(start)
+            var list = await nhQuery.Skip(start)
                 .Take(pageSize)
-                .WrappedToListAsync()
+                .ToListAsync()
                 .ConfigureAwait(false);
             return new PagedList<T>(list, currentPage, pageSize, total);
         }
@@ -220,35 +221,35 @@ namespace Arctic.NHibernateExtensions
         /// 在查询上进行筛选、排序、分页。
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="q"></param>
+        /// <param name="nhQuery">NHibernate 查询对象</param>
         /// <param name="searchArgs">搜索参数</param>
         /// <param name="sort">排序信息</param>
         /// <param name="currentPage">基于 1 的页号码</param>
         /// <param name="pageSize">每页大小</param>
         /// <returns></returns>
-        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> q, object searchArgs, OrderedDictionary?  sort, int? currentPage, int? pageSize)
+        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> nhQuery, object searchArgs, OrderedDictionary?  sort, int? currentPage, int? pageSize)
         {
-            return q.Filter(searchArgs).OrderBy(sort).ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
+            return nhQuery.Filter(searchArgs).OrderBy(sort).ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
         }
 
         /// <summary>
         /// 在查询上进行筛选、排序、分页。
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="q"></param>
+        /// <param name="nhQuery"></param>
         /// <param name="searchArgs">搜索参数</param>
         /// <param name="sort">排序信息</param>
         /// <param name="currentPage">基于 1 的页号码</param>
         /// <param name="pageSize">每页大小</param>
         /// <returns></returns>
-        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> q, object searchArgs, string?  sort, int? currentPage, int? pageSize)
+        public static Task<PagedList<T>> SearchAsync<T>(this IQueryable<T> nhQuery, object searchArgs, string?  sort, int? currentPage, int? pageSize)
         {
-            q = q.Filter(searchArgs);
+            nhQuery = nhQuery.Filter(searchArgs);
             if (!string.IsNullOrWhiteSpace(sort))
             {
-                q = q.OrderBy(sort);
+                nhQuery = nhQuery.OrderBy(sort);
             }
-            return q.ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
+            return nhQuery.ToPagedListAsync(currentPage ?? 1, pageSize ?? 10);
         }
 
         static object? GetPropertyValue(PropertyInfo prop, object searchArgs)
@@ -352,6 +353,89 @@ namespace Arctic.NHibernateExtensions
                 like = Expression.Not(like);
             }
             return Expression.Lambda<Func<T, bool>>(like, new ParameterExpression[] { x });
+        }
+
+
+        /// <summary>
+        /// 将查询对象分块加载
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="nhQuery">NHibernate 查询对象</param>
+        /// <param name="chunkSize"></param>
+        /// <returns></returns>
+        internal static async IAsyncEnumerable<List<TSource>> ToChunksAsync<TSource>(this IQueryable<TSource> nhQuery, int chunkSize)
+        {
+            if (nhQuery == null)
+            {
+                throw new ArgumentNullException(nameof(nhQuery));
+            }
+            if (chunkSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(chunkSize), "不能小于等于 0。");
+            }
+
+            int pageIndex = -1;
+            while (true)
+            {
+                pageIndex++;
+                var page = await nhQuery.Skip(pageIndex * chunkSize).Take(chunkSize).ToListAsync();
+                if (page.Count == 0)
+                {
+                    yield break;
+                }
+
+                yield return page;
+
+                if (page.Count < chunkSize)
+                {
+                    yield break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 按指定的块大小加载查询。
+        /// 这个方法是为提升分配库存操作的数据库查询效率引入的。通常有远大于需求数量的库存数据，
+        /// 如果全部读取到数据库，则大量数据用不到，造成浪费，如果逐条读取，则到数据库的往返次数过多，
+        /// 降低性能。这个方法允许程序以一定的块大小加载数据，从而提升性能。
+        /// 调用方使用 foreach 循环遍历返回的枚举数，并指定块大小，在遇到 break 语句之前，
+        /// 数据按块大小被加载进内存，遇到 break 语句后，后续的块不会加载。
+        /// 以下代码以每块 10 个的大小加载数据，在遍历到第 25 个元素的时候停止，只会加载 3 个数据块，30 条数据：
+        /// <code>
+        ///    int count = 0;
+        ///    var source = Enumerable.Range(1, 100).AsQueryable();
+        ///    await foreach (var item in source.LoadInChunks(10))
+        ///    {
+        ///        count++;
+        ///        if (count >= 25)
+        ///        {
+        ///            break;
+        ///        }
+        ///    }
+        /// </code>
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="nhQuery">NHibernate 查询对象</param>
+        /// <param name="chunkSize"></param>
+        /// <returns></returns>
+        public static async IAsyncEnumerable<TSource> LoadInChunksAsync<TSource>(this IQueryable<TSource> nhQuery, int chunkSize)
+        {
+            if (nhQuery == null)
+            {
+                throw new ArgumentNullException(nameof(nhQuery));
+            }
+            if (chunkSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(chunkSize), "不能小于等于 0。");
+            }
+
+            await foreach (var page in nhQuery.ToChunksAsync(chunkSize))
+            {
+                foreach (var item in page)
+                {
+                    yield return item;
+                }
+            }
         }
 
     }

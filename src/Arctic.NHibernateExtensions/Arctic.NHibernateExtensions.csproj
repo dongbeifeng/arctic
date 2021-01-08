@@ -7,8 +7,8 @@
     <Authors>王建军</Authors>
     <Description>包含 NHibernate 的扩展。</Description>
     <PackageProjectUrl>https://github.com/dongbeifeng/arctic</PackageProjectUrl>
-    <Version>1.0.9</Version>
-    <PackageReleaseNotes>改进 SearchExtensions。</PackageReleaseNotes>
+    <Version>1.0.10</Version>
+    <PackageReleaseNotes>简化 NHibernateQueryableExtensions</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
