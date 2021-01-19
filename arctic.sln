@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{86CCAD86
 		build.ps1 = build.ps1
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arctic.AppSettings", "src\Arctic.AppSettings\Arctic.AppSettings.csproj", "{5A8C258E-5BDC-481A-B7A6-00AB356B7596}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{0F319CC1-D226-4898-86E4-818FDE960970}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F319CC1-D226-4898-86E4-818FDE960970}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F319CC1-D226-4898-86E4-818FDE960970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A8C258E-5BDC-481A-B7A6-00AB356B7596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A8C258E-5BDC-481A-B7A6-00AB356B7596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A8C258E-5BDC-481A-B7A6-00AB356B7596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A8C258E-5BDC-481A-B7A6-00AB356B7596}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +107,7 @@ Global
 		{1C94EB0B-D464-4AD2-9DD7-CB99903135CD} = {E2ED65B9-E8D0-430A-9B5C-E7D103E62BAF}
 		{AEF6361E-3ADC-45E4-A94F-FB96BB18220E} = {E2ED65B9-E8D0-430A-9B5C-E7D103E62BAF}
 		{0F319CC1-D226-4898-86E4-818FDE960970} = {E2ED65B9-E8D0-430A-9B5C-E7D103E62BAF}
+		{5A8C258E-5BDC-481A-B7A6-00AB356B7596} = {E2ED65B9-E8D0-430A-9B5C-E7D103E62BAF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9B63549-80D9-43D1-B653-6377FBDA8284}
