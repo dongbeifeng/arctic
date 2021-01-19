@@ -34,9 +34,9 @@ namespace Arctic.AppSeqs
         /// </summary>
         /// <param name="seqName"></param>
         /// <returns></returns>
-        public async Task<int> GetNextAsync(String seqName)
+        public async Task<int> GetNextAsync(string seqName)
         {
-            Int32 next = 0;
+            int next = 0;
 
             // 不参与环境事务，以免事务回滚导致序列值重用
             using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled))
