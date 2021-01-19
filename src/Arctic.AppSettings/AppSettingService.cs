@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Arctic.NHibernateExtensions;
-using Autofac;
 using NHibernate;
 using NHibernate.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Arctic.AppSettings
 {
-    public class AppSettingService
+    public class AppSettingService : IAppSettingService
     {
         ISession _session;
 
@@ -235,7 +232,7 @@ namespace Arctic.AppSettings
             }
         }
 
-        public async Task SetCommentAsync(string name, string comment)
+        public async Task SetCommentAsync(string name, string? comment)
         {
             name = name.Trim();
 

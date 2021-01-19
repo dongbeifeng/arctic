@@ -35,27 +35,27 @@ namespace Arctic.AppSettings
         /// </summary>
         [Required]
         [MaxLength(128)]
-        public virtual string SettingName { get; internal protected set; }
+        public virtual string SettingName { get; internal protected set; } = default!;
 
         /// <summary>
         /// 获取或设置程序设置的类型，可用的类型在 <see cref="AppSettingTypes"/> 中定义。
         /// </summary>
         [Required]
         [MaxLength(10)]
-        public virtual string SettingType { get; internal protected set; }
+        public virtual string SettingType { get; internal protected set; } = default!;
 
         /// <summary>
         /// 获取或设置程序设置的值
         /// </summary>
         [Required]
         [MaxLength(9999)]
-        public virtual string SettingValue { get; internal protected set; }
+        public virtual string SettingValue { get; internal protected set; } = default!;
 
         /// <summary>
         /// 获取或设置程序设置的备注
         /// </summary>
         [MaxLength(9999)]
-        public virtual string Comment { get; internal protected set; }
+        public virtual string? Comment { get; internal protected set; }
 
 
     }
