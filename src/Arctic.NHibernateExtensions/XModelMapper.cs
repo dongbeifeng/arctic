@@ -36,11 +36,6 @@ namespace Arctic.NHibernateExtensions
             // 属性
             this.BeforeMapProperty += (insp, prop, map) =>
             {
-                if (keywords.Any(x => x.Equals(prop.ToColumnName(), StringComparison.CurrentCultureIgnoreCase)))
-                {
-                    map.Column("x" + prop.ToColumnName());
-                }
-
                 // 不可空值类型对应的列也不可空
                 PropertyInfo? p = prop.LocalMember as PropertyInfo;
                 if (p != null)
@@ -79,16 +74,5 @@ namespace Arctic.NHibernateExtensions
             }
             return true;
         }
-
-        private static readonly List<string> keywords = new List<string> {
-            "Number", "Thread", "Weight", "Category",
-            "Exists","Operator", "Enabled",
-            "Column","Level","Type","Message","Role","Name","Status",
-            "Value", "Text", "State", "Desc", "Description", "No", "LineNo",
-            "Area",
-        };
-
     }
-
-
 }
