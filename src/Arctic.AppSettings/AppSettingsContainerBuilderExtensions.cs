@@ -23,6 +23,7 @@ namespace Arctic.AppSettings
         public static void AddAppCodes(this ContainerBuilder builder)
         {
             builder.AddModelMapper<AppSettingsModelMapper>();
+            builder.RegisterType<AppSettingService>().As<IAppSettingService>().InstancePerLifetimeScope();
         }
     }
 }

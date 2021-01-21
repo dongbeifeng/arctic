@@ -35,6 +35,10 @@ namespace Arctic.AppSettings.Mappings
                 prop.Update(false);
             });
             Property(cl => cl.SettingValue);
+            Property(cl => cl.ctime);
+            Property(cl => cl.cuser);
+            Property(cl => cl.mtime);
+            Property(cl => cl.muser);
             Property(cl => cl.Comment);
         }
     }

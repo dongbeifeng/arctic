@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Arctic.Auditing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@ namespace Arctic.AppSettings
     /// <summary>
     /// 表示程序设置
     /// </summary>
-    public class AppSetting
+    public class AppSetting : IHasCtime, IHasCuser, IHasMtime, IHasMuser
     {
         /// <summary>
         /// 初始化新实例
@@ -57,7 +58,15 @@ namespace Arctic.AppSettings
         [MaxLength(9999)]
         public virtual string? Comment { get; internal protected set; }
 
+        public virtual DateTime ctime { get; set; }
 
+        [MaxLength(30)]
+        public virtual string cuser { get; set; }
+
+        public virtual DateTime mtime { get; set; }
+
+        [MaxLength(30)]
+        public virtual string muser { get; set; }
     }
 
 }
