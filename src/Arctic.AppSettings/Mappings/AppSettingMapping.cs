@@ -25,7 +25,7 @@ namespace Arctic.AppSettings.Mappings
             DynamicUpdate(true);
             Cache(cache => cache.Usage(CacheUsage.ReadWrite));
 
-            OptimisticLock(OptimisticLockMode.Dirty);
+            OptimisticLock(OptimisticLockMode.None);
             Id(cl => cl.SettingName, id =>
             {
                 id.Generator(Generators.Assigned);
@@ -34,7 +34,7 @@ namespace Arctic.AppSettings.Mappings
             Property(cl => cl.SettingType, prop => {
                 prop.Update(false);
             });
-            Property(cl => cl.SettingValue);
+            Property(cl => cl.SettingValue, pm => pm.OptimisticLock(true));
             Property(cl => cl.ctime);
             Property(cl => cl.cuser);
             Property(cl => cl.mtime);

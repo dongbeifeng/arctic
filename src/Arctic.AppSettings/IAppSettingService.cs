@@ -33,10 +33,17 @@ namespace Arctic.AppSettings
         Task<List<AppSetting>> GetAllAsync();
 
         /// <summary>
+        /// 获取具有指定名称的程序设置
+        /// </summary>
+        /// <param name="settingName"></param>
+        /// <returns></returns>
+        Task<AppSetting> GetAsync(string settingName);
+
+        /// <summary>
         /// 获取布尔值。
         /// </summary>
         /// <param name="name">程序设置名称</param>
-        /// <param name="defaultValue">当程序设置不存在时，使用默认值创建程序设置</param>
+        /// <param name="defaultValue">如果程序设置不存在，且 defaultValue 不为 null，那么将使用默认值创建程序设置</param>
         /// <returns></returns>
         Task<bool?> GetBooleanAsync(string name, bool? defaultValue);
 
@@ -44,7 +51,7 @@ namespace Arctic.AppSettings
         /// 获取数字值。
         /// </summary>
         /// <param name="name">程序设置名称</param>
-        /// <param name="defaultValue">当程序设置不存在时，使用默认值创建程序设置</param>
+        /// <param name="defaultValue">如果程序设置不存在，且 defaultValue 不为 null，那么将使用默认值创建程序设置</param>
         /// <returns></returns>
         Task<decimal?> GetNumberAsync(string name, decimal? defaultValue);
 
@@ -52,7 +59,7 @@ namespace Arctic.AppSettings
         /// 获取字符串值。
         /// </summary>
         /// <param name="name">程序设置名称</param>
-        /// <param name="defaultValue">当程序设置不存在时，使用默认值创建程序设置</param>
+        /// <param name="defaultValue">如果程序设置不存在，且 defaultValue 不为 null，那么将使用默认值创建程序设置</param>
         /// <returns></returns>
         Task<string?> GetStringAsync(string name, string? defaultValue);
 

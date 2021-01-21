@@ -29,7 +29,7 @@ namespace Arctic.AppSettings
             _session = session;
         }
 
-        internal Task<AppSetting> GetAsync(string name)
+        public Task<AppSetting> GetAsync(string name)
         {
             name = name.Trim();
             if (name == null)
@@ -247,5 +247,6 @@ namespace Arctic.AppSettings
                 setting.Comment = comment;
             }
         }
+
     }
 }
