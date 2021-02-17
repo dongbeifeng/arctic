@@ -35,13 +35,13 @@ namespace Arctic.NHibernateExtensions
         static ILogger _logger = Serilog.Log.ForContext(typeof(NHibernateQueryableExtensions));
 
         /// <summary>
-        /// 使用列表参数进行筛选。
+        /// 按照约定使用列表参数对象在查询上筛选。
         /// </summary>
         /// <typeparam name="T">目标类型</typeparam>
-        /// <param name="q">查询对象</param>
+        /// <param name="q">查询对象，不必是 NHibernate 查询对象</param>
         /// <param name="searchArgs">查询参数</param>
         /// <returns></returns>
-        internal static IQueryable<T> Filter<T>(this IQueryable<T> q, object searchArgs)
+        public static IQueryable<T> Filter<T>(this IQueryable<T> q, object searchArgs)
         {
             if (searchArgs == null)
             {
@@ -97,10 +97,10 @@ namespace Arctic.NHibernateExtensions
                         q = q.Where($"{sourcePropertyName} != @0", argVal);
                         break;
                     case SearchMode.Like:
-                        q = q.Where(CreateLikeExpression<T>(sourcePropertyName, (string)argVal, false));
+                        q = q.Where(CreateLikeExpression<T>(sourcePropertyName, (string?)argVal, false));
                         break;
                     case SearchMode.NotLike:
-                        q = q.Where(CreateLikeExpression<T>(sourcePropertyName, (string)argVal, true));
+                        q = q.Where(CreateLikeExpression<T>(sourcePropertyName, (string?)argVal, true));
                         break;
                     case SearchMode.GreaterThan:
                         q = q.Where($"{sourcePropertyName} > @0", argVal);
@@ -236,7 +236,7 @@ namespace Arctic.NHibernateExtensions
         /// 在查询上进行筛选、排序、分页。
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="nhQuery"></param>
+        /// <param name="nhQuery">NHibernate 查询对象</param>
         /// <param name="searchArgs">搜索参数</param>
         /// <param name="sort">排序信息</param>
         /// <param name="currentPage">基于 1 的页号码</param>
@@ -323,7 +323,7 @@ namespace Arctic.NHibernateExtensions
             return sb.ToString();
         }
 
-        static Expression<Func<T, bool>> CreateLikeExpression<T>(string sourcePropertyPath, string likePattern, bool notLike)
+        static Expression<Func<T, bool>> CreateLikeExpression<T>(string sourcePropertyPath, string? likePattern, bool notLike)
         {
             // 要得到的表达式：x => SqlMethods.Like(x.Foo.StringField, "a%")
             MethodInfo? mi = typeof(SqlMethods).GetMethod("Like", new Type[] { typeof(string), typeof(string) });

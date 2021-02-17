@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace Arctic.Web.Books
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
     {
@@ -38,27 +38,22 @@ namespace Arctic.Web.Books
         }
 
         /// <summary>
-        /// 列表
+        /// 列出图书
         /// </summary>
         /// <param name="args">查询参数</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("get-book-list")]
         [DebugShowArgs]
         [AutoTransaction]
-        public async Task<ListResult<BookListItem>> Get([FromQuery]BookListArgs args)
+        public async Task<ListData<BookListItem>> GetBookList([FromQuery]BookListArgs args)
         {
             var pagedList = await _session.Query<Book>().SearchAsync(args, args.Sort, args.Current, args.PageSize);
-            return new ListResult<BookListItem>
+            return this.ListData(pagedList, x => new BookListItem
             {
-                Success = true,
-                Data = pagedList.List.Select(x => new BookListItem
-                {
-                    BookId = x.BookId,
-                    Title = x.Title,
-                    Price = x.Price,
-                }),
-                Total = pagedList.Total
-            };
+                BookId = x.BookId,
+                Title = x.Title,
+                Price = x.Price,
+            });
         }
 
 
@@ -67,23 +62,23 @@ namespace Arctic.Web.Books
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("get-book-details/{id}")]
         [AutoTransaction]
-        public async Task<ActionResult<BookDetail>> Get(int id)
+        public async Task<ApiData<BookDetails>> GetBookDetails(int id)
         {
             var book = await _session.GetAsync<Book>(id);
             if (book == null)
             {
-                return NotFound();
+                throw new InvalidOperationException("NotFound");
             }
 
-            return new BookDetail 
+            return this.Success(new BookDetails
             {
                 BookId = book.BookId,
                 Author = book.Author,
                 Price = book.Price,
                 Title = book.Title,
-            };
+            });
         }
 
         /// <summary>
@@ -91,9 +86,9 @@ namespace Arctic.Web.Books
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("create-book")]
         [AutoTransaction]
-        public async Task<IActionResult> Create(CreateBookArgs args)
+        public async Task<ApiData> CreateBook(CreateBookArgs args)
         {
             Book book = new Book
             {
@@ -103,7 +98,7 @@ namespace Arctic.Web.Books
                 PublicationDate = args.PublicationDate ?? throw new Exception(),
             };
             await _session.SaveAsync(book);
-            return CreatedAtAction("Get", new { id = book.BookId });
+            return this.Success();
         }
 
 
@@ -112,20 +107,20 @@ namespace Arctic.Web.Books
         /// </summary>
         /// <param name="id"></param>
         /// <param name="args"></param>
-        [HttpPut("{id}")]
+        [HttpPost("update-book/{id}")]
         [AutoTransaction]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateBookArgs args)
+        public async Task<ApiData> UpdateBook(int id, [FromBody] UpdateBookArgs args)
         {
             Book? book = await _session.GetAsync<Book>(id);
             if (book == null)
             {
-                return NotFound();
+                throw new InvalidOperationException("NotFound");
             }
             book.Author = args.Author;
             book.Price = args.Price;
             book.Title = args.Title;
             await _session.UpdateAsync(book);
-            return NoContent();
+            return this.Success();
         }
 
 
@@ -135,15 +130,19 @@ namespace Arctic.Web.Books
         /// <param name="id"></param>
         /// <returns></returns>
         [AutoTransaction]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPost("delete-book/{id}")]
+        public async Task<ApiData> Delete(int id)
         {
             Book? book = await _session.GetAsync<Book>(id);
+            if (book == null)
+            {
+                throw new InvalidOperationException("NotFound");
+            }
             if (book != null)
             {
                 await _session.DeleteAsync(book);
             }
-            return NoContent();
+            return this.Success();
         }
     }
 }

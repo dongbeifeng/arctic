@@ -20,7 +20,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Arctic.AppSettings
 {
     /// <summary>
-    /// 表示程序设置
+    /// 表示系统参数
     /// </summary>
     public class AppSetting : IHasCtime, IHasCuser, IHasMtime, IHasMuser
     {
@@ -32,39 +32,52 @@ namespace Arctic.AppSettings
         }
 
         /// <summary>
-        /// 获取或设置程序设置的名称
+        /// 系统参数名称
         /// </summary>
         [Required]
         [MaxLength(128)]
         public virtual string SettingName { get; internal protected set; } = default!;
 
         /// <summary>
-        /// 获取或设置程序设置的类型，可用的类型在 <see cref="AppSettingTypes"/> 中定义。
+        /// 系统参数类型，可用的类型在 <see cref="AppSettingTypes"/> 中定义。
         /// </summary>
         [Required]
         [MaxLength(10)]
         public virtual string SettingType { get; internal protected set; } = default!;
 
         /// <summary>
-        /// 获取或设置程序设置的值
+        /// 系统参数值值
         /// </summary>
         [Required]
         [MaxLength(9999)]
         public virtual string SettingValue { get; internal protected set; } = default!;
 
         /// <summary>
-        /// 获取或设置程序设置的备注
+        /// 系统参数备注
         /// </summary>
         [MaxLength(9999)]
         public virtual string? Comment { get; internal protected set; }
 
+        /// <summary>
+        /// 创建时间
+        /// </summary>
         public virtual DateTime ctime { get; set; }
 
+
+        /// <summary>
+        /// 创建人
+        /// </summary>
         [MaxLength(30)]
         public virtual string cuser { get; set; }
 
+        /// <summary>
+        /// 更改时间
+        /// </summary>
         public virtual DateTime mtime { get; set; }
 
+        /// <summary>
+        /// 更改人
+        /// </summary>
         [MaxLength(30)]
         public virtual string muser { get; set; }
     }

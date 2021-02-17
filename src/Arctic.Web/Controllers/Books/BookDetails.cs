@@ -12,34 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-
-namespace Arctic.Web
+namespace Arctic.Web.Books
 {
     /// <summary>
-    /// 表示列表页结果
+    /// 表示图书的详细信息。
     /// </summary>
-    /// <remarks>
-    /// 与前端 antd protable 匹配的数据结构。
-    /// </remarks>
-    /// <typeparam name="T"></typeparam>
-    public class ListResult<T>
+    public class BookDetails
     {
         /// <summary>
-        /// 是否成功
+        /// 图书 Id。
         /// </summary>
-        public bool Success { get; init; }
+        public int BookId { get; init; }
 
         /// <summary>
-        /// 数据列表
+        /// 标题
         /// </summary>
-        public IEnumerable<T>? Data { get; init; }
+        public string? Title { get; init; }
 
         /// <summary>
-        /// 记录总数
+        /// 作者
         /// </summary>
-        public int Total { get; init; }
+        public string? Author { get; set; }
+
+        /// <summary>
+        /// 价格
+        /// </summary>
+        public virtual decimal Price { get; init; }
+
     }
+
 
 }

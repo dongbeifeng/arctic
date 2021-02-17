@@ -4,27 +4,94 @@
         <name>Arctic.Web</name>
     </assembly>
     <members>
-        <member name="T:Arctic.Web.Books.BookDetail">
+        <member name="T:Arctic.Web.ApiData">
             <summary>
-            图书详细页的数据项。
+            表示 WebApi 返回的数据
             </summary>
         </member>
-        <member name="P:Arctic.Web.Books.BookDetail.BookId">
+        <member name="P:Arctic.Web.ApiData.Success">
+            <summary>
+            是否成功
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ApiData.ErrorMessage">
+            <summary>
+            错误消息
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ApiData.TraceId">
+            <summary>
+            唯一的请求Id
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ApiData.Host">
+            <summary>
+            主机
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.ApiData`1">
+            <summary>
+            表示 WebApi 返回的数据
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ApiData`1.Data">
+            <summary>
+            数据。
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.ListData`1">
+            <summary>
+            表示列表页数据
+            </summary>
+            <typeparam name="TElement"></typeparam>
+        </member>
+        <member name="P:Arctic.Web.ListData`1.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ListData`1.CurrentPage">
+            <summary>
+            当前页
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ListData`1.PageSize">
+            <summary>
+            页大小
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.ListData`1.Total">
+            <summary>
+            记录总数
+            </summary>
+        </member>
+        <member name="T:Arctic.Web.OptionsData`1">
+            <summary>
+            表示选项列表的数据
+            </summary>
+            <typeparam name="TElement"></typeparam>
+        </member>
+        <member name="T:Arctic.Web.Books.BookDetails">
+            <summary>
+            表示图书的详细信息。
+            </summary>
+        </member>
+        <member name="P:Arctic.Web.Books.BookDetails.BookId">
             <summary>
             图书 Id。
             </summary>
         </member>
-        <member name="P:Arctic.Web.Books.BookDetail.Title">
+        <member name="P:Arctic.Web.Books.BookDetails.Title">
             <summary>
             标题
             </summary>
         </member>
-        <member name="P:Arctic.Web.Books.BookDetail.Author">
+        <member name="P:Arctic.Web.Books.BookDetails.Author">
             <summary>
             作者
             </summary>
         </member>
-        <member name="P:Arctic.Web.Books.BookDetail.Price">
+        <member name="P:Arctic.Web.Books.BookDetails.Price">
             <summary>
             价格
             </summary>
@@ -100,28 +167,28 @@
             价格
             </summary>
         </member>
-        <member name="M:Arctic.Web.Books.BooksController.Get(Arctic.Web.Books.BookListArgs)">
+        <member name="M:Arctic.Web.Books.BooksController.GetBookList(Arctic.Web.Books.BookListArgs)">
             <summary>
-            列表
+            列出图书
             </summary>
             <param name="args">查询参数</param>
             <returns></returns>
         </member>
-        <member name="M:Arctic.Web.Books.BooksController.Get(System.Int32)">
+        <member name="M:Arctic.Web.Books.BooksController.GetBookDetails(System.Int32)">
             <summary>
             详细信息
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Arctic.Web.Books.BooksController.Create(Arctic.Web.Books.CreateBookArgs)">
+        <member name="M:Arctic.Web.Books.BooksController.CreateBook(Arctic.Web.Books.CreateBookArgs)">
             <summary>
             创建
             </summary>
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Arctic.Web.Books.BooksController.Update(System.Int32,Arctic.Web.Books.UpdateBookArgs)">
+        <member name="M:Arctic.Web.Books.BooksController.UpdateBook(System.Int32,Arctic.Web.Books.UpdateBookArgs)">
             <summary>
             更新
             </summary>
@@ -225,30 +292,6 @@
             </summary>
             <param name="seqName">序列名</param>
             <returns></returns>
-        </member>
-        <member name="T:Arctic.Web.ListResult`1">
-            <summary>
-            表示列表页结果
-            </summary>
-            <remarks>
-            与前端 antd protable 匹配的数据结构。
-            </remarks>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="P:Arctic.Web.ListResult`1.Success">
-            <summary>
-            是否成功
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.ListResult`1.Data">
-            <summary>
-            数据列表
-            </summary>
-        </member>
-        <member name="P:Arctic.Web.ListResult`1.Total">
-            <summary>
-            记录总数
-            </summary>
         </member>
     </members>
 </doc>

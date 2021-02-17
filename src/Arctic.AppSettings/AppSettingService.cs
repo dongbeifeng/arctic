@@ -85,7 +85,7 @@ namespace Arctic.AppSettings
                 throw new ArgumentException("name 不能为 null 或空白字符串。");
             }
 
-            return this.SetAsync(name, AppSettingTypes.数字, value.ToString("0.#"));
+            return this.SetAsync(name, AppSettingTypes.数字, value.ToString("0.##########"));
         }
 
         public async Task<decimal?> GetNumberAsync(string name, decimal? defaultValue)

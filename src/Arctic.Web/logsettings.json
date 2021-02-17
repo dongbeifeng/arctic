@@ -6,7 +6,7 @@
       "Override": {
         "System": "Information",
         "Microsoft": "Information",
-        "Microsoft.AspNetCore": "Debug",
+        "Microsoft.AspNetCore": "Information",
         "NHibernate": "Warning"
       }
     },
