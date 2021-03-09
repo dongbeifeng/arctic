@@ -14,13 +14,18 @@
 
 using NHibernate.Mapping.ByCode;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
 namespace Arctic.NHibernateExtensions
 {
+    /// <summary>
+    /// 自动应用规则：
+    /// 如果属性或多对一关联上标记了 <see cref="RequiredAttribute"/>，则使数据库字段不可为 null；
+    /// 如果属性是值类型且不是可空类型，则使数据库字段不可为 null；
+    /// 如果属性上标记了 <see cref="MaxLengthAttribute"/>，则指定使数据库字段的长度；
+    /// </summary>
     public abstract class XModelMapper : ModelMapper
     {
         public XModelMapper()

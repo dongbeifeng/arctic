@@ -16,6 +16,8 @@
     <property name="cache.use_query_cache">false</property>
     <!--<property name="cache.provider_class">NHibernate.Caches.SysCache2.SysCacheProvider, NHibernate.Caches.SysCache2</property>-->
     <property name="show_sql">false</property>
+	<property name="format_sql">true</property>
+	<property name="hbm2ddl.keywords">auto-quote</property>
 
   </session-factory>
 
