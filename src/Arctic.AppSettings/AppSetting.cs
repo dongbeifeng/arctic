@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,25 +61,25 @@ namespace Arctic.AppSettings
         /// <summary>
         /// 创建时间
         /// </summary>
-        public virtual DateTime ctime { get; set; }
+        public virtual DateTime? ctime { get; set; }
 
 
         /// <summary>
         /// 创建人
         /// </summary>
         [MaxLength(30)]
-        public virtual string cuser { get; set; }
+        public virtual string? cuser { get; set; }
 
         /// <summary>
         /// 更改时间
         /// </summary>
-        public virtual DateTime mtime { get; set; }
+        public virtual DateTime? mtime { get; set; }
 
         /// <summary>
         /// 更改人
         /// </summary>
         [MaxLength(30)]
-        public virtual string muser { get; set; }
+        public virtual string? muser { get; set; }
     }
 
 }
