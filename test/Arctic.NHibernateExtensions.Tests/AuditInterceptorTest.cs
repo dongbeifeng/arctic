@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,10 +27,10 @@ namespace Arctic.NHibernateExtensions.Tests
     {
         private class Foo : IHasCtime, IHasMtime, IHasCuser, IHasMuser
         {
-            public System.DateTime ctime { get; set; } = DateTime.MinValue;
-            public System.DateTime mtime { get; set; } = DateTime.MinValue;
-            public string cuser { get; set; } = default!;
-            public string muser { get; set; } = default!;
+            public System.DateTime? ctime { get; set; } = DateTime.MinValue;
+            public System.DateTime? mtime { get; set; } = DateTime.MinValue;
+            public string? cuser { get; set; }
+            public string? muser { get; set; }
             public string? Bar { get; set; }
         }
 
@@ -41,8 +41,8 @@ namespace Arctic.NHibernateExtensions.Tests
         {
             AuditInterceptor interceptor = new AuditInterceptor(new GenericPrincipal(new GenericIdentity("wangjianjun"), null));
             Foo foo = new Foo();
-            object[] currentState = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
-            object[] previousState = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
+            object?[] currentState = new object?[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
+            object?[] previousState = new object?[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
             string[] propertiesNames = new[] { "ctime", "mtime", "cuser", "muser", "Bar" };
             IType[] types = new IType[] { TypeFactory.GetDateTimeType(4), TypeFactory.GetDateTimeType(4), TypeFactory.GetStringType(10), TypeFactory.GetStringType(10), TypeFactory.GetStringType(10) };
             
@@ -66,7 +66,7 @@ namespace Arctic.NHibernateExtensions.Tests
         {
             AuditInterceptor interceptor = new AuditInterceptor(new GenericPrincipal(new GenericIdentity("wangjianjun"), null));
             Foo foo = new Foo();
-            object[] state = new object[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
+            object?[] state = new object?[] { foo.ctime, foo.mtime, foo.cuser, foo.muser, foo.Bar! };
             string[] propertiesNames = new[] { "ctime", "mtime", "cuser", "muser", "Bar" };
             IType[] types = new IType[] { TypeFactory.GetDateTimeType(4), TypeFactory.GetDateTimeType(4), TypeFactory.GetStringType(10), TypeFactory.GetStringType(10), TypeFactory.GetStringType(10) };
 

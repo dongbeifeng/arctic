@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,10 +48,10 @@ namespace Arctic.Books
 
         #region auditing properties
 
-        public virtual string cuser { get; set; }
-        public virtual string muser { get; set; }
-        public virtual DateTime mtime { get; set; }
-        public virtual DateTime ctime { get; set; }
+        public virtual string? cuser { get; set; }
+        public virtual string? muser { get; set; }
+        public virtual DateTime? mtime { get; set; }
+        public virtual DateTime? ctime { get; set; }
 
         #endregion
     }

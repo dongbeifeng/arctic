@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,8 @@ namespace Arctic.Auditing
         /// <summary>
         /// 获取或设置数据的修改人。
         /// </summary>
-        string muser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
+        string? muser { get; set; }
     }
 
 }

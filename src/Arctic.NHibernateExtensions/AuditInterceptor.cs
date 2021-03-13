@@ -1,4 +1,4 @@
-// Copyright 2020 王建军
+// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ using NHibernate;
 using NHibernate.Type;
 using System;
 using System.Security.Principal;
-using System.Threading;
 
 namespace Arctic.NHibernateExtensions
 {
@@ -38,7 +37,7 @@ namespace Arctic.NHibernateExtensions
         {
             return (_principal?.Identity?.Name) ?? "-";
         }
-        public override bool OnFlushDirty(object entity, object id, object[] currentState, object[] previousState, string[] propertyNames, IType[] types)
+        public override bool OnFlushDirty(object entity, object id, object?[] currentState, object?[] previousState, string[] propertyNames, IType[] types)
         {
             bool modified = false;
             if (entity is IHasMtime)
@@ -68,7 +67,7 @@ namespace Arctic.NHibernateExtensions
             return modified;
         }
 
-        public override bool OnSave(object entity, object id, object[] state, string[] propertyNames, IType[] types)
+        public override bool OnSave(object entity, object id, object?[] state, string[] propertyNames, IType[] types)
         {
             bool modified = false;
 
