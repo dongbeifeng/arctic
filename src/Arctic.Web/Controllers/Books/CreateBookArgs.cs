@@ -26,13 +26,13 @@ namespace Arctic.Web.Books
         /// 标题
         /// </summary>
         [Required]
-        public string? Title { get; set; }
+        public string Title { get; set; } = default!;
 
         /// <summary>
         /// 作者
         /// </summary>
         [Required]
-        public string? Author { get; set; }
+        public string Author { get; set; } = default!;
 
         /// <summary>
         /// 价格

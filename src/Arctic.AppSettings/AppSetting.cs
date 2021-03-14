@@ -61,7 +61,7 @@ namespace Arctic.AppSettings
         /// <summary>
         /// 创建时间
         /// </summary>
-        public virtual DateTime? ctime { get; set; }
+        public virtual DateTime ctime { get; set; }
 
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Arctic.AppSettings
         /// <summary>
         /// 更改时间
         /// </summary>
-        public virtual DateTime? mtime { get; set; }
+        public virtual DateTime mtime { get; set; }
 
         /// <summary>
         /// 更改人

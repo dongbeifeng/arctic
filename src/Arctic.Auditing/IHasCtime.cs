@@ -26,7 +26,7 @@ namespace Arctic.Auditing
         /// 获取或设置数据的创建时间。
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:命名样式", Justification = "特殊属性")]
-        DateTime? ctime { get; set; }
+        DateTime ctime { get; set; }
     }
 
 }

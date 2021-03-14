@@ -27,8 +27,8 @@ namespace Arctic.NHibernateExtensions.Tests
     {
         private class Foo : IHasCtime, IHasMtime, IHasCuser, IHasMuser
         {
-            public System.DateTime? ctime { get; set; } = DateTime.MinValue;
-            public System.DateTime? mtime { get; set; } = DateTime.MinValue;
+            public System.DateTime ctime { get; set; } = DateTime.MinValue;
+            public System.DateTime mtime { get; set; } = DateTime.MinValue;
             public string? cuser { get; set; }
             public string? muser { get; set; }
             public string? Bar { get; set; }

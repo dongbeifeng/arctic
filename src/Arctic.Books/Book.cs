@@ -33,11 +33,11 @@ namespace Arctic.Books
         /// </summary>
         [Required]
         [MaxLength(50)]
-        public virtual string Title { get; set; }
+        public virtual string Title { get; set; } = default!;
 
         [Required]
         [MaxLength(50)]
-        public virtual string Author { get; set; }
+        public virtual string Author { get; set; } = default!;
 
         /// <summary>
         /// 值类型不需要加 Required。
@@ -50,8 +50,8 @@ namespace Arctic.Books
 
         public virtual string? cuser { get; set; }
         public virtual string? muser { get; set; }
-        public virtual DateTime? mtime { get; set; }
-        public virtual DateTime? ctime { get; set; }
+        public virtual DateTime mtime { get; set; }
+        public virtual DateTime ctime { get; set; }
 
         #endregion
     }
