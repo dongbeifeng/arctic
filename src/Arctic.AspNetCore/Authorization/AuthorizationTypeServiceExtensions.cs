@@ -26,8 +26,7 @@ namespace Arctic.AspNetCore
         /// <returns></returns>
         public static IServiceCollection AddOperationType(this IServiceCollection services)
         {
-            services.AddSingleton<IAuthorizationPolicyProvider, OperationTypePolicyProvider>();
-            services.AddSingleton<IOperaionTypeAuthoriztion, DefaultOperaionTypeAuthoriztion>();
+            services.AddSingleton<IAuthorizationPolicyProvider, OperationTypeAuthorizationPolicyProvider>();
             return services;
         }
 

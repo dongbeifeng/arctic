@@ -1,4 +1,4 @@
-// Copyright 2020-2021 王建军
+﻿// Copyright 2020-2021 王建军
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-
 namespace Arctic.AspNetCore
 {
-    /// <summary>
-    /// 提供为操作类型获取授权的方法。
-    /// </summary>
-    public interface IOperaionTypeAuthoriztion
+    public static class ClaimTypes
     {
         /// <summary>
-        /// 指定操作类型，获取允许执行此操作的角色。
+        /// 允许的操作类型
         /// </summary>
-        /// <param name="operationType"></param>
-        /// <returns></returns>
-        List<string> GetAllowedRoles(string operationType);
-
+        public const string AllowedOperationType = "http://schemas.factoryautomation.cn/allowedoperationtype";
     }
 }

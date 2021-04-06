@@ -163,9 +163,9 @@ namespace Arctic.Web
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, "admin"),
-                        new Claim(ClaimTypes.Role, "admin"),
-                        new Claim(ClaimTypes.Role, "dev"),
+                        new Claim(System.Security.Claims.ClaimTypes.Name, "admin"),
+                        new Claim(System.Security.Claims.ClaimTypes.Role, "admin"),
+                        new Claim(System.Security.Claims.ClaimTypes.Role, "dev"),
                     };
 
                     ClaimsIdentity identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);

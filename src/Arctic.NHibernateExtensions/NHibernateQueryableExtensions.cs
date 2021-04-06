@@ -413,6 +413,7 @@ namespace Arctic.NHibernateExtensions
         ///        }
         ///    }
         /// </code>
+        /// 此方法是和 <see cref="NHibernate.Linq.INhQueryProvider"/> 接口绑定的
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="nhQuery">NHibernate 查询对象</param>

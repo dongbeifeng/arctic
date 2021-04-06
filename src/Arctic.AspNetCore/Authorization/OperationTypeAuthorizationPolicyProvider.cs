@@ -20,15 +20,13 @@ using System.Threading.Tasks;
 
 namespace Arctic.AspNetCore
 {
-    public class OperationTypePolicyProvider : IAuthorizationPolicyProvider
+    public class OperationTypeAuthorizationPolicyProvider : IAuthorizationPolicyProvider
     {
-        readonly IOperaionTypeAuthoriztion _permissions;
         readonly ILogger _logger;
         public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
 
-        public OperationTypePolicyProvider(IOperaionTypeAuthoriztion permissions, IOptions<AuthorizationOptions> options, ILogger logger)
+        public OperationTypeAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options, ILogger logger)
         {
-            _permissions = permissions;
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
             _logger = logger;
         }
@@ -37,30 +35,27 @@ namespace Arctic.AspNetCore
 
         public Task<AuthorizationPolicy?> GetFallbackPolicyAsync() => FallbackPolicyProvider.GetFallbackPolicyAsync();
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="policyName">由 <see cref="OperationTypeAttribute"/> 传递的授权策略名。</param>
+        /// <returns></returns>
         public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {
             if (policyName.StartsWith(POLICY_PREFIX.Value, StringComparison.OrdinalIgnoreCase))
             {
-                string opType = policyName[POLICY_PREFIX.Value.Length..];
-                var roles = _permissions.GetAllowedRoles(opType).ToArray();
-                if (roles.Length > 0)
-                {
-                    var policy = new AuthorizationPolicyBuilder()
-                        .RequireRole(roles)
-                        .Build();
-                    return Task.FromResult<AuthorizationPolicy?>(policy);
-                }
-                else
-                {
-                    _logger.Debug("没有为 {opType} 设置角色", opType);
-                    var policy = new AuthorizationPolicyBuilder()
-                        .RequireAssertion(x => false)
-                        .Build();
-                    return Task.FromResult<AuthorizationPolicy?>(policy);
-                }
+                string operationType = policyName[POLICY_PREFIX.Value.Length..];
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .RequireAssertion(context => 
+                        context.User.IsInRole("admin")      // 允许管理员做任何操作
+                        || context.User.HasClaim(ClaimTypes.AllowedOperationType, operationType)   // 非管理员需要具备当前操作类型的权限
+                    )
+                    .Build();
+                
+                return Task.FromResult<AuthorizationPolicy?>(policy);
             }
-
+            
             return FallbackPolicyProvider.GetPolicyAsync(policyName);
         }
 
